@@ -24,7 +24,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 |1 |Кодиров Бехруз|||||||||||||
 |2 |Липовик Илья|||||||||||||
-|3 |Лобарев Антон|||||||||||||
+|3 |Лобарев Антон|[ToxaChiter](https://github.com/ToxaChiter "GitHub link")|210640|:white_check_mark:|:white_check_mark:|:white_check_mark:||||||||
 |4 |Макаревич Екатерина|||||||||||||
 |5 |Печко Валерия|||||||||||||
 |6 |Серко Александра|[AlexaBailey](https://github.com/AlexaBailey)|210643|:white_check_mark:|:white_check_mark:|:white_check_mark:||||||||
