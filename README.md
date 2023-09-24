@@ -25,7 +25,7 @@
 |1 |Кодиров Бехруз|||||||||||||
 |2 |Липовик Илья|||||||||||||
 |3 |Лобарев Антон|||||||||||||
-|4 |Макаревич Екатерина|||||||||||||
+|4 |Макаревич Екатерина|[Mkrshkk](https://github.com/Mkrshkk)|210641|:white_check_mark:|:white_check_mark:|:white_check_mark:||||||||
 |5 |Печко Валерия|||||||||||||
 |6 |Серко Александра|[AlexaBailey](https://github.com/AlexaBailey)|210643|:white_check_mark:|:white_check_mark:|:white_check_mark:||||||||
 |7 |Соколов Семен|||||||||||||
