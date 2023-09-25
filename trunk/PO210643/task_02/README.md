@@ -16,28 +16,28 @@ _Создать приложение с кнопкой и полем для вв
 
 
 Создание поля для ввода текста
-     ![img_1.png](img_1.png)
+     ![img_1.png](images/img_1.png)
 
   
 
 Создание кнопки
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
         
 
 Обработка нажатия кнопки
-      ![img_3.png](img_3.png)
+      ![img_3.png](images/img_3.png)
 Регистрация класса окна
-   ![img_4.png](img_4.png)
+   ![img_4.png](images/img_4.png)
 Создание окна
-    ![img_5.png](img_5.png)
+    ![img_5.png](images/img_5.png)
 Основной цикл обработки сообщений
-    ![img_6.png](img_6.png)
+    ![img_6.png](images/img_6.png)
 
 
 #### Результат работы программы ####
 
-![Alt text](image.png)
+![Alt text](images/image.png)
 
 #### Вывод ####
 
