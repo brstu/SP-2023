@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Lab_02.h"
 #include <string.h>
+#include <string>
 
 #define MAX_LOADSTRING 100
 
@@ -14,6 +15,8 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса глав�
 
 HWND BUTTON;
 HWND EDIT;
+
+const int BUTTON_ID = 1;
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -141,16 +144,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
-            case 1:
+            case BUTTON_ID:
             {
                 TCHAR buffer[256];
                 GetWindowText(EDIT, buffer, 256);
 
-                TCHAR myNumber[] = _T("7");
+                int rndNumber = rand() % 10 + 1;
+                std::string str = std::to_string(rndNumber);
+                std::wstring widestr = std::wstring(str.begin(), str.end());
+ 
+                const TCHAR* myNumber = widestr.c_str();
 
                 if (lstrcmp(buffer, myNumber) == 0)
                 {
-                    MessageBox(hWnd, _T("You won! My number was 7 as well"), _T("Lucky! :)"), MB_OK);
+                    MessageBox(hWnd, _T("You won!"), _T("Lucky! :)"), MB_OK);
                 }
                 else
                 {
