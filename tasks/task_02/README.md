@@ -42,6 +42,7 @@ if (LOWORD(wParam) == 1) {
 ```
 
 Текст добавляется в WM_PAINT следующим образом:
+
 ```c++
 PAINTSTRUCT ps;
 HDC hdc;
