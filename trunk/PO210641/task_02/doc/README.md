@@ -44,15 +44,27 @@
 
 ![img_9.png](images/img_9.png)
 
+Создание кнопки для обнуления результата:
+
+![img_11.png](images/img_11.png)
+
+Обработка нажатия кнопки:
+
+![img_12.png](images/img_12.png)
+
 #### Результат работы программы ####
 
 Увеличение числа:
 
-![Alt text](images/img.png)
+![img.png](images/img.png)
 
 Уменьшение числа:
 
-![Alt text](images/img_1.png)
+![img_1.png](images/img_1.png)
+
+Кнопка обнуления результата:
+
+![img_10.png](images/img_10.png)
 
 #### Вывод ####
 
