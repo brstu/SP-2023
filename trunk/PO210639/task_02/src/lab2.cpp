@@ -122,7 +122,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     }
                     iterator++;
                     SetWindowTextA(TextBox, str.c_str());
-                    
                 }
                 break;
             default:
