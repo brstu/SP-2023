@@ -1,8 +1,10 @@
 #include <windows.h>
 #include <tchar.h>
 
+const int initialNumber = 0;
+int number = initialNumber;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-    static int number;
     switch (message) {
     case WM_CREATE: {
         // Создание статического текста для отображения числа
@@ -42,7 +44,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
             number--;
         }
         else if (LOWORD(wParam) == 4) { // Обработка нажатия кнопки "Обнулить"
-            number = 0;
+            number = initialNumber;
         }
         // Обновляем текст статического элемента для отображения нового числа
         TCHAR newText[20];
@@ -92,7 +94,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     ShowWindow(hwnd, nCmdShow);
-    int number = 0;
 
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0)) {
