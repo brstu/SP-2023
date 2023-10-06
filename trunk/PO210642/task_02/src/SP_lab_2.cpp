@@ -109,15 +109,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
     {
         // Создаем кнопку и поле для отображения имени в блоке WM_CREATE
-        CreateWindow(TEXT("static"), NULL,
+        CreateWindow(TEXT("static"), nullptr,
             WS_VISIBLE | WS_CHILD | ES_CENTER,
             50, 20, 100, 30,
-            hWnd, (HMENU)2, NULL, NULL);
+            hWnd, (HMENU)2, nullptr, nullptr);
 
         CreateWindow(TEXT("button"), TEXT("Click me!"),
             WS_VISIBLE | WS_CHILD,
             50, 60, 100, 30,
-            hWnd, (HMENU)1, NULL, NULL);
+            hWnd, (HMENU)1, nullptr, nullptr);
     }
     break;
     case WM_COMMAND:
@@ -161,7 +161,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // Функция для отображения случайного имени
 void ShowRandomName(HWND hWnd)
 {
-    srand(static_cast<unsigned int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(nullptr)));
     int index = rand() % names.size();
     SetWindowTextA(GetDlgItem(hWnd, 2), names[index].c_str());
 }
