@@ -11,10 +11,9 @@ namespace Lab_02
         public MainWindow()
         {
             InitializeComponent();
-            Title = (App.Current as App).Guid.ToString();
         }
 
-        private partial void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             var random = new Random();
             var wished = random.Next(1, 10 + 1);

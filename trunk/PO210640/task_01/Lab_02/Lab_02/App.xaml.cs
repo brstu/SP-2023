@@ -13,6 +13,5 @@ namespace Lab_02
     /// </summary>
     public partial class App : Application
     {
-        public partial Guid GetGuid() => Guid;
     }
 }
