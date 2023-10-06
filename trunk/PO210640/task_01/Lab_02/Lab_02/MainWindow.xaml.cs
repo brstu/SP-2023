@@ -12,7 +12,10 @@ namespace Lab_02
         {
             InitializeComponent();
             _guid = Guid.NewGuid();
-            (Application.Current as App).Guid = Guid.NewGuid(); 
+            var app = Application.Current as App;
+            app.Guid = Guid.NewGuid();
+
+            Title = $"{app.Guid}, {_guid}";
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
