@@ -11,14 +11,10 @@ namespace Lab_02
         public MainWindow()
         {
             InitializeComponent();
-            _guid = Guid.NewGuid();
-            var app = Application.Current as App;
-            app.Guid = Guid.NewGuid();
-
-            Title = $"{app.Guid}, {_guid}";
+            Title = (App.Current as App).Guid.ToString();
         }
 
-        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private partial void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             var random = new Random();
             var wished = random.Next(1, 10 + 1);
