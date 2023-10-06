@@ -11,6 +11,8 @@ namespace Lab_02
         public MainWindow()
         {
             InitializeComponent();
+            _guid = Guid.NewGuid();
+            (Application.Current as App).Guid = Guid.NewGuid(); 
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)

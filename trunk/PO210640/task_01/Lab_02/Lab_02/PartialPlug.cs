@@ -10,5 +10,5 @@ public partial class MainWindow : Window
 
 public partial class App : Application
 {
-    private Guid _guid;
+    public Guid Guid { get; set; }
 }
