@@ -94,7 +94,7 @@ private void AcceptButton_Click(object sender, RoutedEventArgs e)
 
 ![Main window](images/MainWindow.png "Main window") 
 
-![Error dialog](images/Error.png "Success dialog") 
+![Error dialog](images/Error.png "Error dialog") 
 
 ![Win dialog](images/Success.png "Success dialog") 
 
