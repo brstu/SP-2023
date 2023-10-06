@@ -22,46 +22,80 @@
 ## Вариант №16 (4) ##
 Создать приложение с кнопкой и полем для ввода текста. По нажатию на кнопку проверять, угадал ли пользователь загаданное число.
 ## Реализация/ход работы ##
-Переменные дескрипторов кнопки и текстового поля:
-```C++
-HWND BUTTON;
-HWND EDIT;
-```
-Отрисовка кнопки и текстового поля:
-```C++
- BUTTON = CreateWindowW(TEXT("button"), TEXT("Check your guess"),
-                WS_VISIBLE | WS_CHILD,
-                30, 40, 200, 50,
-                hWnd, (HMENU)1, NULL, NULL);
 
- EDIT = CreateWindowW(TEXT("edit"), TEXT("Enter number from 1 to 10"),
-                WS_VISIBLE | WS_CHILD,
-                400, 40, 200, 50,
-                hWnd, (HMENU)2, NULL, NULL);
+Отрисовка кнопки и текстового поля:
+```XAML
+        <Button 
+            x:Name="AcceptButton" 
+            Content="Confirm" 
+            HorizontalAlignment="Left" 
+            Margin="224,283,0,0" 
+            VerticalAlignment="Top" 
+            RenderTransformOrigin="0.5,0.5" 
+            Height="42" 
+            Width="347" 
+            Click="AcceptButton_Click"/>
+        
+        <TextBox 
+            x:Name="GuessTextBox" 
+            HorizontalAlignment="Left" 
+            Height="180" Margin="150,81,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            Width="512"/>
 ```
 Обработка нажатия на кнопку, считывание текста и проверка, угадал ли пользователь:
-```C++
- TCHAR buffer[256];
- GetWindowText(EDIT, buffer, 256);
+```C#
+private void AcceptButton_Click(object sender, RoutedEventArgs e)
+{
+    var random = new Random();
+    var wished = random.Next(1, 10 + 1);
 
- TCHAR myNumber[] = _T("7");
+    var isOk = int.TryParse(GuessTextBox.Text, out int guessed);
+    if (!isOk)
+    {
+        MessageBox.Show(
+                "Enter integer value",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error,
+                MessageBoxResult.None,
+                MessageBoxOptions.ServiceNotification);
 
- if (lstrcmp(buffer, myNumber) == 0)
- {
-     MessageBox(hWnd, _T("You won! My number was 7 as well"), _T("Lucky! :)"), MB_OK);
- }
- else
- {
-     MessageBox(hWnd, _T("You lose! Try again"), _T("Unlucky! :("), MB_OK);
- }
+        return;
+    }
+
+    if (guessed == wished)
+    {
+        MessageBox.Show(
+                $"You are right, my number is {wished}",
+                "Success",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information,
+                MessageBoxResult.None,
+                MessageBoxOptions.ServiceNotification);
+
+        return;
+    }
+
+    MessageBox.Show(
+                $"You are wrong, my number was {wished}. Try again :)",
+                "Failed",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning,
+                MessageBoxResult.None,
+                MessageBoxOptions.ServiceNotification);
+}
 ```
 
 ---
 
 Скрины работы:
 
-![Main window](images/Рисунок1.png "Main window") 
+![Main window](images/MainWindow.png "Main window") 
 
-![Win dialog](images/Рисунок2.png "Success dialog") 
+![Error dialog](images/Error.png "Success dialog") 
 
-![Lose dialog](images/Рисунок3.png "Lose dialog") 
+![Win dialog](images/Success.png "Success dialog") 
+
+![Lose dialog](images/Fail.png "Lose dialog") 
