@@ -14,7 +14,7 @@ public class SpellingChecker
         Glossary = new(glossary.Count);
         foreach (string str in glossary)
         {
-            Glossary.Add(str.ToLower());
+            Glossary.Add(str.ToLowerInvariant());
         }
         Glossary.Sort();
 
@@ -25,7 +25,10 @@ public class SpellingChecker
         foreach (string word in Glossary)
         {
             int length = word.Length;
-            if (Glossaries.ContainsKey(length)) Glossaries[length].Add(word);
+            if (Glossaries.ContainsKey(length))
+            {
+                Glossaries[length].Add(word);
+            }
             else
             {
                 Glossaries.Add(length, new List<string>());
@@ -55,22 +58,28 @@ public class SpellingChecker
             var slice = span.Slice(range.Item1, range.Item2);
             var word = slice.ToString();
             var replacer = CheckWord(word);
-            
+
             sb.Append(replacer);
 
             index = range.Item1 + range.Item2;
-        } 
+        }
 
         return sb.ToString();
     }
     public string CheckWord(string word)
     {
-        string lowWord = word.ToLower();
+        string lowWord = word.ToLowerInvariant();
 
-        if (HashGlossary.Contains(lowWord)) return word;
+        if (HashGlossary.Contains(lowWord))
+        {
+            return word;
+        }
 
         int length = lowWord.Length;
-        if (!Glossaries.ContainsKey(length)) return word;
+        if (!Glossaries.ContainsKey(length))
+        {
+            return word;
+        }
 
         var list = Glossaries[length];
 
@@ -81,7 +90,10 @@ public class SpellingChecker
         foreach (var item in list)
         {
             var matches = CountMathes(lowWord, item);
-            if (matches < maxMatches) continue;
+            if (matches < maxMatches)
+            {
+                continue;
+            }
 
             if (matches > maxMatches)
             {
@@ -108,7 +120,10 @@ public class SpellingChecker
         int mathes = 0;
         for (int i = 0; i < word.Length; i++)
         {
-            if (word[i] == sample[i]) mathes++;
+            if (word[i] == sample[i])
+            {
+                mathes++;
+            }
         }
         return mathes;
     }
@@ -128,7 +143,10 @@ public class SpellingChecker
                 if (word[i - 1] == sample[j - 1])
                 {
                     table[i, j] = (byte)(1 + table[i - 1, j - 1]);
-                    if (table[i, j] > max) max = table[i, j];
+                    if (table[i, j] > max)
+                    {
+                        max = table[i, j];
+                    }
                 }
             }
         }
@@ -149,16 +167,25 @@ public class SpellingChecker
         int firstLetter = index;
         while (firstLetter < text.Length)
         {
-            if (char.IsLetter(text[firstLetter])) break;
+            if (char.IsLetter(text[firstLetter]))
+            {
+                break;
+            }
             firstLetter++;
         }
 
-        if (firstLetter == text.Length) return (-1, -1);
+        if (firstLetter == text.Length)
+        {
+            return (-1, -1);
+        }
 
         int length = 1;
         for (; firstLetter + length < text.Length; length++)
         {
-            if (!char.IsLetter(text[firstLetter + length])) break;
+            if (!char.IsLetter(text[firstLetter + length]))
+            {
+                break;
+            }
         }
 
         return (firstLetter, length);
