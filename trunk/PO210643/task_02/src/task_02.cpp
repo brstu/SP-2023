@@ -23,7 +23,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         if (LOWORD(wParam) == 2) {
             TCHAR text[100];
             GetDlgItemText(hwnd, 1, text, 100);
-            MessageBox(hwnd, text, TEXT("Текст"), MB_OK);
+            if (_tcscmp(text, _T("name")) == 0) {
+                MessageBox(hwnd, _T("Серко Александра"), TEXT("Текст"), MB_OK);
+            }
+            else {
+                MessageBox(hwnd, text, TEXT("Текст"), MB_OK);
+            }
         }
         break;
     }
