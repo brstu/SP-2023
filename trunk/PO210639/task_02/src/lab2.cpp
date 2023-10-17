@@ -3,11 +3,11 @@
 #include <string.h>
 #include <string>
 
-#define MAX_LOADSTRING 100
+int const  MAX_LOADSTRING = 100;
 
-HINSTANCE hInst;                                
-WCHAR szTitle[MAX_LOADSTRING];                  
-WCHAR szWindowClass[MAX_LOADSTRING];            
+HINSTANCE hInst;
+WCHAR szTitle[MAX_LOADSTRING];
+WCHAR szWindowClass[MAX_LOADSTRING];
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -47,6 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (int) msg.wParam;
 }
 
+void addSymbol();
 
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
@@ -97,7 +98,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             WS_VISIBLE | WS_CHILD | ES_CENTER,
             100, 50, 100, 20,
             hWnd, (HMENU)2, NULL, NULL);
-        CreateWindowW(TEXT("button"), TEXT("Click me!"),
+        CreateWindowW(TEXT("button"), TEXT("add"),
             WS_VISIBLE | WS_CHILD,
             100, 75, 100, 20,
             hWnd, (HMENU)12, NULL, NULL);
@@ -115,14 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hWnd);
                 break;
             case 12:
-                if (iterator != outputStr.size()) {
-                    std::string str="";
-                    for (int i = 0; i < iterator+1; i++) {
-                        str += outputStr[i];
-                    }
-                    iterator++;
-                    SetWindowTextA(TextBox, str.c_str());
-                }
+                addSymbol();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
@@ -162,4 +156,15 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+void addSymbol() {
+    if (iterator != outputStr.size()) {
+        std::string str = "";
+        for (int i = 0; i < iterator + 1; i++) {
+            str += outputStr[i];
+        }
+        iterator++;
+        SetWindowTextA(TextBox, str.c_str());
+    }
 }
