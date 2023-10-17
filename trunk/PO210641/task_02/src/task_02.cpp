@@ -1,31 +1,38 @@
 #include <windows.h>
 #include <tchar.h>
-
-int number = 0;  // Исходное значение числа
+#include <string>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    static int number = 0;
     switch (message) {
     case WM_CREATE: {
         // Создание статического текста для отображения числа
-        CreateWindow(TEXT("static"), NULL,
+        CreateWindow(TEXT("static"), nullptr,
             WS_VISIBLE | WS_CHILD,
             30, 10,
-            200, 30,
-            hwnd, (HMENU)1, NULL, NULL);
+            310, 30,
+            hwnd, (HMENU)1, nullptr, nullptr);
 
         // Создание кнопки "Увеличить"
         CreateWindow(TEXT("button"), TEXT("Увеличить"),
             WS_VISIBLE | WS_CHILD,
             30, 50,
             90, 30,
-            hwnd, (HMENU)2, NULL, NULL);
+            hwnd, (HMENU)2, nullptr, nullptr);
 
         // Создание кнопки "Уменьшить"
         CreateWindow(TEXT("button"), TEXT("Уменьшить"),
             WS_VISIBLE | WS_CHILD,
             140, 50,
             90, 30,
-            hwnd, (HMENU)3, NULL, NULL);
+            hwnd, (HMENU)3, nullptr, nullptr);
+
+        // Создание кнопки "Обнулить"
+        CreateWindow(TEXT("button"), TEXT("Обнулить"),
+            WS_VISIBLE | WS_CHILD,
+            250, 50,
+            90, 30,
+            hwnd, (HMENU)4, nullptr, nullptr);
         break;
     }
     case WM_COMMAND: {
@@ -34,6 +41,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         }
         else if (LOWORD(wParam) == 3) { // Обработка нажатия кнопки "Уменьшить"
             number--;
+        }
+        else if (LOWORD(wParam) == 4) { // Обработка нажатия кнопки "Обнулить"
+            number = 0;
         }
         // Обновляем текст статического элемента для отображения нового числа
         TCHAR newText[20];
@@ -62,7 +72,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     const wchar_t CLASS_NAME[] = L"Sample Window Class";
-
     WNDCLASS wc = {};
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
@@ -76,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         L"Sample Window",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        400, 300,
+        400, 150,
         nullptr, nullptr, hInstance, nullptr);
 
     if (hwnd == nullptr) {
