@@ -53,15 +53,15 @@ public class SpellingChecker
                 break;
             }
 
-            sb.Append(span[index..range.Item1]);
+            sb.Append(span[index..range.Index]);
 
-            var slice = span.Slice(range.Item1, range.Item2);
+            var slice = span.Slice(range.Index, range.Length);
             var word = slice.ToString();
             var replacer = CheckWord(word);
 
             sb.Append(replacer);
 
-            index = range.Item1 + range.Item2;
+            index = range.Index + range.Length;
         }
 
         return sb.ToString();
@@ -162,7 +162,7 @@ public class SpellingChecker
 
 
 
-    private static (int, int) FindWord(ReadOnlySpan<char> text, int index)
+    private static (int Index, int Length) FindWord(ReadOnlySpan<char> text, int index)
     {
         int firstLetter = index;
         while (firstLetter < text.Length)
