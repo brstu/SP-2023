@@ -1,8 +1,7 @@
 #include "item.h"
-#include "item.h"
 
-Item::Item (int id, double cost, double weight, int durability, int age)
-	: id(id), cost(cost), weight(weight), durability(durability), age(age) {
+Item::Item (int id, int durability, int age, double cost, double weight)
+	: id(id), durability(durability), age(age), cost(cost), weight(weight) {
 }
 
 double Item::CalculateCostPerGram() const
@@ -23,6 +22,3 @@ void Item::Show() const
     std::cout << "Durability: " << durability << " years\n";
     std::cout << "Age: " << age << " years\n";
 }
-
-
-

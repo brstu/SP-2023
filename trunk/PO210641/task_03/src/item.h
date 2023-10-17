@@ -4,7 +4,7 @@
 
 class Item {
 public:
-    Item(int id, double cost, double weight, int durability, int age);
+    Item(int id, int durability, int age, double cost, double weight);
 
     double CalculateCostPerGram() const;
 
