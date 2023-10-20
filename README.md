@@ -29,7 +29,7 @@
 |5 |Печко Валерия|||||||||||||
 |6 |Серко Александра|[AlexaBailey](https://github.com/AlexaBailey)|210643|:white_check_mark:|:white_check_mark:|:white_check_mark:||||||||
 |7 |Соколов Семен|||||||||||||
-|8 |Соколовский Никита|[lexel4life](https://github.com/lexel4life "GitHub link")|210645|:white_check_mark:||||||||||
+|8 |Соколовский Никита|[lexel4life](https://github.com/lexel4life "GitHub link")|210645|:white_check_mark:|:white_check_mark:|||||||||
 |9|Сорока Вадим|||||||||||||
 |10|Таразевич Никита|||||||||||||
 |11|Шлыков Андрей|||||||||||||
