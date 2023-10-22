@@ -5,7 +5,6 @@
 #include <iostream>
 #include <cmath>
 #include <unordered_map>
-using namespace std;
 
 class EntropyCalculator {
 public:
