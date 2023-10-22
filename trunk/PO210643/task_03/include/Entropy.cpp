@@ -18,9 +18,9 @@ using namespace std;
 
     double entropy = 0.0;
 
-    for (const auto& pair : charCounts) {
-    double probability = static_cast<double>(pair.second) / totalChars;
-         entropy -= probability * log2(probability);
+    for (const auto& [key,value] : charCounts) {
+        double probability = static_cast<double> (value) / totalChars;
+        entropy -= probability * log2(probability);
     }
 
 
