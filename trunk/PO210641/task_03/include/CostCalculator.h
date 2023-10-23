@@ -15,8 +15,8 @@ public:
 
 private:
     int id = 1;
-    int durability = 1;
-    int age = 1;
-    double cost = 1;
-    double weight = 1;
+    int durability = 5;
+    int age = 3;
+    double cost = 10;
+    double weight = 2;
 };
