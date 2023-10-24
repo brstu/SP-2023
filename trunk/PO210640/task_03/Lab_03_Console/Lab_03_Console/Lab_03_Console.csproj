@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="Lab_03_Lib">
-      <HintPath>..\..\Lab_03_Lib\Lab_03_Lib\bin\Release\net7.0\Lab_03_Lib.dll</HintPath>
+      <HintPath>..\..\src\Lab_03_Lib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

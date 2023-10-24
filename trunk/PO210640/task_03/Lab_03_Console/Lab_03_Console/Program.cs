@@ -1,6 +1,6 @@
 ﻿using SpellingCheckerApp;
 
-var path = @"C:\Users\Gygabyte\source\repos\Studies\5 sem\SP\repos\SP-2023\trunk\PO210640\task_03\Lab_03_Console\Lab_03_Console\Source\5000-words.txt";
+var path = @"C:\Users\Gygabyte\source\repos\Studies\5 sem\SP\repos\SP-2023\trunk\PO210640\task_03\src\5000-words.txt";
 
 var reader = new StreamReader(path);
 
