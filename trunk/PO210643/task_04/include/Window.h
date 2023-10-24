@@ -3,11 +3,10 @@
 
 class Window {
 public:
-    Window(int id, int height, int width, bool areAdminRightsGranted);
+    Window(int id, int height, int width, bool areAdminRightsGranted
+    );
     void doWork();
     void showOrHide(bool value);
-
-public:
     int id;
     int height;
     int width;

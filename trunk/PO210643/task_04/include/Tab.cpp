@@ -1,7 +1,6 @@
 #include "Tab.h"
 
-Tab::Tab(const std::string& url) {
-    this->url = url;
+Tab::Tab(const std::string& url):url(url) {
 }
 
 std::string Tab::getUrl() const {
