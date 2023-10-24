@@ -11,7 +11,7 @@ public:
     int height;
     int width;
     int memoryNeeded=0;
-    bool areAdministratorRightsGranted=false;
+    bool areAdminRightsGranted=false;
     bool isShown=false;
 };
 
