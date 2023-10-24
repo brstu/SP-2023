@@ -6,7 +6,7 @@
 
 class Tab {
 public:
-    Tab(const std::string& url);
+   explicit Tab(const std::string& url);
     std::string getUrl() const;
 
 private:

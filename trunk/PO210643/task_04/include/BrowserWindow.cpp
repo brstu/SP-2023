@@ -3,7 +3,7 @@
 using namespace std;
 #include "iostream"
 
-void print(string condition) {
+void print(const string condition) {
     cout << "Enter  " << condition << ": ";
 
 
@@ -33,7 +33,7 @@ void BrowserWindow::addTab() {
 
 }
 
-void BrowserWindow::switchTab() {
+void BrowserWindow::switchTab() const {
     if (!isShown) {
         cout << "Open Window first!" << endl;
     }

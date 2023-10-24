@@ -10,7 +10,7 @@ class BrowserWindow : public Window {
 public:
     BrowserWindow(int id, int height, int width, [[maybe_unused]] bool areAdminRightsGranted);
     void addTab();
-    void switchTab();
+    void switchTab() const;
     void closeTab();
     void printAllTabs();
     void searchHistory();
