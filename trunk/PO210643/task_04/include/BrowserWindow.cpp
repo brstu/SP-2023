@@ -42,7 +42,6 @@ void BrowserWindow::switchTab() {
         print("number of Tab");
         cin >> index;
         if (index - 1 >= 0 && index - 1 < tabs.size()) {
-           int currentIndex = index - 1;
             cout << "Switched to tab " << index << endl;
         }
     }
