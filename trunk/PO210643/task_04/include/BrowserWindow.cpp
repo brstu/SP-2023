@@ -3,7 +3,7 @@
 using namespace std;
 #include "iostream"
 
-void print(const string condition) {
+void print(const string& condition) {
     cout << "Enter  " << condition << ": ";
 
 
