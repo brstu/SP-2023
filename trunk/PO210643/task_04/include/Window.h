@@ -10,9 +10,9 @@ public:
     int id;
     int height;
     int width;
-    int memoryNeeded;
-    bool areAdministratorRightsGranted;
-    bool isShown;
+    int memoryNeeded=0;
+    bool areAdministratorRightsGranted=false;
+    bool isShown=false;
 };
 
 #endif

@@ -1,7 +1,7 @@
 ﻿#include "Window.h"
 #include "iostream"
 using namespace std;
-Window::Window(int id, int height, int width, bool areAdminRightsGranted) :id(id), height(height), width(width), areAdministratorRightsGranted(false),memoryNeeded(0),isShown(false){
+Window::Window(int id, int height, int width, bool areAdminRightsGranted) :id(id), height(height), width(width), areAdministratorRightsGranted(areAdministratorRightsGranted){
 
 
 }

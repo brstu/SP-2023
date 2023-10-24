@@ -9,7 +9,7 @@ void print(string condition) {
 
 }
 
-BrowserWindow::BrowserWindow(int id, int height, int width, bool areAdminRightsGranted)
+BrowserWindow::BrowserWindow(int id, int height, int width, [[maybe_unused]] bool areAdminRightsGranted)
     : Window(id, height, width, areAdminRightsGranted)
 {
 }
