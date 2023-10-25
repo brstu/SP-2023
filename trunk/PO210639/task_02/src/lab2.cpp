@@ -116,15 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hWnd);
                 break;
             case 12:
-                if (iterator != outputStr.size()) {
-                    std::string str="";
-                    for (int i = 0; i < iterator+1; i++) {
-                        str += outputStr[i];
-                    }
-                    iterator++;
-                    SetWindowTextA(TextBox, str.c_str());
-                    
-                }
+                addSymbol();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
