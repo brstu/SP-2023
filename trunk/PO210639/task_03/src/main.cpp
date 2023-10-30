@@ -1,4 +1,7 @@
 #include "../include/SortAndFindMinMax.h"
+#include <iostream>
+
+using namespace std;
 
 void main() {
 	int size;

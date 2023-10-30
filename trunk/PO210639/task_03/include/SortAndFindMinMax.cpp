@@ -1,16 +1,16 @@
 #include "SortAndFindMinMax.h"
 #include <iostream>
 
-using namespace std;
-
 void sortFromMinToMax(int* Arr, int first, int last)
 {
-	int i = first, j = last, x = Arr[(first + last) / 2];
+	int i = first;
+	int j = last;
+	int x = Arr[(first+last)/2];
 	do {
 		while (Arr[i] < x) i++;
 		while (Arr[j] > x) j--;
 		if (i <= j) {
-			if (Arr[i] > Arr[j]) swap(Arr[i], Arr[j]);
+			if (Arr[i] > Arr[j]) std::swap(Arr[i], Arr[j]);
 			i++;
 			j--;
 		}
@@ -21,12 +21,14 @@ void sortFromMinToMax(int* Arr, int first, int last)
 
 void sortFromMaxToMin(int* Arr, int first, int last)
 {
-	int i = first, j = last, x = Arr[(first + last) / 2];
+	int i = first;
+	int j = last;
+	int x = Arr[(first+last) / 2];
 	do {
 		while (Arr[i] > x) i++;
 		while (Arr[j] < x) j--;
 		if (i <= j) {
-			if (Arr[i] < Arr[j]) swap(Arr[i], Arr[j]);
+			if (Arr[i] < Arr[j]) std::swap(Arr[i], Arr[j]);
 			i++;
 			j--;
 		}
