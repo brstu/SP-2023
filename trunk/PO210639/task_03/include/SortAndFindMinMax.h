@@ -1,9 +1,6 @@
 #pragma once
 #ifndef HEADERH
 #define HEADERH
-#include <iostream>
-
-using namespace std;
 
 void sortFromMinToMax(int* Arr, int first, int last);
 
