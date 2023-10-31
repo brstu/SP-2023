@@ -1,11 +1,12 @@
 #include "SortAndFindMinMax.h"
 #include <iostream>
+#include <numeric>
 
 void sortFromMinToMax(int* Arr, int first, int last)
 {
 	int i = first;
 	int j = last;
-	int x = Arr[(first+last)/2];
+	int x = Arr[std::midpoint(first,last)];
 	do {
 		while (Arr[i] < x) i++;
 		while (Arr[j] > x) j--;
@@ -23,7 +24,7 @@ void sortFromMaxToMin(int* Arr, int first, int last)
 {
 	int i = first;
 	int j = last;
-	int x = Arr[(first+last) / 2];
+	int x = Arr[std::midpoint(first, last)];
 	do {
 		while (Arr[i] > x) i++;
 		while (Arr[j] < x) j--;

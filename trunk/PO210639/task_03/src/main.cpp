@@ -7,7 +7,7 @@ void main() {
 	int size;
 	cout << "Array size: ";
 	cin >> size;
-	int* arr = new int[size];
+	auto arr = new int[size];
 	for (int i = 0; i < size; i++) {
 		cout << "arr[" << i << "] = ";
 		cin >> arr[i];
