@@ -2,22 +2,24 @@
 #include <string.h>
 #include <thread>
 
-std::atomic<float> result_value{ 2.93 };
+void increment(std::atomic<float>& result_value) {
+	result_value.store(result_value.load() + 2.72, std::memory_order_relaxed);
+};
+void decrement(std::atomic<float>& result_value) {
+	result_value.store(result_value.load() - 1.73, std::memory_order_relaxed);
+};
+void multiply(std::atomic<float>& result_value) {
+	result_value.store(result_value.load() * 3.2, std::memory_order_relaxed);
+};
 
- std::jthread thread1 = std::jthread([] {
-	result_value.store(result_value.load() + 1.26, std::memory_order_relaxed);
-	});
-
-std::jthread thread2 = std::jthread([] {
-	result_value.store(result_value.load() - 1.83, std::memory_order_relaxed);
-	});
-
-std::jthread thread3 = std::jthread([] {
-	result_value.store(result_value.load() * 7.03, std::memory_order_relaxed);
-	});
 
 int main()
 {
+	std::atomic<float> result_value{ 1.0 };
+	auto thread1 = std::jthread([&result_value]() { increment(result_value); });
+	auto thread2 = std::jthread([&result_value]() { decrement(result_value); });
+	auto thread3 = std::jthread([&result_value]() { multiply(result_value); });
+
 	thread1.join();
 	thread2.join();
 	thread3.join();
