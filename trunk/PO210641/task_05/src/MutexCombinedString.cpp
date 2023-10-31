@@ -12,24 +12,17 @@ void InputThread(int threadNumber) {
     std::cout << prompt;
     std::getline(std::cin, input);
 
-    stringMutex.lock();
+    std::scoped_lock<std::mutex> lock(stringMutex);
     sharedString += input;
-    stringMutex.unlock();
 }
 
 int main() {
- 
-    std::thread thread1(InputThread, 1);
-    thread1.join();
 
-    std::thread thread2(InputThread, 2);
-    thread2.join();
+    std::jthread thread1(InputThread, 1);
 
-    stringMutex.lock();
+    std::jthread thread2(InputThread, 2);
+
     std::cout << "Combined string: " << sharedString << std::endl;
-    stringMutex.unlock();
 
     return 0;
 }
-
-

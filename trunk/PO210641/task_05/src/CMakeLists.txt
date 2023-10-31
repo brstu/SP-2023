@@ -6,15 +6,14 @@ if(WIN32)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_executable(po8_210641_task_05.atomic
         AtomicCombinedString.cpp
 )
 
-target_link_libraries(po8_210641_task_05.atomic)
-
 add_executable(po8_210641_task_05.mutex
         MutexCombinedString.cpp
 )
-
-target_link_libraries(po8_210641_task_05.mutex)
 
