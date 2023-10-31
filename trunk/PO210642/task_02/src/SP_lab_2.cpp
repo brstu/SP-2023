@@ -1,8 +1,5 @@
 ﻿#include "framework.h"
 #include "SP_lab_2.h"
-#include <string>
-#include <ctime>
-#include <vector>
 
 #define MAX_LOADSTRING 100
 
