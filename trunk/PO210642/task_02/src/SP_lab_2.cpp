@@ -158,8 +158,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // Функция для отображения случайного имени
 void ShowRandomName(HWND hWnd)
 {
-    srand(static_cast<unsigned int>(time(nullptr)));
-    int index = rand() % names.size();
+    std::random_device rd{};
+    int size = names.size()-1;
+    std::uniform_int_distribution<> distrib(0, size);
+    int index = distrib(rd);
     SetWindowTextA(GetDlgItem(hWnd, 2), names[index].c_str());
 }
 
