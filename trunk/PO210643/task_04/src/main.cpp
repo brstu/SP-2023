@@ -2,7 +2,7 @@
 //
 
 
-#include "../include/BrowserWindow.h"
+#include "BrowserWindow.h"
 #include "iostream"
 #include <string>
 using namespace std;

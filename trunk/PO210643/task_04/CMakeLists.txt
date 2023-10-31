@@ -7,9 +7,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
 add_executable(po8_210643_task_04
-        src/main.cpp
+        src/main.cpp src/BrowserWindow.cpp  src/Window.cpp  src/Tab.cpp
 )
 
-add_library(browser SHARED include/BrowserWindow.cpp  include/Window.cpp  include/Tab.cpp  )
-
-target_link_libraries(po8_210643_task_04 browser)
