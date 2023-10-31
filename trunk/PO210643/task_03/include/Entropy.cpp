@@ -4,11 +4,10 @@
 #include <cmath>
 #include <unordered_map>
 #include "./Entropy.h"
-using namespace std;
 
 
-    double EntropyCalculator::calculateEntropy(const string& word) {
-    unordered_map<char, int> charCounts;
+    double EntropyCalculator::calculateEntropy(const std::string& word) {
+    std::unordered_map<char, int> charCounts;
     int totalChars = 0;
 
     for (char c : word) {
@@ -18,8 +17,8 @@ using namespace std;
 
     double entropy = 0.0;
 
-    for (const auto& [key,value] : charCounts) {
-        double probability = static_cast<double> (value) / totalChars;
+    for (const auto& pair : charCounts) {
+        double probability = static_cast<double> (pair.second) / totalChars;
         entropy -= probability * log2(probability);
     }
 

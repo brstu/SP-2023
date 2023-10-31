@@ -8,7 +8,7 @@
 
 class EntropyCalculator {
 public:
-     double calculateEntropy(const string& word);
+     double calculateEntropy(const std::string& word);
 };
 
 

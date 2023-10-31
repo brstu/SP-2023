@@ -1,15 +1,14 @@
 
 #include <iostream>
 #include "../include/Entropy.h"
-using namespace std;
 
 int main() {
-    string word;
-    cout << "Enter word: ";
-    cin >> word;
-    auto entropy = make_unique<EntropyCalculator>();
+    std::string word;
+    std::cout << "Enter word: ";
+    std::cin >> word;
+    auto entropy = std::make_unique<EntropyCalculator>();
     double value = entropy->calculateEntropy(word);
     
-    cout << "Entropy: " << value << endl;
+    std::cout << "Entropy: " << value << std::endl;
     return 0;
 }
