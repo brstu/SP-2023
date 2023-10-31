@@ -4,15 +4,15 @@
 
 std::atomic<float> result_value{ 2.93 };
 
-std::thread thread1 = std::thread([] {
+ std::jthread thread1 = std::jthread([] {
 	result_value.store(result_value.load() + 1.26, std::memory_order_relaxed);
 	});
 
-std::thread thread2 = std::thread([] {
+std::jthread thread2 = std::jthread([] {
 	result_value.store(result_value.load() - 1.83, std::memory_order_relaxed);
 	});
 
-std::thread thread3 = std::thread([] {
+std::jthread thread3 = std::jthread([] {
 	result_value.store(result_value.load() * 7.03, std::memory_order_relaxed);
 	});
 
