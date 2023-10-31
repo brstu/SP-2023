@@ -3,7 +3,7 @@
 #include <atomic>
 #include <string>
 
-const int MaxChars = 100;
+const int MaxChars = 10;
 std::atomic<int> charIndex(0);
 char sharedChars[MaxChars] = { 0 };
 
@@ -25,11 +25,11 @@ void InputThread(int threadNumber) {
 }
 
 int main() {
+    std::atomic<std::string*>;
 
-    std::thread thread1(InputThread, 1);
-    thread1.join();
+    std::jthread thread1(InputThread, 1);
 
-    InputThread(2);
+    std::jthread thread2(InputThread, 2);
 
     std::cout << "Combined string: " << sharedChars << std::endl;
 
