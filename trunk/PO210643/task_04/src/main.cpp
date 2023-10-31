@@ -5,7 +5,6 @@
 #include "BrowserWindow.h"
 #include "iostream"
 #include <string>
-using namespace std;
 
 
 int main() {
@@ -15,9 +14,9 @@ int main() {
     while (!exit) {
 
 
-        cout << "1)Show Window\n2)Hide Window\n3)Add Tab\n4)Close Tab\n5)Switch Tab\n6)Search History\n7)Change User\n";
+        std::cout << "1)Show Window\n2)Hide Window\n3)Add Tab\n4)Close Tab\n5)Switch Tab\n6)Search History\n7)Change User\n";
         int option;
-        cin >> option;
+        std::cin >> option;
 
         switch (option) {
         case 1:

@@ -1,10 +1,9 @@
 #include "BrowserWindow.h"
 #include "Tab.h"
-using namespace std;
 #include "iostream"
 
-void print(const string& condition) {
-    cout << "Enter  " << condition << ": ";
+void print(const std::string& condition) {
+    std::cout << "Enter  " << condition << ": ";
 
 
 }
@@ -16,18 +15,18 @@ BrowserWindow::BrowserWindow(int id, int height, int width, [[maybe_unused]] boo
 
 void BrowserWindow::addTab() {
     if (!isShown) {
-        cout << "Open Window first!" << endl;
+        std::cout << "Open Window first!" << std::endl;
     }
     else {
-        string url;
+        std::string url;
         print("url");
-        cin >> url;
+        std::cin >> url;
 
 
         Tab newTab(url);
         tabs.push_back(newTab);
         memoryNeeded = tabs.size();
-        cout << "Added tab: " << url << endl;
+        std::cout << "Added tab: " << url << std::endl;
 
     }
 
@@ -35,33 +34,33 @@ void BrowserWindow::addTab() {
 
 void BrowserWindow::switchTab() const {
     if (!isShown) {
-        cout << "Open Window first!" << endl;
+        std::cout << "Open Window first!" << std::endl;
     }
     else {
         int index;
         print("number of Tab");
-        cin >> index;
+        std::cin >> index;
         if (index - 1 >= 0 && index - 1 < tabs.size()) {
-            cout << "Switched to tab " << index << endl;
+            std::cout << "Switched to tab " << index << std::endl;
         }
     }
 }
 
 void BrowserWindow::closeTab() {
     if (!isShown) {
-        cout << "Open Window first!" << endl;
+        std::cout << "Open Window first!" << std::endl;
     }
     else {
         int index;
         print("number of Tab");
-        cin >> index;
+        std::cin >> index;
         if (index - 1 >= 0 && index - 1 < tabs.size()) {
             tabs.erase(tabs.begin() + index - 1);
             memoryNeeded = tabs.size();
-            cout << "Tab " << index << " closed" << endl;
+            std::cout << "Tab " << index << " closed" << std::endl;
 
         }
-        cout << "Opened tabs:";
+        std::cout << "Opened tabs:";
         for (const Tab& tab : tabs) {
             std::cout << tab.getUrl() << std::endl;
         }
@@ -78,25 +77,25 @@ void BrowserWindow::printAllTabs() {
 }
 void BrowserWindow::searchHistory() {
     if (!isShown) {
-        cout << "Open Window first!" << endl;
+        std::cout << "Open Window first!" << std::endl;
     }
     else {
-        string keyword;
+        std::string keyword;
         bool found = false;
         print("keyword");
-        cin >> keyword;
+        std::cin >> keyword;
         for (size_t i = 0; i < tabs.size(); i++) {
             std::string url = tabs[i].getUrl();
 
 
             if (url.find(keyword, 0) != std::string::npos) {
-                cout << url << " is found under number:" << i + 1 << endl;
+                std::cout << url << " is found under number:" << i + 1 << std::endl;
                 found = true;
             }
 
 
         }
-        if (!found) cout << "No such tab" << endl;
+        if (!found)std::cout << "No such tab" << std::endl;
     }
 
 
@@ -105,14 +104,14 @@ void BrowserWindow::searchHistory() {
 
 void BrowserWindow::changeUser() {
     if (!isShown) {
-        cout << "Open Window first!" << endl;
+        std::cout << "Open Window first!" << std::endl;
     }
     else {
-        string newUser;
+        std::string newUser;
         print("new user");
-        cin >> newUser;
+        std::cin >> newUser;
         username = newUser;
-        cout << "User switched to: " << newUser << endl;
+        std::cout << "User switched to: " << newUser << std::endl;
         tabs.clear();
     }
 }
