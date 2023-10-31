@@ -6,7 +6,7 @@
 #include "./Entropy.h"
 
 
-    double EntropyCalculator::calculateEntropy(const std::string& word) {
+    double EntropyCalculator::calculateEntropy(const std::string& word) const{
     std::unordered_map<char, int> charCounts;
     int totalChars = 0;
 
