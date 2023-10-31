@@ -159,7 +159,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void ShowRandomName(HWND hWnd)
 {
     std::random_device rd{};
-    int size = names.size()-1;
+    std::size_t size = names.size()-1;
     std::uniform_int_distribution<> distrib(0, size);
     int index = distrib(rd);
     SetWindowTextA(GetDlgItem(hWnd, 2), names[index].c_str());
