@@ -1,6 +1,6 @@
 ﻿namespace Lab_5;
 
-public class Program
+internal static class Program
 {
     static void Main()
     {
@@ -79,7 +79,10 @@ public class Program
 
     private static void NextThread(IEnumerator<Action> methods)
     {
-        if (!methods.MoveNext()) return;
+        if (!methods.MoveNext())
+        {
+            return;
+        }
 
         methods.Current.Invoke();
 

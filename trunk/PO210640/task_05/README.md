@@ -69,7 +69,10 @@ var lambda = (Func<float, Action> func) =>
 ```C#
 private static void NextThread(IEnumerator<Action> methods)
 {
-    if (!methods.MoveNext()) return;
+    if (!methods.MoveNext()) 
+    {
+        return;
+    }
 
     methods.Current.Invoke();
 
