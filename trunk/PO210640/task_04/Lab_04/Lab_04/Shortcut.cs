@@ -6,13 +6,13 @@ public class Shortcut
 {
     #region Fields
 
-    private int _nextId = 0;
+    private static int _nextId;
 
-    private int _id;
-    private int _size;
+    private readonly int _id;
+    private readonly int _size;
     private int _xPosition;
     private int _yPosition;
-    private string _path;
+    private readonly string _path;
 
     private Action? _parentDoWork = null;
 
@@ -20,12 +20,17 @@ public class Shortcut
 
     public Shortcut(int size, int xPosition, int yPosition, string path)
     {
-        _id = _nextId++;
+        _id = GetNextId();
 
         _size = size;
         _xPosition = xPosition;
         _yPosition = yPosition;
         _path = path;
+    }
+
+    private static int GetNextId()
+    {
+        return _nextId++;
     }
 
     public void SetParentDoWork(Action action)
