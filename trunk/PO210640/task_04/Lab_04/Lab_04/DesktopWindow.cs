@@ -4,8 +4,8 @@ public class DesktopWindow : Window
 {
     #region Fields
 
-    private List<Shortcut> _shortcuts = new();
-    private string _backgroundImagePath;
+    private readonly List<Shortcut> _shortcuts = new();
+    private readonly string _backgroundImagePath;
 
     #endregion
 

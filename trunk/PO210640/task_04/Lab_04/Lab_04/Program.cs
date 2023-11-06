@@ -1,6 +1,6 @@
 ﻿namespace Lab_04;
 
-internal class Program
+internal static class Program
 {
     private static Window Window { get; set; } = null!;
     static void Main()
