@@ -25,7 +25,7 @@ void InputThread(std::atomic<int>& charIndex, std::string& sharedString, int thr
 int main() {
     std::string sharedString;
 
-    std::atomic<int> charIndex(0);
+    std::atomic charIndex(0);
 
     std::jthread thread1(InputThread, std::ref(charIndex), std::ref(sharedString), 1);
     thread1.join();
