@@ -3,12 +3,8 @@
 #include <mutex>
 #include <string>
 
-std::string sharedString;
-std::mutex stringMutex;
-
-void InputThread(int threadNumber) {
+void InputThread(std::string& sharedString, std::mutex& stringMutex, const std::string& prompt) {
     std::string input;
-    std::string prompt = (threadNumber == 1) ? "Enter the first string: " : "Enter the second string: ";
     std::cout << prompt;
     std::getline(std::cin, input);
 
@@ -17,10 +13,14 @@ void InputThread(int threadNumber) {
 }
 
 int main() {
+    std::string sharedString;
+    std::mutex stringMutex;
 
-    std::jthread thread1(InputThread, 1);
+    std::jthread thread1(InputThread, std::ref(sharedString), std::ref(stringMutex), "Enter the first string: ");
+    thread1.join();
 
-    std::jthread thread2(InputThread, 2);
+    std::jthread thread2(InputThread, std::ref(sharedString), std::ref(stringMutex), "Enter the second string: ");
+    thread2.join();
 
     std::cout << "Combined string: " << sharedString << std::endl;
 
