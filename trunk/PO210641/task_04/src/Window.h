@@ -11,7 +11,7 @@ private:
     int id;
     int height;
     int width;
-    int memoryNeeded;
+    int memoryNeeded = 0;
     bool areAdministratorRightsGranted;
     bool isShown;
 };
