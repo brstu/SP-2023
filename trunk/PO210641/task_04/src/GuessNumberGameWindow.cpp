@@ -1,3 +1,4 @@
+
 #include "GuessNumberGameWindow.h"
 #include <ctime>
 #include <cstdlib>
@@ -7,9 +8,8 @@
 GuessNumberGameWindow::GuessNumberGameWindow(int id, int height, int width, bool areAdministratorRightsGranted, Settings* settings)
     : GameWindow(id, height, width, areAdministratorRightsGranted, settings) {
     std::random_device rd;
-    std::default_random_engine generator(rd());
     std::uniform_int_distribution distribution(1, 100);
-    targetNumber = distribution(generator);
+    targetNumber = distribution(rd);
 }
 
 void GuessNumberGameWindow::doAction() {

@@ -8,9 +8,8 @@ using namespace std;
 RockPaperScissorsGameWindow::RockPaperScissorsGameWindow(int id, int height, int width, bool areAdministratorRightsGranted, Settings* settings)
     : GameWindow(id, height, width, areAdministratorRightsGranted, settings) {
     std::random_device rd;
-    std::mt19937 generator(rd());
-    std::uniform_int_distribution<int> distribution(0, 2);
-    randomChoicePlayer2 = distribution(generator);
+    std::uniform_int_distribution distribution(0, 2);
+    randomChoicePlayer2 = distribution(rd);
 }
 
 void RockPaperScissorsGameWindow::doAction() {
