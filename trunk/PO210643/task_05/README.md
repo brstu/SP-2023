@@ -46,22 +46,22 @@ Mutex.cpp
 
 Инкрементирование (увеличение данных)
 
-void increment(float value) {
-    std::lock_guard<std::mutex> lock(mutex);
+void increment( float value, float &number, std::mutex& mutex ) {
+    std::scoped_lock<std::mutex> lock(mutex);
     number += value;
 }
 
 Дерементирование (уменьшение данных)
 
-void decrement(float value) {
-    std::lock_guard<std::mutex> lock(mutex);
+void decrement(float value, float& number, std::mutex& mutex ) {
+    std::scoped_lock<std::mutex> lock(mutex);
     number -= value;
 }
 
 Умножение данных
 
-void multiply(float value) {
-    std::lock_guard<std::mutex> lock(mutex);
+void multiply(float value, float& number, std::mutex& mutex ) {
+    std::scoped_lock<std::mutex> lock(mutex);
     number *= value;
 }
 
