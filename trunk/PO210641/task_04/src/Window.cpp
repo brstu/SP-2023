@@ -1,7 +1,7 @@
 #include "Window.h"
 
 Window::Window(int id, int height, int width, bool areAdministratorRightsGranted)
-    : id(id), height(height), width(width), memoryNeeded(0), areAdministratorRightsGranted(areAdministratorRightsGranted), isShown(false) {
+    : id(id), height(height), width(width), areAdministratorRightsGranted(areAdministratorRightsGranted) {
 }
 
 void Window::doWork() {
