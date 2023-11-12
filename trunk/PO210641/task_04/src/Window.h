@@ -13,7 +13,7 @@ private:
     int width;
     int memoryNeeded = 0;
     bool areAdministratorRightsGranted;
-    bool isShown;
+    bool isShown = false;
 };
 
 #endif // WINDOW_H
