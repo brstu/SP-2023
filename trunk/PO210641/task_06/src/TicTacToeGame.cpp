@@ -75,18 +75,19 @@ bool checkAntiDiagonalWin(const std::vector<std::vector<char>>& board, char symb
 }
 
 bool checkWin(const std::vector<std::vector<char>>& board, char symbol, std::vector<std::vector<bool>>& winLines) {
+
     for (int i = 0; i < board.size(); ++i) {
         if (checkRowWin(board, symbol, i, winLines) || checkColWin(board, symbol, i, winLines)) {
             return true;
         }
     }
+
     if (checkMainDiagonalWin(board, symbol, winLines) || checkAntiDiagonalWin(board, symbol, winLines)) {
         return true;
     }
 
     return false;
 }
-
 
 bool checkTie(const std::vector<std::vector<char>>& board) {
     for (const auto& row : board) {
@@ -99,8 +100,9 @@ bool checkTie(const std::vector<std::vector<char>>& board) {
     return true;
 }
 
-
-void computerMove(std::vector<std::vector<char>>& board, std::mt19937& gen) {
+void computerMove(std::vector<std::vector<char>>& board) {
+    std::random_device rd;
+    std::default_random_engine gen(rd());
     std::uniform_int_distribution<std::vector<char>::size_type> distribution(0, board.size() - 1);
     std::vector<char>::size_type row;
     std::vector<char>::size_type col;
@@ -137,9 +139,9 @@ void playerTurn(std::vector<std::vector<char>>& board, int size, char playerSymb
     }
 }
 
-void computerTurn(std::vector<std::vector<char>>& board, char computerSymbol, std::vector<std::vector<bool>>& winLines, int& currentPlayer, bool& gameIsOver, std::mt19937& gen) {
+void computerTurn(std::vector<std::vector<char>>& board, char computerSymbol, std::vector<std::vector<bool>>& winLines, int& currentPlayer, bool& gameIsOver) {
     std::cout << "Computer's turn..." << std::endl;
-    computerMove(board, gen);
+    computerMove(board);
 
     if (checkWin(board, computerSymbol, winLines)) {
         drawBoard(board, winLines);
@@ -152,9 +154,6 @@ void computerTurn(std::vector<std::vector<char>>& board, char computerSymbol, st
 }
 
 int main() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
     int size;
     std::cout << "Enter the size of the board (e.g., 3 for a 3x3 board): ";
     std::cin >> size;
@@ -188,7 +187,7 @@ int main() {
             playerTurn(board, size, playerSymbol, winLines, currentPlayer, gameIsOver);
         }
         else {
-            computerTurn(board, computerSymbol, winLines, currentPlayer, gameIsOver, gen);
+            computerTurn(board, computerSymbol, winLines, currentPlayer, gameIsOver);
         }
 
         if (checkTie(board)) {
