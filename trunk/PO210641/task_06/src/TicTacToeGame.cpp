@@ -102,13 +102,12 @@ bool checkTie(const std::vector<std::vector<char>>& board) {
 
 void computerMove(std::vector<std::vector<char>>& board) {
     std::random_device rd;
-    std::default_random_engine gen(rd());
     std::uniform_int_distribution<std::vector<char>::size_type> distribution(0, board.size() - 1);
     std::vector<char>::size_type row;
     std::vector<char>::size_type col;
     do {
-        row = distribution(gen);
-        col = distribution(gen);
+        row = distribution(rd);
+        col = distribution(rd);
     } while (board[row][col] != ' ');
 
     board[row][col] = 'O';
