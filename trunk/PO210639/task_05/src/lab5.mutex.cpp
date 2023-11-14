@@ -4,17 +4,17 @@
 
 using namespace std;
 
-void add(float result, std::mutex& resultMutex) {
+void add(float& result, std::mutex& resultMutex) {
 	std::scoped_lock<std::mutex> lock(resultMutex);
 	result += static_cast <float>(1.23123);
 }
 
-void sub(float result, std::mutex& resultMutex) {
+void sub(float& result, std::mutex& resultMutex) {
 	std::scoped_lock<std::mutex> lock(resultMutex);
 	result -= static_cast <float>(2.51234);
 }
 
-void mul(float result, std::mutex& resultMutex) {
+void mul(float& result, std::mutex& resultMutex) {
 	std::scoped_lock<std::mutex> lock(resultMutex);
 	result *= static_cast <float>(2.01235);
 }

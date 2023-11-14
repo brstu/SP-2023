@@ -17,7 +17,7 @@ void mul(atomic<float>& result) {
 
 int main()
 {
-	atomic<float> result{ static_cast <float>(5.67293) };
+	atomic result{ static_cast <float>(5.67293) };
 
 	std::jthread t1(add, std::ref(result));
 	std::jthread t2(sub, std::ref(result));
