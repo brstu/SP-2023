@@ -2,7 +2,7 @@
 #include <iostream>
 #include <numeric>
 
-void sortFromMinToMax(int* Arr, int first, int last)
+void sortFromMinToMax(std::vector<int> &Arr, int first, int last)
 {
 	int i = first;
 	int j = last;
@@ -20,7 +20,7 @@ void sortFromMinToMax(int* Arr, int first, int last)
 	if (first < j) sortFromMinToMax(Arr, first, j);
 }
 
-void sortFromMaxToMin(int* Arr, int first, int last)
+void sortFromMaxToMin(std::vector<int> &Arr, int first, int last)
 {
 	int i = first;
 	int j = last;
@@ -38,7 +38,7 @@ void sortFromMaxToMin(int* Arr, int first, int last)
 	if (first < j) sortFromMaxToMin(Arr, first, j);
 }
 
-int findMinElement(int* arr, int size) {
+int findMinElement(std::vector<int> &arr, int size) {
 	int resultElement = arr[0];
 	for (int i = 1; i < size; i++) {
 		if (resultElement > arr[i]) {
@@ -49,7 +49,7 @@ int findMinElement(int* arr, int size) {
 }
 
 
-int findMaxElement(int* arr, int size) {
+int findMaxElement(std::vector<int> &arr, int size) {
 	int resultElement = arr[0];
 	for (int i = 1; i < size; i++) {
 		if (resultElement < arr[i]) {
