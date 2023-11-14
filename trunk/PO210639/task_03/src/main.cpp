@@ -15,7 +15,7 @@ int main() {
 		cin >> temp;
 		arr.push_back(temp);
 	}
-	
+
 	sortFromMinToMax(arr, 0, size-1);
 	cout << "sort from min to max:" << endl;
 	for (int i = 0; i < size; i++) {
