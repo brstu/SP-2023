@@ -6,7 +6,7 @@ class Help : public Command
 {
 public:
 	void doAction(ConsoleWindow &w, tempStrings& tempStrs) override;
-	virtual ~Help() = default;
+	~Help() override = default;
 };
 
 #endif

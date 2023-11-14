@@ -1,16 +1,15 @@
 #include "Dir.h"
 #include <iostream>
 #include "tempStrings.h"
-
-using namespace std;
+#include <vector>
 
 void Dir::doAction(ConsoleWindow& w, tempStrings& tempStrs)
 {
 	int memory = 0;
-	for (int i = 0; i < tempStrs.folders.size(); i++) {
-		if (tempStrs.folders[i].parent == tempStrs.currentPath) {
-			cout << tempStrs.folders[i].name << endl;
-			memory += sizeof(tempStrs.folders[i]);
+	for(folder var : tempStrs.folders) {
+		if (var.parent == tempStrs.currentPath) {
+			std::cout << var.name << std::endl;
+			memory += sizeof(var);
 		}
 	}
 	w.doWork(memory);

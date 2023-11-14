@@ -6,7 +6,7 @@ class Dir : public Command
 {
 public:
 	void doAction(ConsoleWindow& w, tempStrings& tempStrs) override;
-	virtual ~Dir() = default;
+	~Dir() override = default;
 };
 
 #endif

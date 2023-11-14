@@ -8,7 +8,7 @@ class Cd : public Command
 {
 public:
 	void doAction(ConsoleWindow& w, tempStrings& tempStrs) override;
-	virtual ~Cd()=default;
+	~Cd() override = default;
 };
 
 #endif

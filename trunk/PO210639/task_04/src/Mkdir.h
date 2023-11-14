@@ -6,7 +6,7 @@ class Mkdir : public Command
 {
 public:
 	void doAction(ConsoleWindow& w, tempStrings& tempStrs) override;
-	virtual ~Mkdir() = default;
+	~Mkdir() override = default;
 };
 
 #endif
