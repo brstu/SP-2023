@@ -25,7 +25,7 @@ int main()
 	folder f2("programm files", "C:");
 	tempStrs.folders.push_back(f1);
 	tempStrs.folders.push_back(f2);
-	ConsoleWindow console(200, 150, false, true, true);
+	ConsoleWindow console(1, 200, 150, false, true, true);
 	while (true) {
 		cout << tempStrs.currentPath+outputStr;
 		getline(cin, temp, '\n');
