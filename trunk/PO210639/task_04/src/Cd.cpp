@@ -22,8 +22,8 @@ void Cd::doAction(ConsoleWindow& w, tempStrings& tempStrs)
 		tempStrs.currentPath = parentPath;
 	}
 	else {
-		for (int l = 0; l < tempStrs.folders.size(); l++) {
-			if (tempStrs.folders[l].name == folderName && tempStrs.folders[i].parent == parentPath) {
+		for (folder var : tempStrs.folders) {
+			if (var.name == folderName && var.parent == parentPath) {
 				tempStrs.currentPath = tempStrs.cdPath;
 				return;
 			}
