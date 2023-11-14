@@ -5,8 +5,11 @@
 
 int main()
 {
-    double a, b, c;
-    std::complex<double> x1, x2;
+    double a,
+    double b,
+    double c;
+    std::complex<double> x1,
+    std::complex<double> x2;
 
     std::cout << "Enter the coefficients a, b, and c: ";
     std::cin >> a >> b >> c;
