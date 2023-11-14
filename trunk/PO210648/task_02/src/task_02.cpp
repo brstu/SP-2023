@@ -1,11 +1,11 @@
-#include <windows.h>
+#include <Windows.h>
 #include <iostream>
 
-HWND hWnd;
-HWND hButton;
-HWND hLabel;
+const HWND hWnd;
+const HWND hButton;
+const HWND hLabel;
 
-int value = 0;
+const int value = 0;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -59,14 +59,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		if (LOWORD(wParam)==2)
 		{
 			value++;
-			wchar_t text[10];
+			std::string text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
 		if (LOWORD(wParam) == 1)
 		{
 			value--;
-			wchar_t text[10];
+			std::string text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
