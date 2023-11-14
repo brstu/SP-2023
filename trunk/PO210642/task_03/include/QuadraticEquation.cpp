@@ -1,23 +1,28 @@
 #include "QuadraticEquation.h"
 #include <cmath>
+#include <complex>
 
-int solveQuadraticEquation(double a, double b, double c, double& x1, double& x2)
+int solveQuadraticEquation(double a, double b, double c, std::complex<double>& x1, std::complex<double>& x2)
 {
     double discriminant = b * b - 4 * a * c;
 
     if (discriminant > 0)
     {
-        x1 = (-b + sqrt(discriminant)) / (2 * a);
-        x2 = (-b - sqrt(discriminant)) / (2 * a);
-        return 2;
+        x1 = (-b + std::sqrt(discriminant)) / (2 * a);
+        x2 = (-b - std::sqrt(discriminant)) / (2 * a);
+        return 2;  // Два действительных корня
     }
     else if (discriminant == 0)
     {
         x1 = -b / (2 * a);
+        x2 = x1;  // Один действительный корень
         return 1;
     }
     else
     {
+        // Два комплексных корня
+        x1 = (-b + std::sqrt(std::complex<double>(discriminant))) / (2 * a);
+        x2 = (-b - std::sqrt(std::complex<double>(discriminant))) / (2 * a);
         return 0;
     }
 }

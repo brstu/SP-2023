@@ -1,3 +1,4 @@
 #pragma once
+#include <complex>
 
-int solveQuadraticEquation(double a, double b, double c, double& x1, double& x2);
+int solveQuadraticEquation(double a, double b, double c, std::complex<double>& x1, std::complex<double>& x2);
