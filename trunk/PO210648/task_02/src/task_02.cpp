@@ -7,7 +7,7 @@ const HWND hLabel;
 
 const int value = 0;
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -51,7 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return (int)msg.wParam;
 }
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -59,14 +59,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		if (LOWORD(wParam)==2)
 		{
 			value++;
-			std::string text[10];
+			std::array text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
 		if (LOWORD(wParam) == 1)
 		{
 			value--;
-			std::string text[10];
+			std::array text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
