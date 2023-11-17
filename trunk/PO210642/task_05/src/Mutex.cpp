@@ -14,22 +14,22 @@ int main() {
     std::cout << "Enter the number of increments: ";
     std::cin >> numIncrements;
 
-    int numDecrements;  // Используемая переменная
+    int numDecrements;
     std::cout << "Enter the number of decrements: ";
     std::cin >> numDecrements;
 
-    int numDecrementsDoubled = numDecrements * 2;  // Теперь используем numDecrements
+    int numDecrementsDoubled = numDecrements * 2;
 
     std::jthread incrementThread([&counter, numIncrements, &counterMutex]() {
         for (int i = 0; i < numIncrements; ++i) {
-            std::lock_guard<std::mutex> lock(counterMutex);
+            std::lock_guard lock(counterMutex);
             counter++;
         }
         });
 
     std::jthread decrementThread([&counter, numDecrementsDoubled, &counterMutex]() {
         for (int i = 0; i < numDecrementsDoubled; ++i) {
-            std::lock_guard<std::mutex> lock(counterMutex);
+            std::lock_guard lock(counterMutex);
             counter--;
         }
         });
