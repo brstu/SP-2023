@@ -59,14 +59,14 @@ LRESULT CALLBACK WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam)==2)
 		{
 			value++;
-			std::array text[10];
+			std::vector text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
 		if (LOWORD(wParam) == 1)
 		{
 			value--;
-			std::array text[10];
+			std::vector text[10];
 			swprintf_s(text, L"%d", value);
 			SetWindowText(hLabel, text);
 		}
