@@ -6,6 +6,7 @@ if(WIN32)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
 set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+set(CMAKE_CXX_STANDARD 20)
 endif()
 
 add_executable(po8_210642_task_03
