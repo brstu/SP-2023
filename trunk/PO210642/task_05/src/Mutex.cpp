@@ -22,17 +22,20 @@ int main() {
 
     std::jthread incrementThread([&counter, numIncrements, &counterMutex]() {
         for (int i = 0; i < numIncrements; ++i) {
-            std::lock_guard lock(counterMutex);
+            std::lock_guard<std::mutex> lock(counterMutex);
             counter++;
         }
         });
 
     std::jthread decrementThread([&counter, numDecrementsDoubled, &counterMutex]() {
         for (int i = 0; i < numDecrementsDoubled; ++i) {
-            std::lock_guard lock(counterMutex);
+            std::lock_guard<std::mutex> lock(counterMutex);
             counter--;
         }
         });
+
+    incrementThread.join();
+    decrementThread.join();
 
     std::cout << "Doubled decrements: " << numDecrementsDoubled << std::endl;
     std::cout << "Final value with doubled decrements: " << counter << std::endl;
