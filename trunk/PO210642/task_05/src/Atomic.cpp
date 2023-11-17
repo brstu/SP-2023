@@ -3,6 +3,8 @@
 #include <thread>
 
 int main() {
+    std::atomic<int> counter{ 0 };
+
     int numIncrements;
     int numDecrements;
     int initialValue;
@@ -16,7 +18,7 @@ int main() {
     std::cout << "Enter the number of decrements: ";
     std::cin >> numDecrements;
 
-    std::atomic counter(initialValue);
+    counter.store(initialValue);
 
     std::jthread incrementThread([&counter, numIncrements]() {
         for (int i = 0; i < numIncrements; ++i) {
