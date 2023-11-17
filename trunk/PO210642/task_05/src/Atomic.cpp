@@ -20,21 +20,18 @@ int main() {
 
     counter.store(initialValue);
 
-    std::thread incrementThread([&counter, numIncrements]() {
+    std::jthread incrementThread([&counter, numIncrements]() {
         for (int i = 0; i < numIncrements; ++i) {
             counter.fetch_add(1);
         }
         });
 
-    std::thread decrementThread([&counter, numDecrements]() {
+    std::jthread decrementThread([&counter, numDecrements]() {
         for (int i = 0; i < numDecrements; ++i) {
             counter.fetch_sub(1);
         }
         });
-
-    incrementThread.join();
-    decrementThread.join();
-
+    
     std::cout << "Final value: " << counter.load() << std::endl;
 
     return 0;

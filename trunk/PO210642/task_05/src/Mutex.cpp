@@ -20,22 +20,19 @@ int main() {
 
     int numDecrementsDoubled = numDecrements * 2;  // Теперь используем numDecrements
 
-    std::thread incrementThread([&counter, numIncrements, &counterMutex]() {
+    std::jthread incrementThread([&counter, numIncrements, &counterMutex]() {
         for (int i = 0; i < numIncrements; ++i) {
             std::lock_guard<std::mutex> lock(counterMutex);
             counter++;
         }
         });
 
-    std::thread decrementThread([&counter, numDecrementsDoubled, &counterMutex]() {
+    std::jthread decrementThread([&counter, numDecrementsDoubled, &counterMutex]() {
         for (int i = 0; i < numDecrementsDoubled; ++i) {
             std::lock_guard<std::mutex> lock(counterMutex);
             counter--;
         }
         });
-
-    incrementThread.join();
-    decrementThread.join();
 
     std::cout << "Doubled decrements: " << numDecrementsDoubled << std::endl;
     std::cout << "Final value with doubled decrements: " << counter << std::endl;
