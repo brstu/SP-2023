@@ -10,17 +10,16 @@ int solveQuadraticEquation(double a, double b, double c, std::complex<double>& x
     {
         x1 = (-b + std::sqrt(discriminant)) / (2 * a);
         x2 = (-b - std::sqrt(discriminant)) / (2 * a);
-        return 2;  // Два действительных корня
+        return 2; 
     }
     else if (discriminant == 0)
     {
         x1 = -b / (2 * a);
-        x2 = x1;  // Один действительный корень
+        x2 = x1;  
         return 1;
     }
     else
     {
-        // Два комплексных корня
         x1 = (-b + std::sqrt(std::complex<double>(discriminant))) / (2 * a);
         x2 = (-b - std::sqrt(std::complex<double>(discriminant))) / (2 * a);
         return 0;
