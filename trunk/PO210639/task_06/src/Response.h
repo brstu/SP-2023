@@ -21,6 +21,7 @@ private:
 	void getRecords(std::string temp, std::vector<std::shared_ptr<Person>> &ptrs);
 	void getRecordsAndLastId(std::string temp, std::vector<std::shared_ptr<Person>>& ptrs, int &tempId);
 	void getSubstrings(std::vector<std::string>& substrings, std::string request);
+	void printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs);
 public:
 	
 	void selectData(std::string request);

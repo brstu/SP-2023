@@ -220,7 +220,7 @@ void Response::updateValuesFromVector(std::vector<std::string>const& fields, std
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
 			
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			
 			sharedPtrs.push_back(tempPerson);
 			int tempId;
@@ -337,7 +337,29 @@ void Response::getSubstrings(std::vector<std::string> &substrings, std::string r
 	substrings.push_back(request.substr(0, request.size()));
 }
 
-void Response::selectData(string request)
+void Response::printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs)
+{
+	ofstream out("person.txt", ios::out);
+	if (out.is_open()) {
+		for (int i = 0; i < data.size(); i++) {
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
+			out << tempPerson->id << endl;
+			out << tempPerson->surname << endl;
+			out << tempPerson->name << endl;
+			if (i == data.size() - 1) {
+				out << tempPerson->age;
+			}
+			else {
+				out << tempPerson->age << endl;
+			}
+		}
+	}
+	out.close();
+}
+
+void Response::selectData(string const request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
@@ -401,7 +423,7 @@ void Response::selectData(string request)
 	ptrs.clear();
 }
 
-void Response::insertData(string request)
+void Response::insertData(string const request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 
@@ -500,25 +522,8 @@ void Response::deleteData(string request)
 
 	deleteValuesFromVector(fields, values, sharedPtrs);
 
-	ofstream out("person.txt", ios::out);
-	if (out.is_open()) {
-		for (int i = 0; i < data.size(); i++) {
-			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
-			sharedPtrs.push_back(tempPerson);
-			out << tempPerson->id << endl;
-			out << tempPerson->surname << endl;
-			out << tempPerson->name << endl;
-			if (i == data.size() - 1) {
-				out << tempPerson->age;
-			}
-			else {
-				out << tempPerson->age << endl;
-			}
-		}
+	printRecords(sharedPtrs);
 
-	}
-	out.close();
 	ptrs.clear();
 }
 
@@ -571,26 +576,7 @@ void Response::updateData(string request)
 	vector<shared_ptr<Person>> sharedPtrs;
 
 	updateValuesFromVector(fields, changedFields, newValues, values, sharedPtrs);
-
-	ofstream out("person.txt", ios::out);
-	if (out.is_open()) {
-		for (int i = 0; i < data.size(); i++) {
-			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
-			sharedPtrs.push_back(tempPerson);
-			out << tempPerson->id << endl;
-			out << tempPerson->surname << endl;
-			out << tempPerson->name << endl;
-			if (i == data.size() - 1) {
-				out << tempPerson->age;
-			}
-			else {
-				out << tempPerson->age << endl;
-			}
-		}
-
-	}
-	out.close();
+	printRecords(sharedPtrs);
 	ptrs.clear();
 	sharedPtrs.clear();
 
