@@ -16,8 +16,8 @@ private:
 	void printSelectedFields(std::vector<std::string> fields) const;
 	void insertSelectedFields(std::vector<std::string> substrings, int tempId, std::shared_ptr<Person> person) const;
 	void deleteValuesFromVector(std::vector<std::string> fields, std::vector<std::string> values, Person* tempPerson);
-	void updateValuesFromVector(std::vector<std::string> fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string> values, class Person* tempPerson);
-	void setValue(std::vector<std::string> changedFields, std::vector<std::string> newValues, class Person* tempPerson, int i);
+	void updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, class Person* tempPerson);
+	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, class Person* tempPerson, int i);
 public:
 	
 	void selectData(std::string request);

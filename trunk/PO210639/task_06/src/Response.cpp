@@ -105,7 +105,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 			temp.erase(temp.size() - 1);
 		}
 		fields.push_back(temp);
-		it++;
+		it +=1;
 	}
 
 	vector<string> values;
@@ -159,7 +159,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 	out.close();
 }
 
-void Response::deleteValuesFromVector(std::vector<std::string> fields, std::vector<std::string> values, class Person* tempPerson)
+void Response::deleteValuesFromVector(std::vector<std::string> const fields, std::vector<std::string> const values, class Person* tempPerson)
 {
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
@@ -205,7 +205,7 @@ void Response::deleteValuesFromVector(std::vector<std::string> fields, std::vect
 	}
 }
 
-void Response::updateValuesFromVector(std::vector<std::string> fields, std::vector<std::string> const &changedFields, std::vector<std::string> const &newValues, std::vector<std::string> values, class Person* tempPerson)
+void Response::updateValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string> const &changedFields, std::vector<std::string> const &newValues, std::vector<std::string>const &values, class Person* tempPerson)
 {
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
@@ -247,7 +247,7 @@ void Response::updateValuesFromVector(std::vector<std::string> fields, std::vect
 	}
 }
 
-void Response::setValue(std::vector<std::string> changedFields, std::vector<std::string> newValues, class Person* tempPerson, int i)
+void Response::setValue(std::vector<std::string>const &changedFields, std::vector<std::string>const &newValues, class Person* tempPerson, int i)
 {
 	if (changedFields[0] == "surname") {
 		tempPerson->surname = newValues[0];
@@ -267,7 +267,6 @@ void Response::selectData(string request)
 	data.clear();
 	string temp;
 	ifstream in("person.txt", ios::in);
-	int shift = 0;
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
@@ -279,11 +278,8 @@ void Response::selectData(string request)
 			person->name = temp;
 			getline(in, temp, '\n');
 			std::istringstream(temp) >> person->age;
-			
-			auto newperson = person.get();
 
-			data.push_back((Data*)newperson);
-			shift++;
+			data.push_back((Data*)person.get());
 		}
 	}
 
@@ -301,16 +297,13 @@ void Response::selectData(string request)
 
 	vector<string> whereFields;
 	vector<string> values;
-	string itStr;
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
 		it++;
 		while (it != substrings.end()) {
-			itStr = *it;
-			whereFields.push_back(itStr);
+			whereFields.push_back(*it);
 			it += 2;
-			itStr = *it;
-			values.push_back(itStr);
-			it++;
+			values.push_back(*it);
+			it +=1;
 		}
 	}
 	auto it = substrings.begin() + 1;
