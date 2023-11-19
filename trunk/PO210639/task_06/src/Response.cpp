@@ -303,6 +303,40 @@ void Response::getRecords(std::string temp, std::vector<std::shared_ptr<Person>>
 	in.close();
 }
 
+void Response::getRecordsAndLastId(std::string temp, std::vector<std::shared_ptr<Person>>& ptrs, int &tempId)
+{
+	ifstream in("person.txt", ios::in);
+	if (in.is_open()) {
+		while (getline(in, temp, '\n')) {
+			auto person = make_shared<Person>();
+			ptrs.push_back(person);
+			std::istringstream(temp) >> person->id;
+			tempId = person->id;
+			getline(in, temp, '\n');
+			person->surname = temp;
+			getline(in, temp, '\n');
+			person->name = temp;
+			getline(in, temp, '\n');
+			std::istringstream(temp) >> person->age;
+
+			data.push_back(static_cast<Data*>(person.get()));
+		}
+	}
+	in.close();
+}
+
+void Response::getSubstrings(std::vector<std::string> &substrings, std::string request)
+{
+	string delim = " ";
+	int pos = 0;
+	while (pos != std::string::npos) {
+		pos = static_cast<int>(request.find(delim));
+		substrings.push_back(request.substr(0, pos));
+		request.erase(0, pos + delim.length());
+	}
+	substrings.push_back(request.substr(0, request.size()));
+}
+
 void Response::selectData(string request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
@@ -312,15 +346,8 @@ void Response::selectData(string request)
 	getRecords(temp, ptrs);
 	
 	vector<string> substrings;
-	string delim = " ";
 
-	int pos = 0;
-	while (pos != std::string::npos) {
-		pos = static_cast<int>(request.find(delim));
-		substrings.push_back(request.substr(0, pos));
-		request.erase(0, pos + delim.length());
-	}
-	substrings.push_back(request.substr(0, request.size()));
+	getSubstrings(substrings, request);
 
 	vector<string> whereFields;
 	vector<string> values;
@@ -379,19 +406,12 @@ void Response::insertData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 
 	vector<string> substrings;
-	string delim = " ";
-	int pos = 0;
-	while (pos != std::string::npos) {
-		pos = static_cast<int>(request.find(delim));
-		substrings.push_back(request.substr(0, pos));
-		request.erase(0, pos + delim.length());
-	}
-	substrings.push_back(request.substr(0, request.size()));
+	getSubstrings(substrings, request);
 
 	string temp;
-	int tempId = 0;
+	int tempId=0;
 
-	getRecords(temp, ptrs);
+	getRecordsAndLastId(temp, ptrs, tempId);
 
 	if (substrings[1] == "INTO") {
 		auto person = make_shared<Person>();
