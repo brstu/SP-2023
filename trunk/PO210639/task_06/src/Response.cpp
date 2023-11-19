@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void Response::printDataWithCondition(vector<string> whereFields, vector<string> values, vector<string> const &fields, Data* record) const
+void Response::printDataWithCondition(vector<string>const &whereFields, vector<string>const &values, vector<string> const &fields, Data* record) const
 {
 	if (whereFields[0] == "id") {
 		Person tempPerson = *(Person*)record;
@@ -49,7 +49,7 @@ void Response::printDataWithCondition(vector<string> whereFields, vector<string>
 	}
 }
 
-void Response::printSelectedFields(vector<string> fields) const
+void Response::printSelectedFields(vector<string>const &fields) const
 {
 	if (fields.empty()) {
 		cout << "wrong request!" << endl;
@@ -92,7 +92,7 @@ void Response::printSelectedFields(vector<string> fields) const
 
 }
 
-void Response::insertSelectedFields(std::vector<std::string> substrings, int tempId, std::shared_ptr<Person> person) const
+void Response::insertSelectedFields(std::vector<std::string>substrings, int tempId, std::shared_ptr<Person> person) const
 {
 	vector<string> fields;
 	string temp;
@@ -131,7 +131,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 			temp.erase(temp.size() - 1);
 		}
 		values.push_back(temp);
-		it++;
+		it +=1;
 	}
 	person->id = tempId + 1;
 	for (int i = 0; i < fields.size(); i++) {
@@ -159,7 +159,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 	out.close();
 }
 
-void Response::deleteValuesFromVector(std::vector<std::string> const fields, std::vector<std::string> const values, class Person* tempPerson)
+void Response::deleteValuesFromVector(std::vector<std::string> const &fields, std::vector<std::string> const &values, class Person* tempPerson)
 {
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
@@ -281,9 +281,9 @@ void Response::selectData(string request)
 
 			data.push_back((Data*)person.get());
 		}
+		
 	}
-
-
+	in.close();
 	vector<string> substrings;
 	string delim = " ";
 
@@ -298,7 +298,7 @@ void Response::selectData(string request)
 	vector<string> whereFields;
 	vector<string> values;
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
-		it++;
+		it += 1;
 		while (it != substrings.end()) {
 			whereFields.push_back(*it);
 			it += 2;
@@ -339,7 +339,7 @@ void Response::selectData(string request)
 				temp.erase(temp.size() - 1);
 			}
 			fields.push_back(temp);
-			it++;
+			it += 1;
 		}
 
 		printSelectedFields(fields);
@@ -362,8 +362,8 @@ void Response::insertData(string request)
 
 	string temp;
 	int tempId=0;
-	ifstream in("person.txt", ios::in);
-	if (in.is_open()) {
+	
+	if (ifstream in("person.txt", ios::in); in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
 			ptrs.push_back(person);
@@ -380,8 +380,9 @@ void Response::insertData(string request)
 
 			data.push_back(object.get());
 		}
+		in.close();
 	}
-	in.close();
+	
 	if (substrings[1] == "INTO") {
 		auto person = make_shared<Person>();
 		ptrs.push_back(person);
@@ -466,17 +467,14 @@ void Response::deleteData(string request)
 
 	vector<string> fields;
 	vector<string> values;
-	string itStr;
 	
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
-		it++;
+		it += 1;
 		while (it != substrings.end()) {
-			itStr = *it;
-			fields.push_back(itStr);
-			it +=2;
-			itStr = *it;
-			values.push_back(itStr);
-			it++;
+			fields.push_back(*it);
+			it += 2;
+			values.push_back(*it);
+			it += 1;
 		}
 	}
 	else {
@@ -550,25 +548,20 @@ void Response::updateData(string request)
 	vector<string> newValues;
 	vector<string> fields;
 	vector<string> values;
-	string itStr;
 	
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "SET"); it != substrings.end()) {
 		it++;
 		while (*it != "WHERE") {
-			itStr = *it;
-			changedFields.push_back(itStr);
+			changedFields.push_back(*it);
 			it += 2;
-			itStr = *it;
-			newValues.push_back(itStr);
+			newValues.push_back(*it);
 			it++;
 		}
 		it++;
 		while (it != substrings.end()) {
-			itStr = *it;
-			fields.push_back(itStr);
+			fields.push_back(*it);
 			it += 2;
-			itStr = *it;
-			values.push_back(itStr);
+			values.push_back(*it);
 			it++;
 		}
 	}

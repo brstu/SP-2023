@@ -12,10 +12,10 @@ class Response
 {
 private:
 	std::vector<Data*> data;
-	void printDataWithCondition(std::vector<std::string> whereFields, std::vector<std::string> values, std::vector<std::string> const &fields, Data* record) const;
-	void printSelectedFields(std::vector<std::string> fields) const;
+	void printDataWithCondition(std::vector<std::string>const &whereFields, std::vector<std::string>const &values, std::vector<std::string> const &fields, Data* record) const;
+	void printSelectedFields(std::vector<std::string>const &fields) const;
 	void insertSelectedFields(std::vector<std::string> substrings, int tempId, std::shared_ptr<Person> person) const;
-	void deleteValuesFromVector(std::vector<std::string> fields, std::vector<std::string> values, Person* tempPerson);
+	void deleteValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string>const &values, Person* tempPerson);
 	void updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, class Person* tempPerson);
 	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, class Person* tempPerson, int i);
 public:
