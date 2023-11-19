@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void Response::printDataWithCondition(vector<string>const &whereFields, vector<string>const &values, vector<string> const &fields, Data* record) const
+void Response::printDataWithCondition(vector<string>const& whereFields, vector<string>const& values, vector<string> const& fields, Data* record) const
 {
 	if (whereFields[0] == "id") {
 		Person tempPerson = *(Person*)record;
@@ -49,7 +49,7 @@ void Response::printDataWithCondition(vector<string>const &whereFields, vector<s
 	}
 }
 
-void Response::printSelectedFields(vector<string>const &fields) const
+void Response::printSelectedFields(vector<string>const& fields) const
 {
 	if (fields.empty()) {
 		cout << "wrong request!" << endl;
@@ -105,7 +105,7 @@ void Response::insertSelectedFields(std::vector<std::string>substrings, int temp
 			temp.erase(temp.size() - 1);
 		}
 		fields.push_back(temp);
-		it +=1;
+		it += 1;
 	}
 
 	vector<string> values;
@@ -131,7 +131,7 @@ void Response::insertSelectedFields(std::vector<std::string>substrings, int temp
 			temp.erase(temp.size() - 1);
 		}
 		values.push_back(temp);
-		it +=1;
+		it += 1;
 	}
 	person->id = tempId + 1;
 	for (int i = 0; i < fields.size(); i++) {
@@ -159,22 +159,27 @@ void Response::insertSelectedFields(std::vector<std::string>substrings, int temp
 	out.close();
 }
 
-void Response::deleteValuesFromVector(std::vector<std::string> const &fields, std::vector<std::string> const &values, class Person* tempPerson)
+void Response::deleteValuesFromVector(std::vector<std::string> const& fields, std::vector<std::string> const& values, std::vector<std::shared_ptr<Person>> sharedPtrs)
 {
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			int tempId;
 			std::istringstream(values[0]) >> tempId;
 			if (tempPerson->id == tempId) {
 				auto deleteItem = data.begin() + i;
 				data.erase(deleteItem);
 			}
+
 		}
 	}
 	else if (fields[0] == "surname") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			string tempSurname = values[0];
 			if (tempPerson->surname == tempSurname) {
 				auto deleteItem = data.begin() + i;
@@ -184,7 +189,9 @@ void Response::deleteValuesFromVector(std::vector<std::string> const &fields, st
 	}
 	else if (fields[0] == "name") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			string tempName = values[0];
 			if (tempPerson->name == tempName) {
 				auto deleteItem = data.begin() + i;
@@ -194,7 +201,9 @@ void Response::deleteValuesFromVector(std::vector<std::string> const &fields, st
 	}
 	else if (fields[0] == "age") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			int tempAge;
 			std::istringstream(values[0]) >> tempAge;
 			if (tempPerson->age == tempAge) {
@@ -205,13 +214,18 @@ void Response::deleteValuesFromVector(std::vector<std::string> const &fields, st
 	}
 }
 
-void Response::updateValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string> const &changedFields, std::vector<std::string> const &newValues, std::vector<std::string>const &values, class Person* tempPerson)
+void Response::updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, std::vector<std::shared_ptr<Person>> &sharedPtrs)
 {
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			
+			*tempPerson = *(Person*)data[i];
+			
+			sharedPtrs.push_back(tempPerson);
 			int tempId;
 			std::istringstream(values[0]) >> tempId;
+			
 			if (tempPerson->id == tempId) {
 				setValue(changedFields, newValues, tempPerson, i);
 			}
@@ -219,7 +233,9 @@ void Response::updateValuesFromVector(std::vector<std::string>const &fields, std
 	}
 	else if (fields[0] == "surname") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			string tempSurname = values[0];
 			if (tempPerson->surname == tempSurname) {
 				setValue(changedFields, newValues, tempPerson, i);
@@ -228,16 +244,21 @@ void Response::updateValuesFromVector(std::vector<std::string>const &fields, std
 	}
 	else if (fields[0] == "name") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			string tempName = values[0];
 			if (tempPerson->name == tempName) {
 				setValue(changedFields, newValues, tempPerson, i);
+				
 			}
 		}
 	}
 	else if (fields[0] == "age") {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			int tempAge;
 			std::istringstream(values[0]) >> tempAge;
 			if (tempPerson->age == tempAge) {
@@ -247,7 +268,7 @@ void Response::updateValuesFromVector(std::vector<std::string>const &fields, std
 	}
 }
 
-void Response::setValue(std::vector<std::string>const &changedFields, std::vector<std::string>const &newValues, class Person* tempPerson, int i)
+void Response::setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, std::shared_ptr<Person> tempPerson, int i)
 {
 	if (changedFields[0] == "surname") {
 		tempPerson->surname = newValues[0];
@@ -258,7 +279,7 @@ void Response::setValue(std::vector<std::string>const &changedFields, std::vecto
 	if (changedFields[0] == "age") {
 		std::istringstream(newValues[0]) >> tempPerson->age;
 	}
-	data[i] = tempPerson;
+	data[i] = tempPerson.get();
 }
 
 void Response::selectData(string request)
@@ -281,15 +302,14 @@ void Response::selectData(string request)
 
 			data.push_back((Data*)person.get());
 		}
-		
 	}
 	in.close();
 	vector<string> substrings;
 	string delim = " ";
 
-
 	int pos = 0;
-	while ((pos = static_cast<int>(request.find(delim)))!= std::string::npos) {
+	while (pos != std::string::npos) {
+		pos = static_cast<int>(request.find(delim));
 		substrings.push_back(request.substr(0, pos));
 		request.erase(0, pos + delim.length());
 	}
@@ -303,7 +323,7 @@ void Response::selectData(string request)
 			whereFields.push_back(*it);
 			it += 2;
 			values.push_back(*it);
-			it +=1;
+			it += 1;
 		}
 	}
 	auto it = substrings.begin() + 1;
@@ -314,9 +334,9 @@ void Response::selectData(string request)
 		fields.emplace_back("name");
 		fields.emplace_back("age");
 		cout << "_______________________________________________________________________________________________" << endl;//94+'/0'
-		cout <<"|" << std::format("{: ^10}", "id") << std::format("{: >10}", '|') << std::format("{: ^17}", "surname") << std::format("{: >10}", '|') << std::format("{: ^14}", "name") << std::format("{: >10}", '|') << std::format("{: ^13}", "age") << std::format("{: >10}", '|') << endl;
+		cout << "|" << std::format("{: ^10}", "id") << std::format("{: >10}", '|') << std::format("{: ^17}", "surname") << std::format("{: >10}", '|') << std::format("{: ^14}", "name") << std::format("{: >10}", '|') << std::format("{: ^13}", "age") << std::format("{: >10}", '|') << endl;
 		cout << "-----------------------------------------------------------------------------------------------" << endl;
-		
+
 		for (Data* var : data) {
 			if (!whereFields.empty()) {
 				printDataWithCondition(whereFields, values, fields, var);
@@ -344,13 +364,13 @@ void Response::selectData(string request)
 
 		printSelectedFields(fields);
 	}
-	
+	ptrs.clear();
 }
 
 void Response::insertData(string request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
-	
+
 	vector<string> substrings;
 	string delim = " ";
 	int pos = 0;
@@ -361,8 +381,8 @@ void Response::insertData(string request)
 	substrings.push_back(request.substr(0, request.size()));
 
 	string temp;
-	int tempId=0;
-	
+	int tempId = 0;
+
 	if (ifstream in("person.txt", ios::in); in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
@@ -382,13 +402,13 @@ void Response::insertData(string request)
 		}
 		in.close();
 	}
-	
+
 	if (substrings[1] == "INTO") {
 		auto person = make_shared<Person>();
 		ptrs.push_back(person);
 		person->id = tempId + 1;
 		substrings[4].erase(0, 2);
-		substrings[4].erase(substrings[4].size()-2, 2);
+		substrings[4].erase(substrings[4].size() - 2, 2);
 		person->surname = substrings[4];
 		substrings[5].erase(0, 1);
 		substrings[5].erase(substrings[5].size() - 2, 2);
@@ -410,20 +430,21 @@ void Response::insertData(string request)
 		else {
 			ofstream out("person.txt", ios::app);
 			if (out.is_open()) {
-				out <<endl<< person->id << endl;
+				out << endl << person->id << endl;
 				out << person->surname << endl;
 				out << person->name << endl;
 				out << person->age;
 			}
 			out.close();
 		}
-		
+
 	}
 	else {
 		auto person = make_shared<Person>();
 		ptrs.push_back(person);
 		insertSelectedFields(substrings, tempId, person);
 	}
+	ptrs.clear();
 }
 
 void Response::deleteData(string request)
@@ -462,12 +483,12 @@ void Response::deleteData(string request)
 			substrings.push_back(request);
 			break;
 		}
-		
+
 	}
 
 	vector<string> fields;
 	vector<string> values;
-	
+
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
 		it += 1;
 		while (it != substrings.end()) {
@@ -482,14 +503,16 @@ void Response::deleteData(string request)
 		return;
 	}
 
-	auto tempPerson = new Person();
+	vector<shared_ptr<Person>> sharedPtrs;
 
-	deleteValuesFromVector(fields, values, tempPerson);
+	deleteValuesFromVector(fields, values, sharedPtrs);
 
 	ofstream out("person.txt", ios::out);
 	if (out.is_open()) {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			out << tempPerson->id << endl;
 			out << tempPerson->surname << endl;
 			out << tempPerson->name << endl;
@@ -497,12 +520,13 @@ void Response::deleteData(string request)
 				out << tempPerson->age;
 			}
 			else {
-				out << tempPerson->age<<endl;
+				out << tempPerson->age << endl;
 			}
 		}
-		
+
 	}
 	out.close();
+	ptrs.clear();
 }
 
 void Response::updateData(string request)
@@ -548,16 +572,16 @@ void Response::updateData(string request)
 	vector<string> newValues;
 	vector<string> fields;
 	vector<string> values;
-	
+
 	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "SET"); it != substrings.end()) {
-		it++;
+		it +=1;
 		while (*it != "WHERE") {
 			changedFields.push_back(*it);
 			it += 2;
 			newValues.push_back(*it);
-			it++;
+			it +=1;
 		}
-		it++;
+		it +=1;
 		while (it != substrings.end()) {
 			fields.push_back(*it);
 			it += 2;
@@ -570,14 +594,16 @@ void Response::updateData(string request)
 		return;
 	}
 
-	auto tempPerson = new Person();
+	vector<shared_ptr<Person>> sharedPtrs;
 
-	updateValuesFromVector(fields, changedFields, newValues, values, tempPerson);
+	updateValuesFromVector(fields, changedFields, newValues, values, sharedPtrs);
 
 	ofstream out("person.txt", ios::out);
 	if (out.is_open()) {
 		for (int i = 0; i < data.size(); i++) {
-			tempPerson = (Person*)data[i];
+			auto tempPerson = make_shared<Person>();
+			*tempPerson = *(Person*)data[i];
+			sharedPtrs.push_back(tempPerson);
 			out << tempPerson->id << endl;
 			out << tempPerson->surname << endl;
 			out << tempPerson->name << endl;

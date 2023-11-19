@@ -15,9 +15,9 @@ private:
 	void printDataWithCondition(std::vector<std::string>const &whereFields, std::vector<std::string>const &values, std::vector<std::string> const &fields, Data* record) const;
 	void printSelectedFields(std::vector<std::string>const &fields) const;
 	void insertSelectedFields(std::vector<std::string> substrings, int tempId, std::shared_ptr<Person> person) const;
-	void deleteValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string>const &values, Person* tempPerson);
-	void updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, class Person* tempPerson);
-	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, class Person* tempPerson, int i);
+	void deleteValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string>const &values, std::vector<std::shared_ptr<Person>> sharedPtrs);
+	void updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, std::vector<std::shared_ptr<Person>> &sharedPtrs);
+	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, std::shared_ptr<Person> tempPerson, int i);
 public:
 	
 	void selectData(std::string request);
