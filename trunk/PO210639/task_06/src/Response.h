@@ -18,6 +18,7 @@ private:
 	void deleteValuesFromVector(std::vector<std::string>const &fields, std::vector<std::string>const &values, std::vector<std::shared_ptr<Person>> sharedPtrs);
 	void updateValuesFromVector(std::vector<std::string>const& fields, std::vector<std::string> const& changedFields, std::vector<std::string> const& newValues, std::vector<std::string>const& values, std::vector<std::shared_ptr<Person>> &sharedPtrs);
 	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, std::shared_ptr<Person> tempPerson, int i);
+	void getRecords(std::string temp, std::vector<std::shared_ptr<Person>> &ptrs);
 public:
 	
 	void selectData(std::string request);

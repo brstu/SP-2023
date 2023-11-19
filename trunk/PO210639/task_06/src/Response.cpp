@@ -12,7 +12,7 @@ using namespace std;
 void Response::printDataWithCondition(vector<string>const& whereFields, vector<string>const& values, vector<string> const& fields, Data* record) const
 {
 	if (whereFields[0] == "id") {
-		Person tempPerson = *(Person*)record;
+		Person tempPerson = *static_cast<Person*>(record);
 		int tempId;
 		std::istringstream(values[0]) >> tempId;
 		if (tempPerson.id == tempId) {
@@ -21,7 +21,7 @@ void Response::printDataWithCondition(vector<string>const& whereFields, vector<s
 		}
 	}
 	if (whereFields[0] == "surname") {
-		Person tempPerson = *(Person*)record;
+		Person tempPerson = *static_cast<Person*>(record);
 		string tempSurname;
 		tempSurname = values[0];
 		if (tempPerson.surname == tempSurname) {
@@ -30,7 +30,7 @@ void Response::printDataWithCondition(vector<string>const& whereFields, vector<s
 		}
 	}
 	if (whereFields[0] == "name") {
-		Person tempPerson = *(Person*)record;
+		Person tempPerson = *static_cast<Person*>(record);
 		string tempName;
 		tempName = values[0];
 		if (tempPerson.name == tempName) {
@@ -39,7 +39,7 @@ void Response::printDataWithCondition(vector<string>const& whereFields, vector<s
 		}
 	}
 	if (whereFields[0] == "age") {
-		Person tempPerson = *(Person*)record;
+		Person tempPerson = *static_cast<Person*>(record);
 		int tempAge;
 		std::istringstream(values[0]) >> tempAge;
 		if (tempPerson.age == tempAge) {
@@ -85,7 +85,7 @@ void Response::printSelectedFields(vector<string>const& fields) const
 
 	for (Data* var : data) {
 		auto tempPerson = make_shared<Person>();
-		tempPerson.reset((Person*)var);
+		tempPerson.reset(static_cast<Person*>(var));
 		tempPerson->print(fields);
 		cout << rowsDelim << endl;
 	}
@@ -164,7 +164,7 @@ void Response::deleteValuesFromVector(std::vector<std::string> const& fields, st
 	if (fields[0] == "id") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			int tempId;
 			std::istringstream(values[0]) >> tempId;
@@ -178,7 +178,7 @@ void Response::deleteValuesFromVector(std::vector<std::string> const& fields, st
 	else if (fields[0] == "surname") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			string tempSurname = values[0];
 			if (tempPerson->surname == tempSurname) {
@@ -190,7 +190,7 @@ void Response::deleteValuesFromVector(std::vector<std::string> const& fields, st
 	else if (fields[0] == "name") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			string tempName = values[0];
 			if (tempPerson->name == tempName) {
@@ -202,7 +202,7 @@ void Response::deleteValuesFromVector(std::vector<std::string> const& fields, st
 	else if (fields[0] == "age") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			int tempAge;
 			std::istringstream(values[0]) >> tempAge;
@@ -282,11 +282,8 @@ void Response::setValue(std::vector<std::string>const& changedFields, std::vecto
 	data[i] = tempPerson.get();
 }
 
-void Response::selectData(string request)
+void Response::getRecords(std::string temp, std::vector<std::shared_ptr<Person>> &ptrs)
 {
-	std::vector<std::shared_ptr<Person>> ptrs;
-	data.clear();
-	string temp;
 	ifstream in("person.txt", ios::in);
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
@@ -300,10 +297,20 @@ void Response::selectData(string request)
 			getline(in, temp, '\n');
 			std::istringstream(temp) >> person->age;
 
-			data.push_back((Data*)person.get());
+			data.push_back(static_cast<Data*>(person.get()));
 		}
 	}
 	in.close();
+}
+
+void Response::selectData(string request)
+{
+	std::vector<std::shared_ptr<Person>> ptrs;
+	data.clear();
+	string temp;
+
+	getRecords(temp, ptrs);
+	
 	vector<string> substrings;
 	string delim = " ";
 
@@ -342,7 +349,7 @@ void Response::selectData(string request)
 				printDataWithCondition(whereFields, values, fields, var);
 			}
 			else {
-				Person person = *(Person*)var;
+				Person person = *static_cast<Person*>(var);
 				person.print(fields);
 				cout << "-----------------------------------------------------------------------------------------------" << endl;
 			}
@@ -374,7 +381,8 @@ void Response::insertData(string request)
 	vector<string> substrings;
 	string delim = " ";
 	int pos = 0;
-	while ((pos = static_cast<int>(request.find(delim))) != std::string::npos) {
+	while (pos != std::string::npos) {
+		pos = static_cast<int>(request.find(delim));
 		substrings.push_back(request.substr(0, pos));
 		request.erase(0, pos + delim.length());
 	}
@@ -383,25 +391,7 @@ void Response::insertData(string request)
 	string temp;
 	int tempId = 0;
 
-	if (ifstream in("person.txt", ios::in); in.is_open()) {
-		while (getline(in, temp, '\n')) {
-			auto person = make_shared<Person>();
-			ptrs.push_back(person);
-			std::istringstream(temp) >> person->id;
-			tempId = person->id;
-			getline(in, temp, '\n');
-			person->surname = temp;
-			getline(in, temp, '\n');
-			person->name = temp;
-			getline(in, temp, '\n');
-			std::istringstream(temp) >> person->age;
-
-			shared_ptr<Data> object = std::dynamic_pointer_cast<Data>(person);
-
-			data.push_back(object.get());
-		}
-		in.close();
-	}
+	getRecords(temp, ptrs);
 
 	if (substrings[1] == "INTO") {
 		auto person = make_shared<Person>();
@@ -452,25 +442,8 @@ void Response::deleteData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
 	string temp;
-	ifstream in("person.txt", ios::in);
-	if (in.is_open()) {
-		while (getline(in, temp, '\n')) {
-			auto person = make_shared<Person>();
-			ptrs.push_back(person);
-			std::istringstream(temp) >> person->id;
-			getline(in, temp, '\n');
-			person->surname = temp;
-			getline(in, temp, '\n');
-			person->name = temp;
-			getline(in, temp, '\n');
-			std::istringstream(temp) >> person->age;
 
-			shared_ptr<Data> object = std::dynamic_pointer_cast<Data>(person);
-
-			data.push_back(object.get());
-		}
-	}
-	in.close();
+	getRecords(temp, ptrs);
 
 	vector<string> substrings;
 	string delim = " ";
@@ -534,26 +507,7 @@ void Response::updateData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
 	string temp;
-	ifstream in("person.txt", ios::in);
-	if (in.is_open()) {
-		while (getline(in, temp, '\n')) {
-			auto person = make_shared<Person>();
-			ptrs.push_back(person);
-			std::istringstream(temp) >> person->id;
-			getline(in, temp, '\n');
-			person->surname = temp;
-			getline(in, temp, '\n');
-			person->name = temp;
-			getline(in, temp, '\n');
-			std::istringstream(temp) >> person->age;
-
-
-			shared_ptr<Data> object = std::dynamic_pointer_cast<Data>(person);
-
-			data.push_back(object.get());
-		}
-	}
-	in.close();
+	getRecords(temp, ptrs);
 
 	vector<string> substrings;
 	string delim = " ";
@@ -617,5 +571,8 @@ void Response::updateData(string request)
 
 	}
 	out.close();
+	ptrs.clear();
+	sharedPtrs.clear();
+
 }
 
