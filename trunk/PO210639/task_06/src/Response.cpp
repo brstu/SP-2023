@@ -495,7 +495,7 @@ void Response::insertData(string const &request)
 	ptrs.clear();
 }
 
-void Response::deleteData(string request)
+void Response::deleteData(string const& request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
@@ -533,7 +533,7 @@ void Response::deleteData(string request)
 	ptrs.clear();
 }
 
-void Response::updateData(string request)
+void Response::updateData(string const& request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();

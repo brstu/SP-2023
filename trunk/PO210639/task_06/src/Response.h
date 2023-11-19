@@ -27,8 +27,8 @@ public:
 	
 	void selectData(std::string const &request);
 	void insertData(std::string const &request);
-	void deleteData(std::string request);
-	void updateData(std::string request);
+	void deleteData(std::string const& request);
+	void updateData(std::string const& request);
 	
 };
 
