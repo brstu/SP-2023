@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <format>
 
 using namespace std;
 
@@ -70,14 +71,14 @@ void Response::printSelectedFields(vector<string> fields) const
 		outputStr += '_';
 		rowsDelim += '-';
 	}
-	cout << outputStr << endl;;
+	cout << outputStr << endl;
 	cout << "|";
 	for (int i = 0; i < fields.size(); i++) {
 		if (i == 0) {
-			cout << setw(10) << fields[i] << setw(10) << "|";
+			cout << std::format("{: ^10}", fields[i]) << std::format("{: >10}", '|');
 		}
 		else {
-			cout << setw(10 + fields[i].size()) << fields[i] << setw(10) << "|";
+			cout << std::format("{: ^13}", fields[i]) << std::format("{: >10}", '|');
 		}
 	}
 	cout << endl << rowsDelim << endl;
@@ -96,7 +97,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 	vector<string> fields;
 	string temp;
 	vector<string>::iterator itOfInto;
-	itOfInto = find(substrings.begin(), substrings.end(), "INTO");
+	itOfInto = std::ranges::find(substrings.begin(), substrings.end(), "INTO");
 	vector<string>::iterator it = substrings.begin() + 1;
 	while (it != itOfInto) {
 		temp = *it;
@@ -109,7 +110,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 
 	vector<string> values;
 	vector<string>::iterator itOfValues;
-	itOfValues = find(substrings.begin(), substrings.end(), "VALUES");
+	itOfValues = std::ranges::find(substrings.begin(), substrings.end(), "VALUES");
 	it = itOfValues + 1;
 	while (it != substrings.end()) {
 
@@ -148,7 +149,7 @@ void Response::insertSelectedFields(std::vector<std::string> substrings, int tem
 		}
 	}
 
-	ofstream out("D:\\person.txt", ios::app);
+	ofstream out("person.txt", ios::app);
 	if (out.is_open()) {
 		out << endl << person->id << endl;
 		out << person->surname << endl;
@@ -265,7 +266,7 @@ void Response::selectData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
 	string temp;
-	ifstream in("D:\\person.txt", ios::in);
+	ifstream in("person.txt", ios::in);
 	int shift = 0;
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
@@ -301,8 +302,7 @@ void Response::selectData(string request)
 	vector<string> whereFields;
 	vector<string> values;
 	string itStr;
-	auto it = find(substrings.begin(), substrings.end(), "WHERE");
-	if (it != substrings.end()) {
+	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
 		it++;
 		while (it != substrings.end()) {
 			itStr = *it;
@@ -313,7 +313,7 @@ void Response::selectData(string request)
 			it++;
 		}
 	}
-	it = substrings.begin() + 1;
+	auto it = substrings.begin() + 1;
 	if (substrings[1] == "*") {
 		vector<string> fields;
 		fields.emplace_back("id");
@@ -321,7 +321,7 @@ void Response::selectData(string request)
 		fields.emplace_back("name");
 		fields.emplace_back("age");
 		cout << "_______________________________________________________________________________________________" << endl;//94+'/0'
-		cout << "|" << setw(10) << "id" << setw(10) << "|" << setw(17) << "surname" << setw(10) << "|" << setw(14) << "name" << setw(10) << "|" << setw(13) << "age" << setw(10) << "|" << endl;
+		cout <<"|" << std::format("{: ^10}", "id") << std::format("{: >10}", '|') << std::format("{: ^17}", "surname") << std::format("{: >10}", '|') << std::format("{: ^14}", "name") << std::format("{: >10}", '|') << std::format("{: ^13}", "age") << std::format("{: >10}", '|') << endl;
 		cout << "-----------------------------------------------------------------------------------------------" << endl;
 		for (int i = 0; i < data.size(); i++) {
 			if (!whereFields.empty()) {
@@ -369,8 +369,8 @@ void Response::insertData(string request)
 	substrings.push_back(request.substr(0, request.size()));
 
 	string temp;
-	int tempId=1;
-	ifstream in("D:\\person.txt", ios::in);
+	int tempId=0;
+	ifstream in("person.txt", ios::in);
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
@@ -404,14 +404,27 @@ void Response::insertData(string request)
 		substrings[6].erase(substrings[6].size() - 1);
 		std::istringstream(substrings[6]) >> person->age;
 
-		ofstream out("D:\\person.txt", ios::app);
-		if (out.is_open()) {
-			out << endl << person->id << endl;
-			out << person->surname << endl;
-			out << person->name << endl;
-			out << person->age;
+		if (person->id == 1) {
+			ofstream out("person.txt", ios::out);
+			if (out.is_open()) {
+				out << person->id << endl;
+				out << person->surname << endl;
+				out << person->name << endl;
+				out << person->age;
+			}
+			out.close();
 		}
-		out.close();
+		else {
+			ofstream out("person.txt", ios::app);
+			if (out.is_open()) {
+				out <<endl<< person->id << endl;
+				out << person->surname << endl;
+				out << person->name << endl;
+				out << person->age;
+			}
+			out.close();
+		}
+		
 	}
 	else {
 		auto person = make_shared<Person>();
@@ -425,7 +438,7 @@ void Response::deleteData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
 	string temp;
-	ifstream in("D:\\person.txt", ios::in);
+	ifstream in("person.txt", ios::in);
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
@@ -483,7 +496,7 @@ void Response::deleteData(string request)
 
 	deleteValuesFromVector(fields, values, tempPerson);
 
-	ofstream out("D:\\person.txt", ios::out);
+	ofstream out("person.txt", ios::out);
 	if (out.is_open()) {
 		for (int i = 0; i < data.size(); i++) {
 			tempPerson = (Person*)data[i];
@@ -507,7 +520,7 @@ void Response::updateData(string request)
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
 	string temp;
-	ifstream in("D:\\person.txt", ios::in);
+	ifstream in("person.txt", ios::in);
 	if (in.is_open()) {
 		while (getline(in, temp, '\n')) {
 			auto person = make_shared<Person>();
@@ -546,8 +559,8 @@ void Response::updateData(string request)
 	vector<string> fields;
 	vector<string> values;
 	string itStr;
-	auto it = find(substrings.begin(), substrings.end(), "SET");
-	if (it != substrings.end()) {
+	
+	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "SET"); it != substrings.end()) {
 		it++;
 		while (*it != "WHERE") {
 			itStr = *it;
@@ -576,7 +589,7 @@ void Response::updateData(string request)
 
 	updateValuesFromVector(fields, changedFields, newValues, values, tempPerson);
 
-	ofstream out("D:\\person.txt", ios::out);
+	ofstream out("person.txt", ios::out);
 	if (out.is_open()) {
 		for (int i = 0; i < data.size(); i++) {
 			tempPerson = (Person*)data[i];
