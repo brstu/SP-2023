@@ -359,7 +359,7 @@ void Response::printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs)
 	if (out.is_open()) {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			out << tempPerson->id << endl;
 			out << tempPerson->surname << endl;
