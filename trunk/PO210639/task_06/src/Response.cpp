@@ -323,14 +323,13 @@ void Response::selectData(string request)
 		cout << "_______________________________________________________________________________________________" << endl;//94+'/0'
 		cout <<"|" << std::format("{: ^10}", "id") << std::format("{: >10}", '|') << std::format("{: ^17}", "surname") << std::format("{: >10}", '|') << std::format("{: ^14}", "name") << std::format("{: >10}", '|') << std::format("{: ^13}", "age") << std::format("{: >10}", '|') << endl;
 		cout << "-----------------------------------------------------------------------------------------------" << endl;
-		for (int i = 0; i < data.size(); i++) {
+		
+		for (Data* var : data) {
 			if (!whereFields.empty()) {
-
-				printDataWithCondition(whereFields, values, fields, data[i]);
-				
+				printDataWithCondition(whereFields, values, fields, var);
 			}
 			else {
-				Person person = *(Person*)data[i];
+				Person person = *(Person*)var;
 				person.print(fields);
 				cout << "-----------------------------------------------------------------------------------------------" << endl;
 			}
@@ -338,7 +337,7 @@ void Response::selectData(string request)
 	}
 	else {
 
-		auto posOfFrom = find(substrings.begin(), substrings.end(), "FROM");
+		auto posOfFrom = std::ranges::find(substrings.begin(), substrings.end(), "FROM");
 		vector<string> fields;
 
 		while (it != posOfFrom) {
@@ -475,8 +474,8 @@ void Response::deleteData(string request)
 	vector<string> fields;
 	vector<string> values;
 	string itStr;
-	auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE");
-	if (it != substrings.end()) {
+	
+	if (auto it = std::ranges::find(substrings.begin(), substrings.end(), "WHERE"); it != substrings.end()) {
 		it++;
 		while (it != substrings.end()) {
 			itStr = *it;
