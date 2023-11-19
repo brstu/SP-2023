@@ -234,7 +234,7 @@ void Response::updateValuesFromVector(std::vector<std::string>const& fields, std
 	else if (fields[0] == "surname") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			string tempSurname = values[0];
 			if (tempPerson->surname == tempSurname) {
@@ -245,7 +245,7 @@ void Response::updateValuesFromVector(std::vector<std::string>const& fields, std
 	else if (fields[0] == "name") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			string tempName = values[0];
 			if (tempPerson->name == tempName) {
@@ -257,7 +257,7 @@ void Response::updateValuesFromVector(std::vector<std::string>const& fields, std
 	else if (fields[0] == "age") {
 		for (int i = 0; i < data.size(); i++) {
 			auto tempPerson = make_shared<Person>();
-			*tempPerson = *(Person*)data[i];
+			*tempPerson = *static_cast<Person*>(data[i]);
 			sharedPtrs.push_back(tempPerson);
 			int tempAge;
 			std::istringstream(values[0]) >> tempAge;
@@ -325,7 +325,7 @@ void Response::getRecordsAndLastId(std::string temp, std::vector<std::shared_ptr
 	in.close();
 }
 
-void Response::getSubstrings(std::vector<std::string> &substrings, std::string request)
+void Response::getSubstrings(std::vector<std::string> &substrings, std::string request) const
 {
 	string delim = " ";
 	int pos = 0;
@@ -335,6 +335,22 @@ void Response::getSubstrings(std::vector<std::string> &substrings, std::string r
 		request.erase(0, pos + delim.length());
 	}
 	substrings.push_back(request.substr(0, request.size()));
+}
+
+void Response::getSubstringsForDeleteAndUpdate(std::vector<std::string>& substrings, std::string request) const
+{
+	string delim = " ";
+	int pos = 0;
+	while (pos != request.size()) {
+		pos = static_cast<int>(request.find(delim));
+		substrings.push_back(request.substr(0, pos));
+		request.erase(0, pos + delim.size());
+		if (request.size() == 1) {
+			substrings.push_back(request);
+			break;
+		}
+
+	}
 }
 
 void Response::printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs)
@@ -359,7 +375,7 @@ void Response::printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs)
 	out.close();
 }
 
-void Response::selectData(string const request)
+void Response::selectData(string const &request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 	data.clear();
@@ -423,7 +439,7 @@ void Response::selectData(string const request)
 	ptrs.clear();
 }
 
-void Response::insertData(string const request)
+void Response::insertData(string const &request)
 {
 	std::vector<std::shared_ptr<Person>> ptrs;
 
@@ -488,18 +504,8 @@ void Response::deleteData(string request)
 	getRecords(temp, ptrs);
 
 	vector<string> substrings;
-	string delim = " ";
-	int pos = 0;
-	while (pos != request.size()) {
-		pos = static_cast<int>(request.find(delim));
-		substrings.push_back(request.substr(0, pos));
-		request.erase(0, pos + delim.size());
-		if (request.size() == 1) {
-			substrings.push_back(request);
-			break;
-		}
 
-	}
+	getSubstringsForDeleteAndUpdate(substrings, request);
 
 	vector<string> fields;
 	vector<string> values;
@@ -535,17 +541,7 @@ void Response::updateData(string request)
 	getRecords(temp, ptrs);
 
 	vector<string> substrings;
-	string delim = " ";
-	int pos = 0;
-	while (pos != request.size()) {
-		pos = static_cast<int>(request.find(delim));
-		substrings.push_back(request.substr(0, pos));
-		request.erase(0, pos + delim.size());
-		if (request.size() == 1) {
-			substrings.push_back(request);
-			break;
-		}
-	}
+	getSubstringsForDeleteAndUpdate(substrings, request);
 
 	vector<string> changedFields;
 	vector<string> newValues;

@@ -20,12 +20,13 @@ private:
 	void setValue(std::vector<std::string>const& changedFields, std::vector<std::string>const& newValues, std::shared_ptr<Person> tempPerson, int i);
 	void getRecords(std::string temp, std::vector<std::shared_ptr<Person>> &ptrs);
 	void getRecordsAndLastId(std::string temp, std::vector<std::shared_ptr<Person>>& ptrs, int &tempId);
-	void getSubstrings(std::vector<std::string>& substrings, std::string request);
+	void getSubstrings(std::vector<std::string>& substrings, std::string request) const;
+	void getSubstringsForDeleteAndUpdate(std::vector<std::string>& substrings, std::string request) const;
 	void printRecords(std::vector<std::shared_ptr<Person>> sharedPtrs);
 public:
 	
-	void selectData(std::string request);
-	void insertData(std::string request);
+	void selectData(std::string const &request);
+	void insertData(std::string const &request);
 	void deleteData(std::string request);
 	void updateData(std::string request);
 	
