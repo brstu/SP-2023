@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include "Windows.h"
 #include <map>
+#include <random>
+
+
+#include <array>
+
+
 
 using namespace std;
 
@@ -13,34 +19,18 @@ const char MISSED = '*';
 const char KILLED = 'X';
 
 
-int iCoordArray[10] = { 0 };
-int jCoordArray[10] = { 0 };
-
-int fourDecked;
-int threeDeckeed;
-
-int twoDecked;
-
-int oneDecked;
 
 
-char** grid1 = new char* [12];
-int player1Score=0;
-char** grid1ShotBoard = new char* [12];
 
-
-std::map<char, char> ships = {
+const map<char, char> ships = {
     { 1, 4 },
     { 2, 3 },
     { 3, 2 },
     {4,1},
 };
 
-char** grid2 = new char* [12];
-int player2Score=0;
-char** grid2ShotBoard = new char* [12];
 
-void fillCoordArray() {
+void fillCoordArray(const array<int, 10> &iCoordArray, array<int, 10> &jCoordArray) {
     for (int i = 0; i < 10; i++) {
         iCoordArray[i] = i + 1;
         jCoordArray[i] = i + 1;
@@ -106,7 +96,7 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 
 }
 
-    bool checkAvailableShip(int deck) {
+    bool checkAvailableShip(int deck, int oneDecked, int twoDecked, int threeDeckeed, int fourDecked) {
 
         bool all = false;
         switch (deck)
@@ -169,7 +159,7 @@ void initializeGrid(char **newGrid) {
         }
     }
 }
-bool checkNumberShips() {
+bool checkNumberShips(int fourDecked, int threeDeckeed, int twoDecked, int oneDecked) {
     bool all = false;
     if (fourDecked == 0 && threeDeckeed == 0 && twoDecked == 0 && oneDecked == 0) {
         return true;
@@ -225,7 +215,7 @@ void setShip(int row, int col,char** grid,int deck,int orientation=120) {
 }
 
 
-void placeShips(char **grid, bool player1Ships) {
+void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked){
     if (!player1Ships) {
         fourDecked = 1;
         threeDeckeed = 2;
@@ -248,7 +238,7 @@ void placeShips(char **grid, bool player1Ships) {
         displayGrid(grid);
         switch ((c = _getch())) {
         case 49:
-            if (checkNumberShips()) {
+            if (checkNumberShips(fourDecked,threeDecked,twoDecked,oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
@@ -264,7 +254,7 @@ void placeShips(char **grid, bool player1Ships) {
 
             break;
         case 50:
-            if (checkNumberShips()) {
+            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
@@ -286,7 +276,7 @@ void placeShips(char **grid, bool player1Ships) {
 
             break;
         case 51:
-            if (checkNumberShips()){
+            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)){
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
@@ -305,7 +295,7 @@ void placeShips(char **grid, bool player1Ships) {
 
             break;
         case 52:
-            if (checkNumberShips()) {
+            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
@@ -421,7 +411,7 @@ void shootComputer(char** gridEnemy, int& playerScore) {
 
     } while (yes);
 }
-bool checkEndofGame(int score) {
+bool checkEndofGame(int score, int player1Score) {
     if (score == 200) {
         cout << "End of game"<<endl;
         Sleep(3000);
@@ -529,7 +519,7 @@ int deleteElement(int arr[], int n, int x)
 
     return n;
 }
-bool placeShipsAI(char** grid) {
+bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
 
     while (fourDecked != 0) {
         int r = rand() % 1;
@@ -638,6 +628,23 @@ bool placeShipsAI(char** grid) {
 }
 
 int main() {
+    char** grid2 = new char* [12];
+    int player2Score = 0;
+    char** grid2ShotBoard = new char* [12];
+ 
+    array<int, 10> iCoordArray = {0};
+    array<int, 10> jCoordArray = {0};
+    int fourDecked;
+    int threeDeckeed;
+
+    int twoDecked;
+
+    int oneDecked;
+
+    char** grid1 = new char* [12];
+    int player1Score = 0;
+    char** grid1ShotBoard = new char* [12];
+
     bool end = false;
     bool player1Turn = true;
     bool player1Ships = true;
@@ -665,12 +672,11 @@ int main() {
 
             displayGrid(grid1);
 
-            placeShips(grid1, player1Ships);
+            placeShips(grid1, player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
 
             cout << "Computer Turn!" << endl;
             Sleep(3000);
             fillCoordArray();
-
             initializeGrid(grid2);
             initializeGrid(grid2ShotBoard);
             fourDecked = 1;
@@ -678,7 +684,7 @@ int main() {
             twoDecked = 3;
             oneDecked = 4;
             while (fourDecked != 0 && threeDeckeed != 0 && twoDecked != 0 && oneDecked != 0) {
-                placeShipsAI(grid2);
+                placeShipsAI(grid2, fourDecked, threeDeckeed, twoDecked, oneDecked);
             }
             if (placeShipsAI) {
                 displayGrid(grid2);
@@ -724,7 +730,7 @@ int main() {
                 initializeGrid(grid1ShotBoard);
 
                 displayGrid(grid1);
-                placeShips(grid1, player1Ships);
+                placeShips(grid1, player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
 
                 cout << "Player 2 Turn!" << endl;
                 Sleep(3000);
@@ -733,7 +739,7 @@ int main() {
                 initializeGrid(grid2);
                 initializeGrid(grid2ShotBoard);
                 displayGrid(grid2);
-                placeShips(grid2,player1Ships);
+                placeShips(grid2,player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
 
             cout << "Game is starting!" << endl;
             Sleep(3000);
