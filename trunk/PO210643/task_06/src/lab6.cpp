@@ -719,7 +719,7 @@ auto grid2 = new char* [12];
     bool player1Turn = true;
     bool player1Ships = true;
 
-    while (1) {
+    while (true) {
         cout << "1)Play against computer\n2)Play against opponent\n";
 
         player1Ships = true;
