@@ -17,8 +17,8 @@ const int COLS = 12;
 const char SHIP = 'S';
 const char MISSED = '*';
 const char KILLED = 'X';
-random_device rd;
-mt19937 gen(rd());
+const random_device rd;
+const mt19937 gen(rd());
 const  int orientationMin = 0;
 const int orientationMax = 1;
 const int arrayMin = 0;
@@ -45,17 +45,40 @@ void fillCoordArray(const array<int, 10> &iCoordArray, array<int, 10> &jCoordArr
 
 
 }
+int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
+{
+    if (orientation != 120)
+    {
+        if (i + sizeOfShip - 1 > ROWS - 2) {
+            return false;
+        }
+        else {
+            for (int k = 0; k < sizeOfShip; k++) {
+                if (checkSurroundingCells(i + k, j, grid)) {
+                    return false;
+                }
+            }
+        }
+    }
+}
+
+
+bool checkSurroundingCells(int i, int j, char** grid) {
+    return (grid[i][j] == 'S' || grid[i][j - 1] == 'S' || grid[i][j + 1] == 'S' ||
+        grid[i - 1][j] == 'S' || grid[i - 1][j - 1] == 'S' || grid[i - 1][j + 1] == 'S' ||
+        grid[i + 1][j] == 'S' || grid[i + 1][j - 1] == 'S' || grid[i + 1][j + 1] == 'S');
+}
 
 
 int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 {
+    if ((orientation == 119 && i + sizeOfShip - 1 > ROWS - 2) || (orientation==120 && j + sizeOfShip - 1 > COLS - 2)) {
+        return false;
+    }
 
     if (orientation != 120)
     {
-        if (i + sizeOfShip-1 > ROWS - 2) {
-            return false;
-        }
-        else {
+        
 
             for (int k = 0; k < sizeOfShip; k++)
             {
@@ -66,7 +89,7 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
                 {
                     return false;
                 }
-            }
+            
         }
 
     }
@@ -74,10 +97,8 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 
     else
     {
-        if (j + sizeOfShip-1 > COLS - 2) {
-            return false;
-        }
-        else {
+      
+        
             for (int k = 0; k < sizeOfShip; k++)
             {
                 if (grid[i][j + k] == 'S' || grid[i - 1][j + k] == 'S' || grid[i + 1][j + k] == 'S' ||
@@ -86,7 +107,7 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
                 {
                     return false;
                 }
-            }
+            
         }
 
 
