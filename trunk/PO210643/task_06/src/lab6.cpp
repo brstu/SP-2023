@@ -17,6 +17,13 @@ const int COLS = 12;
 const char SHIP = 'S';
 const char MISSED = '*';
 const char KILLED = 'X';
+random_device rd;
+mt19937 gen(rd());
+const  int orientationMin = 0;
+const int orientationMax = 1;
+const int arrayMin = 0;
+
+
 
 
 
@@ -398,12 +405,14 @@ void shootComputer(char** gridEnemy, int& playerScore) {
     bool yes = true;
     int x;
     int y;
+    int minNum = 1;
+    int maxNum = 10;
 
     do {
             int x, y;
-
-            x = rand() % 10+1;
-            y = rand() % 10+1;
+            uniform_int_distribution<int> distribution(minNum, maxNum);
+            x = distribution(gen);
+            y = distribution(gen);
 
         yes = makeShotComputer(x, y, gridEnemy, playerScore);
         displayGrid(gridEnemy);
@@ -520,21 +529,25 @@ int deleteElement(int arr[], int n, int x)
     return n;
 }
 bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
+    int orientation, iRandom, jRandom, i, j, nx, ny, r;
+    int arrayMax = size(iCoordArray);
+    uniform_int_distribution<int> distribution(orientationMin, orientationMax);
+    uniform_int_distribution<int> distributionCoord(arrayMin, arrayMax);
 
     while (fourDecked != 0) {
-        int r = rand() % 1;
-        int orientation = 119;
+         r = distribution(gen);
+        orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        int iRandom = rand() % size(iCoordArray);
-        int jRandom = rand() % size(jCoordArray);
+        iRandom = distribution(gen);
+        jRandom = distribution(gen);
 
-        int nx = sizeof(iCoordArray)/sizeof(iCoordArray[0]);
-        int ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
+       nx = sizeof(iCoordArray)/sizeof(iCoordArray[0]);
+        ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
 
-       int i = iCoordArray[iRandom];
-        int j = jCoordArray[jRandom];
+       i = iCoordArray[iRandom];
+       j = jCoordArray[jRandom];
 
         if (checkPosition(i, j, 4, orientation, grid)) {
             setShip(i, j, grid, 4, orientation);
@@ -546,21 +559,19 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
 
     }
     while (threeDeckeed != 0) {
-        int r = rand() % 1;
-        int orientation = 119;
+        r = distribution(gen);
+        orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        int iRandom = rand() % size(iCoordArray);
-        int jRandom = rand() % size(jCoordArray);
+        iRandom = distribution(gen);
+        jRandom = distribution(gen);
 
+        nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
+        ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
 
-        int nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
-        int ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
-
-
-        int i = iCoordArray[iRandom];
-        int j = jCoordArray[jRandom];
+        i = iCoordArray[iRandom];
+        j = jCoordArray[jRandom];
         if (checkPosition(i, j, 3, orientation, grid)) {
             setShip(i, j, grid, 3, orientation);
             nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
@@ -571,19 +582,19 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
         }
     }
     while (twoDecked != 0) {
-        int r = rand() % 1;
-        int orientation = 119;
+        r = distribution(gen);
+        orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        int iRandom = rand() % size(iCoordArray);
-        int jRandom = rand() % size(jCoordArray);
+        iRandom = distribution(gen);
+        jRandom = distribution(gen);
 
-        int nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
-        int ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
+        nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
+        ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
 
-        int i = iCoordArray[iRandom];
-        int j = jCoordArray[jRandom];
+        i = iCoordArray[iRandom];
+        j = jCoordArray[jRandom];
         if (checkPosition(i, j, 2, orientation, grid)) {
             setShip(i, j, grid, 2, orientation);
             nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
@@ -594,18 +605,19 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
         }
     }
     while (oneDecked != 0) {
-        int r = rand() % 1;
-        int orientation = 119;
+        r = distribution(gen);
+        orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        int iRandom = rand() % size(iCoordArray);
-        int jRandom = rand() % size(jCoordArray);
+        iRandom = distribution(gen);
+        jRandom = distribution(gen);
 
-        int nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
-        int ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
-        int i = iCoordArray[iRandom];
-        int j = jCoordArray[jRandom];
+        nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
+        ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
+
+        i = iCoordArray[iRandom];
+        j = jCoordArray[jRandom];
         if (checkPosition(i, j, 1, orientation, grid)) {
             setShip(i, j, grid, 1, orientation);
             nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
