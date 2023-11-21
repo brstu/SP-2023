@@ -45,32 +45,10 @@ void fillCoordArray(const array<int, 10> &iCoordArray, array<int, 10> &jCoordArr
 
 
 }
-int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
-{
-    if (orientation != 120)
-    {
-        if (i + sizeOfShip - 1 > ROWS - 2) {
-            return false;
-        }
-        else {
-            for (int k = 0; k < sizeOfShip; k++) {
-                if (checkSurroundingCells(i + k, j, grid)) {
-                    return false;
-                }
-            }
-        }
-    }
-}
 
 
-bool checkSurroundingCells(int i, int j, char** grid) {
-    return (grid[i][j] == 'S' || grid[i][j - 1] == 'S' || grid[i][j + 1] == 'S' ||
-        grid[i - 1][j] == 'S' || grid[i - 1][j - 1] == 'S' || grid[i - 1][j + 1] == 'S' ||
-        grid[i + 1][j] == 'S' || grid[i + 1][j - 1] == 'S' || grid[i + 1][j + 1] == 'S');
-}
 
-
-int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
+int checkPosition(int i, int j, int sizeOfShip, int orientation, auto grid)
 {
     if ((orientation == 119 && i + sizeOfShip - 1 > ROWS - 2) || (orientation==120 && j + sizeOfShip - 1 > COLS - 2)) {
         return false;
@@ -225,7 +203,7 @@ void displayGrid(char **grid){
     cout << endl;
 }
 
-void setShip(int row, int col,char** grid,int deck,int orientation=120) {
+void setShip(int row, int col,auto grid,int deck,int orientation=120) {
     if (orientation == 120) {
         for (int i = 0; i < deck; i++)
         {
@@ -408,7 +386,7 @@ bool makeShot(int row, int col, char **gridHidden, char **gridEnemy, int& player
     }
 }
 
-bool makeShotComputer(int row, int col, char** gridEnemy, int& playerScore) {
+bool makeShotComputer(int row, int col, auto gridEnemy, int& playerScore) {
     cout << gridEnemy[row][col] << endl;
     if (gridEnemy[row][col] == SHIP) {
         gridEnemy[row][col] = KILLED;
@@ -422,7 +400,7 @@ bool makeShotComputer(int row, int col, char** gridEnemy, int& playerScore) {
         return false;
     }
 }
-void shootComputer(char** gridEnemy, int& playerScore) {
+void shootComputer(auto gridEnemy, int& playerScore) {
     bool yes = true;
     int x;
     int y;
@@ -430,7 +408,6 @@ void shootComputer(char** gridEnemy, int& playerScore) {
     int maxNum = 10;
 
     do {
-            int x, y;
             uniform_int_distribution<int> distribution(minNum, maxNum);
             x = distribution(gen);
             y = distribution(gen);
@@ -534,7 +511,7 @@ void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
 
     } while (yes);
 }
-int deleteElement(int arr[], int n, int x)
+int deleteElement(const array<int> arr, int n, int x)
 {
     int i;
     for (i = 0; i < n; i++)
@@ -549,7 +526,7 @@ int deleteElement(int arr[], int n, int x)
 
     return n;
 }
-bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
+bool placeShipsAI(auto grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
     int orientation, iRandom, jRandom, i, j, nx, ny, r;
     int arrayMax = size(iCoordArray);
     uniform_int_distribution<int> distribution(orientationMin, orientationMax);
@@ -659,11 +636,71 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
 
 
 }
+bool logicAI(bool end, bool player1Turn, auto grid2ShotBoard, int player2Score, auto grid1, auto grid2) {
+    if (player1Turn) {
+
+        cout << "Player 1 Turn!" << endl;
+
+        shoot(grid2ShotBoard, grid2, player1Score);
+        Sleep(3000);
+        end = checkEndofGame(player1Score);
+        if (end) {
+            break;
+        }
+
+        player1Turn = false;
+    }
+
+
+    else {
+        cout << "Computer Turn!" << endl;
+
+        shootComputer(grid1, player2Score);
+
+        end = checkEndofGame(player2Score);
+        if (end) {
+            break;
+        }
+        player1Turn = true;
+    }
+}
+
+bool logic(bool end, bool player1Turn,auto grid2ShotBoard,auto grid1ShotBoard, int player2Score, auto grid1,auto grid2) {
+    if (player1Turn) {
+
+        cout << "Player 1 Turn!" << endl;
+        Sleep(3000);
+
+
+        displayGrid(grid2ShotBoard);
+        shoot(grid2ShotBoard, grid2, player1Score);
+        end = checkEndofGame(player1Score);
+
+
+        player1Turn = false;
+    }
+
+
+    else {
+
+        cout << "Player 2 Turn!" << endl;
+        Sleep(3000);
+
+
+        displayGrid(grid1ShotBoard);
+        shoot(grid1ShotBoard, grid1, player2Score);
+        end = checkEndofGame(player2Score);
+
+        player1Turn = true;
+    }
+    return end;
+}
+
 
 int main() {
-    char** grid2 = new char* [12];
+auto grid2 = new char* [12];
     int player2Score = 0;
-    char** grid2ShotBoard = new char* [12];
+    auto grid2ShotBoard = new char* [12];
  
     array<int, 10> iCoordArray = {0};
     array<int, 10> jCoordArray = {0};
@@ -674,9 +711,9 @@ int main() {
 
     int oneDecked;
 
-    char** grid1 = new char* [12];
+    auto grid1 = new char* [12];
     int player1Score = 0;
-    char** grid1ShotBoard = new char* [12];
+    auto grid1ShotBoard = new char* [12];
 
     bool end = false;
     bool player1Turn = true;
@@ -728,32 +765,9 @@ int main() {
             cout << "Game is starting!" << endl;
 
             while (!end) {
-                if (player1Turn) {
-
-                    cout << "Player 1 Turn!" << endl;
-
-                    shoot(grid2ShotBoard, grid2, player1Score);
-                    Sleep(3000);
-                    end = checkEndofGame(player1Score);
-                    if (end) {
-                        break;
-                    }
-
-                    player1Turn = false;
-                }
-
-
-                else {
-                    cout << "Computer Turn!" << endl;
-
-                    shootComputer(grid1, player2Score);
-
-                    end = checkEndofGame(player2Score);
-                    if (end) {
-                        break;
-                    }
-                    player1Turn = true;
-                }
+                end = logicAI(end, player1Turn, grid2ShotBoard, player2Score, grid1, grid2);
+                if (end) break;
+               
             }
         case 2:
             cout << "Set Yoor Ships! Player 1 Turn!" << endl;
@@ -779,38 +793,9 @@ int main() {
 
 
             while (!end) {
-                if (player1Turn) {
-
-                    cout << "Player 1 Turn!" << endl;
-                    Sleep(3000);
-
-
-                    displayGrid(grid2ShotBoard );
-                    shoot(grid2ShotBoard,grid2,player1Score);
-                    end = checkEndofGame(player1Score);
-                    if (end) {
-                        break;
-                    }
-
-                    player1Turn = false;
-                }
-
-
-                else {
-
-                    cout << "Player 2 Turn!" << endl;
-                    Sleep(3000);
-
-
-                    displayGrid(grid1ShotBoard);
-                    shoot(grid1ShotBoard,grid1,player2Score);
-                    end = checkEndofGame(player2Score);
-                    if (end) {
-                        break;
-                    }
-                    player1Turn  =true;
-                }
-
+           
+                end = logic(end,player1Turn,grid2ShotBoard,grid1ShotBoard,player2Score,grid1, grid2);
+                if (end) break;
             }
 
 
