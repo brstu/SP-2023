@@ -15,14 +15,14 @@
 | 9   | Дорошков Александр |                 |                         |     |     |     |     |     |     |     |     |     |     |
 | 10  | Дымша Арсений      |                 |                         |     |     |     |     |     |     |     |     |     |     |
 | 11  | Замалетдинов Данил |                 |                         |     |     |     |     |     |     |     |     |     |     |
-| 12  | Иванюк Максим      |                 |                         |     |     |     |     |     |     |     |     |     |     |
-| 13  | Капитонов Максим   |                 |                         |     |     |     |     |     |     |     |     |     |     |
+| 12  | Иванюк Максим      |                 |                         |     |     |     |     |     |     |     |     |     |     |[210719] (./trunk/PO210719/) 
+| 13  | Капитонов Максим   |                 |                         |     |     |     |     |     |     |     |     |     |     |[KodirovBehruz](https://github.com/KodirovBehruz) 
 
 ## подгруппа 2
 
 | №   | ФИО                 | GitHub username                                           | № зачетки/студенческого | #0                 | #1                 | #2                 | #3  | #4  | #5  | #6  | #7  | #8  |
 | --- | ------------------- | --------------------------------------------------------- | ----------------------- | ------------------ | ------------------ | ------------------ | --- | --- | --- | --- | --- | --- | --- |
-| 1   | Кодиров Бехруз      | [KodirovBehruz](https://github.com/KodirovBehruz)         |   [210719] (./trunk/PO210719/)                      | :white_check_mark:                   |                    |  :white_check_mark:                  |     |     |     |     |     |     |
+| 1   | Кодиров Бехруз      | [KodirovBehruz](https://github.com/KodirovBehruz)         | [210719](./trunk/PO210719/) | :white_check_mark: |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:|     |     |     |     |
 | 2   | Липовик Илья        |                                                           |                         |                    |                    |                    |     |     |     |     |     |     |     |
 | 3   | Лобарев Антон       | [ToxaChiter](https://github.com/ToxaChiter "GitHub link") | 210640                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |     |     |     |     |     |     |     |
 | 4   | Макаревич Екатерина | [Mkrshkk](https://github.com/Mkrshkk)                     | 210641                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |     |     |     |     |     |     |     |
