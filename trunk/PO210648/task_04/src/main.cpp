@@ -16,7 +16,7 @@ public:
     virtual void doWork() {
         memoryNeeded += 1;
     }
-    void changeActiveScreen() {
+    void const changeActiveScreen() {
         // Дополнительная логика изменения активного экрана
         std::cout << "Changing active screen" << std::endl;
     }
@@ -44,7 +44,7 @@ public:
         yPosition = newY;
     }
 
-    const launch() {
+    void const launch() {
         std::cout << "Launching shortcut: " << path << std::endl;
     }
 };
@@ -74,7 +74,7 @@ void createNewScreen(std::vector<Window>& windows) {
     windows.push_back(newScreen);
 }
 
-const changeActiveScreen(std::vector<Window>& windows, int index) {
+void const changeActiveScreen(std::vector<Window>& windows, int index) {
     if (index >= 0 && index < windows.size()) {
        windows[index].changeActiveScreen();
     } else {
