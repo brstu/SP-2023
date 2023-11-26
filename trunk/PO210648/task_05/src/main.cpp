@@ -14,12 +14,15 @@ void multiplication(float &result, float a, float b) {
 }
 
 int main() {
-    float a = 5.5, b = 2.2;
-    float result_addition, result_subtraction, result_multiplication;
+    float a = 5.5;
+    float b = 2.2;
+    float result_addition;
+    float result_subtraction;
+    float result_multiplication;
 
-    std::thread t1(addition, std::ref(result_addition), a, b);
-    std::thread t2(subtraction, std::ref(result_subtraction), a, b);
-    std::thread t3(multiplication, std::ref(result_multiplication), a, b);
+    std::jthread t1(addition, std::ref(result_addition), a, b);
+    std::jthread t2(subtraction, std::ref(result_subtraction), a, b);
+    std::jthread t3(multiplication, std::ref(result_multiplication), a, b);
 
     t1.join();
     t2.join();
