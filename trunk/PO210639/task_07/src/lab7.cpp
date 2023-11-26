@@ -6,152 +6,52 @@
 #include <queue>
 #include <Windows.h>
 
+void serviceCustomer(std::queue<int>& sellerQueue, std::mutex& sellerMutex, std::string sellerIndex, std::string queueIndex) {
+	while (true) {
+		int temp;
+		if (!sellerQueue.empty()) {
+			std::scoped_lock<std::mutex> lock(sellerMutex);
+			std::cout << sellerIndex + " seller service customer from " + queueIndex + " seller queue" << std::endl;
+			temp = sellerQueue.front();
+			sellerQueue.pop();
+		}
+		else {
+			break;
+		}
+		Sleep(temp * 1000);
+		std::cout << sellerIndex + " seller finished service customer from " + queueIndex + " seller queue" << std::endl;
+	}
+}
+
 void firstSeller(std::queue<int> &firstSellerQueue, std::queue<int> &secondSellerQueue, std::queue<int> &thirdSellerQueue, std::mutex& firstSellerMutex, std::mutex& secondSellerMutex, std::mutex& thirdSellerMutex) {
-	while (true) {
-		int temp;
-		if (!firstSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(firstSellerMutex);
-			std::cout << "1 seller service customer from 1 seller queue" << std::endl;
-			temp = firstSellerQueue.front();
-			firstSellerQueue.pop();
-		}
-		else {
-			break;
-		}
-		Sleep(temp*1000);
-		std::cout << "1 seller finished service customer from 1 seller queue" << std::endl;
-	}
 
-	while (true) {
-		int temp;
-		if (!secondSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(secondSellerMutex);
-			std::cout << "1 seller service customer from 2 seller queue" << std::endl;
-			temp = secondSellerQueue.front();
-			secondSellerQueue.pop();
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "1 seller finished service customer from 2 seller queue" << std::endl;
-	}
+	serviceCustomer(firstSellerQueue, firstSellerMutex, "1", "1");
 
-	while (true) {
-		int temp;
-		if (!thirdSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(thirdSellerMutex);
-			std::cout << "1 seller service customer from 3 seller queue" << std::endl;
-			temp = thirdSellerQueue.front();
-			thirdSellerQueue.pop();
-			
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "1 seller finished service customer from 3 seller queue" << std::endl;
-	}
+	serviceCustomer(secondSellerQueue, secondSellerMutex, "1", "2");
+
+	serviceCustomer(thirdSellerQueue, thirdSellerMutex, "1", "3");
 }
 
 void secondSeller(std::queue<int>& firstSellerQueue, std::queue<int>& secondSellerQueue, std::queue<int>& thirdSellerQueue, std::mutex& firstSellerMutex, std::mutex& secondSellerMutex, std::mutex& thirdSellerMutex) {
+	
 	Sleep(5);
-	while (true) {
-		int temp;
-		if (!secondSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(secondSellerMutex);
-			std::cout << "2 seller service customer from 2 seller queue" << std::endl;
-			temp = secondSellerQueue.front();
-			secondSellerQueue.pop();
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "2 seller finished service customer from 2 seller queue" << std::endl;
-	}
 
-	while (true) {
-		int temp;
-		if (!thirdSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(thirdSellerMutex);
-			std::cout << "2 seller service customer from 3 seller queue" << std::endl;
-			temp = thirdSellerQueue.front();
-			thirdSellerQueue.pop();
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "2 seller finished service customer from 3 seller queue" << std::endl;
-	}
+	serviceCustomer(secondSellerQueue, secondSellerMutex, "2", "2");
 
-	while (true) {
-		int temp;
-		if (!firstSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(firstSellerMutex);
-			std::cout << "2 seller service customer from 1 seller queue" << std::endl;
-			temp = firstSellerQueue.front();
-			firstSellerQueue.pop();
-			
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "2 seller finished service customer from 1 seller queue" << std::endl;
-	}
+	serviceCustomer(thirdSellerQueue, thirdSellerMutex, "2", "3");
+	
+	serviceCustomer(firstSellerQueue, firstSellerMutex, "2", "1");
 }
 
 void thirdSeller(std::queue<int>& firstSellerQueue, std::queue<int>& secondSellerQueue, std::queue<int>& thirdSellerQueue, std::mutex& firstSellerMutex, std::mutex& secondSellerMutex, std::mutex& thirdSellerMutex) {
+	
 	Sleep(15);
-	while (true) {
-		int temp;
-		if (!thirdSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(thirdSellerMutex);
-			std::cout << "3 seller service customer from 3 seller queue" << std::endl;
-			temp = thirdSellerQueue.front();
-			thirdSellerQueue.pop();
-			
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "3 seller finished service customer from 3 seller queue" << std::endl;
-	}
 
-	while (true) {
-		int temp;
-		if (!firstSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(firstSellerMutex);
-			std::cout << "3 seller service customer from 1 seller queue" << std::endl;
-			temp = firstSellerQueue.front();
-			firstSellerQueue.pop();
-			
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "3 seller finished service customer from 1 seller queue" << std::endl;
-	}
+	serviceCustomer(thirdSellerQueue, thirdSellerMutex, "3", "3");
+	
+	serviceCustomer(firstSellerQueue, firstSellerMutex, "3", "1");
 
-	while (true) {
-		int temp;
-		if (!secondSellerQueue.empty()) {
-			std::scoped_lock<std::mutex> lock(secondSellerMutex);
-			std::cout << "3 seller service customer from 2 seller queue" << std::endl;
-			temp = secondSellerQueue.front();
-			secondSellerQueue.pop();
-			
-		}
-		else {
-			break;
-		}
-		Sleep(temp * 1000);
-		std::cout << "3 seller finished service customer from 2 seller queue" << std::endl;
-	}
+	serviceCustomer(secondSellerQueue, secondSellerMutex, "3", "2");
 }
 
 int main()
@@ -161,7 +61,7 @@ int main()
 	std::random_device rd{};
 	const int minThreshold = 1;
 	const int maxThreshold = 10;
-	std::uniform_int_distribution<> distrib(minThreshold, maxThreshold);
+	std::uniform_int_distribution distrib(minThreshold, maxThreshold);
 	int firstSellerQueueSize = distrib(rd);
 	int secondSellerQueueSize = distrib(rd);
 	int thirdSellerQueueSize = distrib(rd);
