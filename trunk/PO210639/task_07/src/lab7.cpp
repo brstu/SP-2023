@@ -6,7 +6,7 @@
 #include <queue>
 #include <Windows.h>
 
-void serviceCustomer(std::queue<int>& sellerQueue, std::mutex& sellerMutex, std::string const sellerIndex, std::string const queueIndex) {
+void serviceCustomer(std::queue<int>& sellerQueue, std::mutex& sellerMutex, std::string const &sellerIndex, std::string const &queueIndex) {
 	while (true) {
 		int temp;
 		if (!sellerQueue.empty()) {
