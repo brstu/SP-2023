@@ -2,7 +2,7 @@
 #include <vector>
 
 class Window {
-protected:
+private:
     int id;
     int height;
     int width;
@@ -11,7 +11,7 @@ protected:
     bool isShown;
 public:
     Window(int id, int height, int width, bool areAdministatorRightsGranted)
-        : id(id), height(height), width(width), areAdministatorRightsGranted(areAdministatorRightsGranted), memoryNeeded(0), isShown(false) {}
+        : id(id), height(height), width(width), memoryNeeded(0), areAdministatorRightsGranted(areAdministatorRightsGranted), isShown(false) {}
 
     virtual void doWork() {
         memoryNeeded += 1;
@@ -44,7 +44,7 @@ public:
         yPosition = newY;
     }
 
-    void launch() {
+    const launch() {
         std::cout << "Launching shortcut: " << path << std::endl;
     }
 };
@@ -74,7 +74,7 @@ void createNewScreen(std::vector<Window>& windows) {
     windows.push_back(newScreen);
 }
 
-void changeActiveScreen(std::vector<Window>& windows, int index) {
+const changeActiveScreen(std::vector<Window>& windows, int index) {
     if (index >= 0 && index < windows.size()) {
        windows[index].changeActiveScreen();
     } else {
