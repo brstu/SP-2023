@@ -1,5 +1,9 @@
 import os
 
+lines = '=========================='
+enter = 'Enter your choice: '
+invalid = "Invalid choice. Please try again."
+exit = "0. Exit"
 
 def console_menu():
     print("===== Menu ====")
@@ -7,9 +11,9 @@ def console_menu():
     print("2. Print Dirs")
     print("3. Create")
     print("4. Remove File/Folder")
-    print("0. Exit")
-    print("==========================")
-    choice = input("Enter your choice: ")
+    print(exit)
+    print(lines)
+    choice = input(enter)
     return choice
 
 def move_file():
@@ -48,9 +52,9 @@ def create():
         print("1. Create Folder")
         print("2. Create Folder Tree")
         print("3. Create File")
-        print("0. Exit")
-        print("==========================")
-        choice = input("Enter your choice: ")
+        print(exit)
+        print(lines)
+        choice = input(enter)
         return choice
 
     def main():
@@ -65,7 +69,7 @@ def create():
             elif choice == '3':
                 create_file()
             else:
-                print("Invalid choice. Please try again.")
+                print(invalid)
 
     if __name__ == '__main__':
         main()
@@ -84,8 +88,8 @@ def remove_folder_file():
         print("1. Remove Folder")
         print("2. Remove File")
         print("0. Exit")
-        print("==========================")
-        choice = input("Enter your choice: ")
+        print(lines)
+        choice = input(enter)
         return choice
 
     def main():
@@ -98,7 +102,7 @@ def remove_folder_file():
             elif choice == "2":
                 remove_file()
             else:
-                print("Invalid choice. Please try again.")
+                print(invalid)
 
     if __name__ == '__main__':
         main()
@@ -117,7 +121,7 @@ def main():
         elif choice == '4':
             remove_folder_file()
         else:
-            print("Invalid choice. Please try again.")
+            print(invalid)
 
 if __name__ == '__main__':
     main()
