@@ -37,7 +37,7 @@ const map<char, char> ships = {
 };
 
 
-void fillCoordArray(const array<int, 10> &iCoordArray, array<int, 10> &jCoordArray) {
+void fillCoordArray(array<int, 10> &iCoordArray, array<int, 10> &jCoordArray) {
     for (int i = 0; i < 10; i++) {
         iCoordArray[i] = i + 1;
         jCoordArray[i] = i + 1;
@@ -48,7 +48,7 @@ void fillCoordArray(const array<int, 10> &iCoordArray, array<int, 10> &jCoordArr
 
 
 
-int checkPosition(int i, int j, int sizeOfShip, int orientation, auto grid)
+int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 {
     if ((orientation == 119 && i + sizeOfShip - 1 > ROWS - 2) || (orientation==120 && j + sizeOfShip - 1 > COLS - 2)) {
         return false;
@@ -203,7 +203,7 @@ void displayGrid(char **grid){
     cout << endl;
 }
 
-void setShip(int row, int col,auto grid,int deck,int orientation=120) {
+void setShip(int row, int col,char** grid,int deck,int orientation=120) {
     if (orientation == 120) {
         for (int i = 0; i < deck; i++)
         {
@@ -244,13 +244,13 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
         displayGrid(grid);
         switch ((c = _getch())) {
         case 49:
-            if (checkNumberShips(fourDecked,threeDecked,twoDecked,oneDecked)) {
+            if (checkNumberShips(fourDecked,threeDeckeed,twoDecked,oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
            }
-           if (checkAvailableShip(1)) {
-               if (checkPosition(newRow, newCol, 2, 120, grid)) {
+           if (checkAvailableShip(1, oneDecked, twoDecked, threeDeckeed, fourDecked)) {
+               if (checkPosition(newRow, newCol, 1, 120, grid)) {
                    oneDecked--;
                    setShip(newRow, newCol, grid, 1,120);
                    displayGrid(grid);
@@ -260,13 +260,13 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
             break;
         case 50:
-            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)) {
+            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
 
-            if (checkAvailableShip(2)) {
+            if (checkAvailableShip(2,oneDecked,twoDecked,threeDeckeed,fourDecked)) {
 
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 2, orientation, grid)) {
@@ -282,13 +282,13 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
             break;
         case 51:
-            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)){
+            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)){
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
 
-            if (checkAvailableShip(3)) {
+            if (checkAvailableShip(3,oneDecked,twoDecked,threeDeckeed,fourDecked)) {
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 3, orientation, grid)) {
                     threeDeckeed--;
@@ -301,12 +301,12 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
             break;
         case 52:
-            if (checkNumberShips(fourDecked, threeDecked, twoDecked, oneDecked)) {
+            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
-            if (checkAvailableShip(4)) {
+            if (checkAvailableShip(4, oneDecked, twoDecked, threeDeckeed, fourDecked)) {
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 4, orientation, grid)) {
                     fourDecked--;
@@ -386,7 +386,7 @@ bool makeShot(int row, int col, char **gridHidden, char **gridEnemy, int& player
     }
 }
 
-bool makeShotComputer(int row, int col, auto gridEnemy, int& playerScore) {
+bool makeShotComputer(int row, int col, char** gridEnemy, int& playerScore) {
     cout << gridEnemy[row][col] << endl;
     if (gridEnemy[row][col] == SHIP) {
         gridEnemy[row][col] = KILLED;
@@ -400,7 +400,7 @@ bool makeShotComputer(int row, int col, auto gridEnemy, int& playerScore) {
         return false;
     }
 }
-void shootComputer(auto gridEnemy, int& playerScore) {
+void shootComputer(char** gridEnemy, int& playerScore) {
     bool yes = true;
     int x;
     int y;
@@ -442,7 +442,6 @@ bool checkEndofGame(int score, int player1Score) {
 
 
 void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
-    char key;
     int c;
     int orientation;
     int oldRow = 1;
@@ -511,22 +510,20 @@ void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
 
     } while (yes);
 }
-int deleteElement(const array<int> arr, int n, int x)
-{
-    int i;
-    for (i = 0; i < n; i++)
-        if (arr[i] == x)
-            break;
-    if (i < n)
-    {
-        n = n - 1;
-        for (int j = i; j < n; j++)
-            arr[j] = arr[j + 1];
-    }
-
+template<typename T, size_t n>
+size_t array_size(const T(&)[n]) {
     return n;
 }
-bool placeShipsAI(auto grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
+int deleteElement(std::array<int,n> arr, int n, int x) {
+    auto it = std::find(arr.begin(), arr.end(), x);
+    if (it != arr.end()) {
+        std::swap(*it, arr[n - 1]);
+        return n - 1;
+    }
+    return n;
+}
+
+bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
     int orientation, iRandom, jRandom, i, j, nx, ny, r;
     int arrayMax = size(iCoordArray);
     uniform_int_distribution<int> distribution(orientationMin, orientationMax);
@@ -540,17 +537,15 @@ bool placeShipsAI(auto grid, int fourDecked, int threeDeckeed, int twoDecked, in
         }
         iRandom = distribution(gen);
         jRandom = distribution(gen);
-
+        
        nx = sizeof(iCoordArray)/sizeof(iCoordArray[0]);
         ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
-
        i = iCoordArray[iRandom];
        j = jCoordArray[jRandom];
-
         if (checkPosition(i, j, 4, orientation, grid)) {
             setShip(i, j, grid, 4, orientation);
-            nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
-            ny = deleteElement(jCoordArray, ny, jCoordArray[jRandom]);
+            nx = deleteElement<int, 10>(iCoordArray, nx, iCoordArray[iRandom]);
+            ny = deleteElement<jCoordType, MAX_SIZE>(jCoordArray, ny, jCoordArray[jRandom]);
             fourDecked--;
             displayGrid(grid);
         }
@@ -636,17 +631,14 @@ bool placeShipsAI(auto grid, int fourDecked, int threeDeckeed, int twoDecked, in
 
 
 }
-bool logicAI(bool end, bool player1Turn, auto grid2ShotBoard, int player2Score, auto grid1, auto grid2) {
+bool logicAI(bool end, bool player1Turn, char** grid2ShotBoard, int player2Score, int player1Score, char** grid1, char** grid2) {
     if (player1Turn) {
 
         cout << "Player 1 Turn!" << endl;
 
         shoot(grid2ShotBoard, grid2, player1Score);
         Sleep(3000);
-        end = checkEndofGame(player1Score);
-        if (end) {
-            break;
-        }
+        end = checkEndofGame(player1Score,player1Score);
 
         player1Turn = false;
     }
@@ -657,15 +649,14 @@ bool logicAI(bool end, bool player1Turn, auto grid2ShotBoard, int player2Score, 
 
         shootComputer(grid1, player2Score);
 
-        end = checkEndofGame(player2Score);
-        if (end) {
-            break;
-        }
+        end = checkEndofGame(player2Score,player2Score);
+        if (end) 
         player1Turn = true;
     }
+    return end;
 }
 
-bool logic(bool end, bool player1Turn,auto grid2ShotBoard,auto grid1ShotBoard, int player2Score, auto grid1,auto grid2) {
+bool logic(bool end, bool player1Turn,char** grid2ShotBoard,char** grid1ShotBoard, int player1Score, int player2Score, char** grid1,char** grid2) {
     if (player1Turn) {
 
         cout << "Player 1 Turn!" << endl;
@@ -674,7 +665,7 @@ bool logic(bool end, bool player1Turn,auto grid2ShotBoard,auto grid1ShotBoard, i
 
         displayGrid(grid2ShotBoard);
         shoot(grid2ShotBoard, grid2, player1Score);
-        end = checkEndofGame(player1Score);
+        end = checkEndofGame(player1Score,player1Score);
 
 
         player1Turn = false;
@@ -689,7 +680,7 @@ bool logic(bool end, bool player1Turn,auto grid2ShotBoard,auto grid1ShotBoard, i
 
         displayGrid(grid1ShotBoard);
         shoot(grid1ShotBoard, grid1, player2Score);
-        end = checkEndofGame(player2Score);
+        end = checkEndofGame(player2Score,player2Score);
 
         player1Turn = true;
     }
@@ -714,6 +705,7 @@ auto grid2 = new char* [12];
     auto grid1 = new char* [12];
     int player1Score = 0;
     auto grid1ShotBoard = new char* [12];
+
 
     bool end = false;
     bool player1Turn = true;
@@ -746,7 +738,7 @@ auto grid2 = new char* [12];
 
             cout << "Computer Turn!" << endl;
             Sleep(3000);
-            fillCoordArray();
+            fillCoordArray(iCoordArray,jCoordArray);
             initializeGrid(grid2);
             initializeGrid(grid2ShotBoard);
             fourDecked = 1;
@@ -754,7 +746,7 @@ auto grid2 = new char* [12];
             twoDecked = 3;
             oneDecked = 4;
             while (fourDecked != 0 && threeDeckeed != 0 && twoDecked != 0 && oneDecked != 0) {
-                placeShipsAI(grid2, fourDecked, threeDeckeed, twoDecked, oneDecked);
+                placeShipsAI(grid2, fourDecked, threeDeckeed, twoDecked, oneDecked,iCoordArray,jCoordArray);
             }
             if (placeShipsAI) {
                 displayGrid(grid2);
@@ -765,7 +757,7 @@ auto grid2 = new char* [12];
             cout << "Game is starting!" << endl;
 
             while (!end) {
-                end = logicAI(end, player1Turn, grid2ShotBoard, player2Score, grid1, grid2);
+                end = logicAI(end, player1Turn, grid2ShotBoard, player2Score,player1Score, grid1, grid2);
                 if (end) break;
                
             }
@@ -794,7 +786,7 @@ auto grid2 = new char* [12];
 
             while (!end) {
            
-                end = logic(end,player1Turn,grid2ShotBoard,grid1ShotBoard,player2Score,grid1, grid2);
+                end = logic(end,player1Turn,grid2ShotBoard,grid1ShotBoard,player1Score,player2Score,grid1, grid2);
                 if (end) break;
             }
 
