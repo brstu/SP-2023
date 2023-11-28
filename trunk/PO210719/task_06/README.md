@@ -17,11 +17,13 @@
 Переход в разные папки
 
 ![image](<./images/move(0).png>)
+
 ![image](<./images/move(1).png>)
 
 Создания файла
 
 ![image](./images/file.png)
+
 ![image](<./images/file(1).png>)
 
 Удаления файла
