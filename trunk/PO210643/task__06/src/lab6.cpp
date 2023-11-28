@@ -3,12 +3,6 @@
 #include <stdlib.h>
 #include "Windows.h"
 #include <map>
-#include <random>
-
-
-#include <array>
-
-
 
 using namespace std;
 
@@ -17,27 +11,32 @@ const int COLS = 12;
 const char SHIP = 'S';
 const char MISSED = '*';
 const char KILLED = 'X';
-const random_device rd;
-const mt19937 gen(rd());
-const  int orientationMin = 0;
-const int orientationMax = 1;
-const int arrayMin = 0;
+
+int iCoordArray[10] = { 0 };
+int jCoordArray[10] = { 0 };
+int fourDecked;
+int threeDeckeed;
+int twoDecked;
+int oneDecked;
 
 
+char** grid1 = new char* [12];
+int player1Score = 0;
+char** grid1ShotBoard = new char* [12];
 
 
-
-
-
-const map<char, char> ships = {
+std::map<char, char> ships = {
     { 1, 4 },
     { 2, 3 },
     { 3, 2 },
     {4,1},
 };
 
+char** grid2 = new char* [12];
+int player2Score = 0;
+char** grid2ShotBoard = new char* [12];
 
-void fillCoordArray(array<int, 10> &iCoordArray, array<int, 10> &jCoordArray) {
+void fillCoordArray() {
     for (int i = 0; i < 10; i++) {
         iCoordArray[i] = i + 1;
         jCoordArray[i] = i + 1;
@@ -47,16 +46,15 @@ void fillCoordArray(array<int, 10> &iCoordArray, array<int, 10> &jCoordArray) {
 }
 
 
-
 int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 {
-    if ((orientation == 119 && i + sizeOfShip - 1 > ROWS - 2) || (orientation==120 && j + sizeOfShip - 1 > COLS - 2)) {
-        return false;
-    }
 
     if (orientation != 120)
     {
-
+        if (i + sizeOfShip - 1 > ROWS - 2) {
+            return false;
+        }
+        else {
 
             for (int k = 0; k < sizeOfShip; k++)
             {
@@ -67,7 +65,7 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
                 {
                     return false;
                 }
-
+            }
         }
 
     }
@@ -75,8 +73,10 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 
     else
     {
-
-
+        if (j + sizeOfShip - 1 > COLS - 2) {
+            return false;
+        }
+        else {
             for (int k = 0; k < sizeOfShip; k++)
             {
                 if (grid[i][j + k] == 'S' || grid[i - 1][j + k] == 'S' || grid[i + 1][j + k] == 'S' ||
@@ -85,12 +85,12 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
                 {
                     return false;
                 }
-
+            }
         }
 
 
 
-        }
+    }
 
 
 
@@ -102,58 +102,58 @@ int checkPosition(int i, int j, int sizeOfShip, int orientation, char** grid)
 
 }
 
-    bool checkAvailableShip(int deck, int oneDecked, int twoDecked, int threeDeckeed, int fourDecked) {
+bool checkAvailableShip(int deck) {
 
-        bool all = false;
-        switch (deck)
-        {
-        case 1:
-            if (oneDecked != 0) {
-                all = true;
-            }
-            else {
-                cout << "Used up";
-                Sleep(3000);
-            }
-            break;
-        case 2:
-            if (twoDecked != 0) {
-                all = true;
-            }
-            else {
-                cout << "Used up";
-                Sleep(3000);
-
-            }
-            break;
-        case 3:
-            if (threeDeckeed != 0) {
-                all = true;
-            }
-            else {
-                cout << "Used up";
-                Sleep(3000);
-
-            }
-            break;
-        case 4:
-            if (fourDecked != 0) {
-                all = true;
-            }
-            else {
-                cout << "Used up";
-                Sleep(3000);
-
-            }
-            break;
-        default:
-            break;
+    bool all = false;
+    switch (deck)
+    {
+    case 1:
+        if (oneDecked != 0) {
+            all = true;
         }
+        else {
+            cout << "Used up";
+            Sleep(3000);
+        }
+        break;
+    case 2:
+        if (twoDecked != 0) {
+            all = true;
+        }
+        else {
+            cout << "Used up";
+            Sleep(3000);
+
+        }
+        break;
+    case 3:
+        if (threeDeckeed != 0) {
+            all = true;
+        }
+        else {
+            cout << "Used up";
+            Sleep(3000);
+
+        }
+        break;
+    case 4:
+        if (fourDecked != 0) {
+            all = true;
+        }
+        else {
+            cout << "Used up";
+            Sleep(3000);
+
+        }
+        break;
+    default:
+        break;
+    }
 
     return all;
 
 }
-void initializeGrid(char **newGrid) {
+void initializeGrid(char** newGrid) {
     for (int i = 0; i < ROWS; i++)
     {
         newGrid[i] = new char[12];
@@ -165,7 +165,7 @@ void initializeGrid(char **newGrid) {
         }
     }
 }
-bool checkNumberShips(int fourDecked, int threeDeckeed, int twoDecked, int oneDecked) {
+bool checkNumberShips() {
     bool all = false;
     if (fourDecked == 0 && threeDeckeed == 0 && twoDecked == 0 && oneDecked == 0) {
         return true;
@@ -174,15 +174,15 @@ bool checkNumberShips(int fourDecked, int threeDeckeed, int twoDecked, int oneDe
     return all;
 }
 
-void displayMove(int oldcol,int oldrow,int newcol,int newrow, char **board,bool first=false) {
-    if (board[newrow][newcol] != 'S' && board[newrow][newcol] != 'X'&& board[newrow][newcol] != '*') {
+void displayMove(int oldcol, int oldrow, int newcol, int newrow, char** board, bool first = false) {
+    if (board[newrow][newcol] != 'S' && board[newrow][newcol] != 'X' && board[newrow][newcol] != '*') {
         board[newrow][newcol] = '+';
         if (!first && board[oldrow][oldcol] != 'S' && board[oldrow][oldcol] != 'X' && board[oldrow][oldcol] != '*') {
             board[oldrow][oldcol] = '~';
 
         }
     }
-    else if ((board[newrow][newcol] == 'X' || board[newrow][newcol] == '*' || board[newrow][newcol] == 'S')&&(board[oldrow][oldcol] == '+')){
+    else if ((board[newrow][newcol] == 'X' || board[newrow][newcol] == '*' || board[newrow][newcol] == 'S') && (board[oldrow][oldcol] == '+')) {
         board[oldrow][oldcol] = '~';
 
     }
@@ -192,7 +192,7 @@ void displayMove(int oldcol,int oldrow,int newcol,int newrow, char **board,bool 
 
 }
 
-void displayGrid(char **grid){
+void displayGrid(char** grid) {
     system("cls");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -203,70 +203,69 @@ void displayGrid(char **grid){
     cout << endl;
 }
 
-void setShip(int row, int col,char** grid,int deck,int orientation=120) {
+void setShip(int row, int col, char** grid, int deck, int orientation = 120) {
     if (orientation == 120) {
         for (int i = 0; i < deck; i++)
         {
-            grid[row][col+i] = SHIP;
+            grid[row][col + i] = SHIP;
 
         }
     }
     else {
         for (int i = 0; i < deck; i++)
         {
-            grid[row+i][col] = SHIP;
+            grid[row + i][col] = SHIP;
 
         }
     }
 }
 
 
-void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked){
+void placeShips(char** grid, bool player1Ships) {
     if (!player1Ships) {
         fourDecked = 1;
         threeDeckeed = 2;
         twoDecked = 3;
         oneDecked = 4;
     }
-    char key;
     int c;
     int orientation;
     int oldRow = 1;
     int oldCol = 1;
-    int newRow=1;
-    int newCol=1;
+    int newRow = 1;
+    int newCol = 1;
 
     do
     {
 
         c = 0;
-        displayMove(oldCol, oldRow, newCol, newRow, grid,true);
+        displayMove(oldCol, oldRow, newCol, newRow, grid, true);
         displayGrid(grid);
         switch ((c = _getch())) {
         case 49:
-            if (checkNumberShips(fourDecked,threeDeckeed,twoDecked,oneDecked)) {
+            if (checkNumberShips()) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
-           }
-           if (checkAvailableShip(1, oneDecked, twoDecked, threeDeckeed, fourDecked)) {
-               if (checkPosition(newRow, newCol, 1, 120, grid)) {
-                   oneDecked--;
-                   setShip(newRow, newCol, grid, 1,120);
-                   displayGrid(grid);
-               }
+            }
+            if (checkAvailableShip(1)) {
+                if (checkPosition(newRow, newCol, 2, 120, grid)) {
+                    oneDecked--;
+                    setShip(newRow, newCol, grid, 1, 120);
+                    displayGrid(grid);
+                }
 
             }
 
             break;
         case 50:
-            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)) {
+            if (checkNumberShips()) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
 
-            if (checkAvailableShip(2,oneDecked,twoDecked,threeDeckeed,fourDecked)) {
+            if (checkAvailableShip(2)) {
 
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 2, orientation, grid)) {
@@ -282,13 +281,13 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
             break;
         case 51:
-            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)){
+            if (checkNumberShips()) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
 
-            if (checkAvailableShip(3,oneDecked,twoDecked,threeDeckeed,fourDecked)) {
+            if (checkAvailableShip(3)) {
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 3, orientation, grid)) {
                     threeDeckeed--;
@@ -301,12 +300,12 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
             break;
         case 52:
-            if (checkNumberShips(fourDecked, threeDeckeed, twoDecked, oneDecked)) {
+            if (checkNumberShips()) {
                 cout << "Your ships are set!" << endl;
                 Sleep(2000);
                 return;
             }
-            if (checkAvailableShip(4, oneDecked, twoDecked, threeDeckeed, fourDecked)) {
+            if (checkAvailableShip(4)) {
                 orientation = _getch();
                 if (checkPosition(newRow, newCol, 4, orientation, grid)) {
                     fourDecked--;
@@ -324,8 +323,8 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
             if (oldRow > 1) {
                 oldCol = newCol;
                 oldRow = newRow;
-                newRow = oldRow-1;
-                displayMove(oldCol, oldRow, newCol, newRow,grid);
+                newRow = oldRow - 1;
+                displayMove(oldCol, oldRow, newCol, newRow, grid);
                 displayGrid(grid);
 
             }
@@ -335,8 +334,8 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
             if (oldRow < ROWS - 2) {
                 oldCol = newCol;
                 oldRow = newRow;
-                newRow = oldRow +1;
-                displayMove(oldCol, oldRow, newCol, newRow,grid);
+                newRow = oldRow + 1;
+                displayMove(oldCol, oldRow, newCol, newRow, grid);
                 displayGrid(grid);
 
             }
@@ -348,7 +347,7 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
                 newCol = oldCol - 1;
 
 
-                displayMove(oldCol,oldRow, newCol,newRow, grid);
+                displayMove(oldCol, oldRow, newCol, newRow, grid);
                 displayGrid(grid);
 
             }
@@ -372,7 +371,7 @@ void placeShips(char **grid, bool player1Ships, int fourDecked, int threeDeckeed
 
     } while (c != 27);
 }
-bool makeShot(int row, int col, char **gridHidden, char **gridEnemy, int& playerScore) {
+bool makeShot(int row, int col, char** gridHidden, char** gridEnemy, int& playerScore) {
     if (gridEnemy[row][col] == SHIP) {
         gridHidden[row][col] = KILLED;
         playerScore += 10;
@@ -404,13 +403,12 @@ void shootComputer(char** gridEnemy, int& playerScore) {
     bool yes = true;
     int x;
     int y;
-    int minNum = 1;
-    int maxNum = 10;
 
     do {
-            uniform_int_distribution<int> distribution(minNum, maxNum);
-            x = distribution(gen);
-            y = distribution(gen);
+        int x, y;
+
+        x = rand() % 10 + 1;
+        y = rand() % 10 + 1;
 
         yes = makeShotComputer(x, y, gridEnemy, playerScore);
         displayGrid(gridEnemy);
@@ -418,9 +416,9 @@ void shootComputer(char** gridEnemy, int& playerScore) {
 
     } while (yes);
 }
-bool checkEndofGame(int score, int player1Score) {
+bool checkEndofGame(int score) {
     if (score == 200) {
-        cout << "End of game"<<endl;
+        cout << "End of game" << endl;
         Sleep(3000);
 
         if (player1Score == 200) {
@@ -441,7 +439,7 @@ bool checkEndofGame(int score, int player1Score) {
 }
 
 
-void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
+void shoot(char** gridHidden, char** gridEnemy, int& playerScore) {
     int c;
     int orientation;
     int oldRow = 1;
@@ -501,7 +499,7 @@ void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
             break;
 
         case 13:
-            yes = makeShot(newRow, newCol, gridHidden,gridEnemy,playerScore);
+            yes = makeShot(newRow, newCol, gridHidden, gridEnemy, playerScore);
             displayGrid(gridHidden);
             break;
         default:
@@ -510,60 +508,66 @@ void shoot(char **gridHidden,char **gridEnemy,int& playerScore) {
 
     } while (yes);
 }
-template<typename T, size_t n>
-size_t array_size(const T(&)[n]) {
-    return n;
-}
-int deleteElement(std::array<int,n> arr, int n, int x) {
-    auto it = std::find(arr.begin(), arr.end(), x);
-    if (it != arr.end()) {
-        std::swap(*it, arr[n - 1]);
-        return n - 1;
+int deleteElement(int arr[], int n, int x)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        if (arr[i] == x)
+            break;
+    if (i < n)
+    {
+        n = n - 1;
+        for (int j = i; j < n; j++)
+            arr[j] = arr[j + 1];
     }
+
     return n;
 }
-
-bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, int oneDecked,const array<int,10> &iCoordArray, const array<int, 10> &jCoordArray) {
-    int orientation, iRandom, jRandom, i, j, nx, ny, r;
-    int arrayMax = size(iCoordArray);
-    uniform_int_distribution<int> distribution(orientationMin, orientationMax);
-    uniform_int_distribution<int> distributionCoord(arrayMin, arrayMax);
-
+bool placeShipsAI(char** grid) {
+    int r;
+    int orientation;
+    int nx, ny;
+    int iRandom, jRandom;
+    int i, j;
     while (fourDecked != 0) {
-         r = distribution(gen);
+         r = rand() % 1;
         orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        iRandom = distribution(gen);
-        jRandom = distribution(gen);
+        iRandom = rand() % size(iCoordArray);
+        jRandom = rand() % size(jCoordArray);
 
-       nx = sizeof(iCoordArray)/sizeof(iCoordArray[0]);
+         nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
         ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
-       i = iCoordArray[iRandom];
-       j = jCoordArray[jRandom];
+
+        i = iCoordArray[iRandom];
+        j = jCoordArray[jRandom];
+
         if (checkPosition(i, j, 4, orientation, grid)) {
             setShip(i, j, grid, 4, orientation);
-            nx = deleteElement<int, 10>(iCoordArray, nx, iCoordArray[iRandom]);
-            ny = deleteElement<jCoordType, MAX_SIZE>(jCoordArray, ny, jCoordArray[jRandom]);
+            nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
+            ny = deleteElement(jCoordArray, ny, jCoordArray[jRandom]);
             fourDecked--;
             displayGrid(grid);
         }
 
     }
     while (threeDeckeed != 0) {
-        r = distribution(gen);
+         r = rand() % 1;
         orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        iRandom = distribution(gen);
-        jRandom = distribution(gen);
+         iRandom = rand() % size(iCoordArray);
+       jRandom = rand() % size(jCoordArray);
+
 
         nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
-        ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
+         ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
 
-        i = iCoordArray[iRandom];
+
+         i = iCoordArray[iRandom];
         j = jCoordArray[jRandom];
         if (checkPosition(i, j, 3, orientation, grid)) {
             setShip(i, j, grid, 3, orientation);
@@ -575,19 +579,19 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
         }
     }
     while (twoDecked != 0) {
-        r = distribution(gen);
+        r = rand() % 1;
         orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        iRandom = distribution(gen);
-        jRandom = distribution(gen);
+       iRandom = rand() % size(iCoordArray);
+       jRandom = rand() % size(jCoordArray);
 
         nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
         ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
 
-        i = iCoordArray[iRandom];
-        j = jCoordArray[jRandom];
+         i = iCoordArray[iRandom];
+         j = jCoordArray[jRandom];
         if (checkPosition(i, j, 2, orientation, grid)) {
             setShip(i, j, grid, 2, orientation);
             nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
@@ -598,19 +602,18 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
         }
     }
     while (oneDecked != 0) {
-        r = distribution(gen);
+        r = rand() % 1;
         orientation = 119;
         if (r == 0) {
             orientation = 120;
         }
-        iRandom = distribution(gen);
-        jRandom = distribution(gen);
+        iRandom = rand() % size(iCoordArray);
+        jRandom = rand() % size(jCoordArray);
 
         nx = sizeof(iCoordArray) / sizeof(iCoordArray[0]);
         ny = sizeof(jCoordArray) / sizeof(jCoordArray[0]);
-
-        i = iCoordArray[iRandom];
-        j = jCoordArray[jRandom];
+         i = iCoordArray[iRandom];
+         j = jCoordArray[jRandom];
         if (checkPosition(i, j, 1, orientation, grid)) {
             setShip(i, j, grid, 1, orientation);
             nx = deleteElement(iCoordArray, nx, iCoordArray[iRandom]);
@@ -631,87 +634,13 @@ bool placeShipsAI(char** grid, int fourDecked, int threeDeckeed, int twoDecked, 
 
 
 }
-bool logicAI(bool end, bool player1Turn, char** grid2ShotBoard, int player2Score, int player1Score, char** grid1, char** grid2) {
-    if (player1Turn) {
-
-        cout << "Player 1 Turn!" << endl;
-
-        shoot(grid2ShotBoard, grid2, player1Score);
-        Sleep(3000);
-        end = checkEndofGame(player1Score,player1Score);
-
-        player1Turn = false;
-    }
-
-
-    else {
-        cout << "Computer Turn!" << endl;
-
-        shootComputer(grid1, player2Score);
-
-        end = checkEndofGame(player2Score,player2Score);
-        if (end)
-        player1Turn = true;
-    }
-    return end;
-}
-
-bool logic(bool end, bool player1Turn,char** grid2ShotBoard,char** grid1ShotBoard, int player1Score, int player2Score, char** grid1,char** grid2) {
-    if (player1Turn) {
-
-        cout << "Player 1 Turn!" << endl;
-        Sleep(3000);
-
-
-        displayGrid(grid2ShotBoard);
-        shoot(grid2ShotBoard, grid2, player1Score);
-        end = checkEndofGame(player1Score,player1Score);
-
-
-        player1Turn = false;
-    }
-
-
-    else {
-
-        cout << "Player 2 Turn!" << endl;
-        Sleep(3000);
-
-
-        displayGrid(grid1ShotBoard);
-        shoot(grid1ShotBoard, grid1, player2Score);
-        end = checkEndofGame(player2Score,player2Score);
-
-        player1Turn = true;
-    }
-    return end;
-}
-
 
 int main() {
-auto grid2 = new char* [12];
-    int player2Score = 0;
-    auto grid2ShotBoard = new char* [12];
-
-    array<int, 10> iCoordArray = {0};
-    array<int, 10> jCoordArray = {0};
-    int fourDecked;
-    int threeDeckeed;
-
-    int twoDecked;
-
-    int oneDecked;
-
-    auto grid1 = new char* [12];
-    int player1Score = 0;
-    auto grid1ShotBoard = new char* [12];
-
-
     bool end = false;
     bool player1Turn = true;
     bool player1Ships = true;
 
-    while (true) {
+    while (1) {
         cout << "1)Play against computer\n2)Play against opponent\n";
 
         player1Ships = true;
@@ -734,11 +663,12 @@ auto grid2 = new char* [12];
 
             displayGrid(grid1);
 
-            placeShips(grid1, player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
+            placeShips(grid1, player1Ships);
 
             cout << "Computer Turn!" << endl;
             Sleep(3000);
-            fillCoordArray(iCoordArray,jCoordArray);
+            fillCoordArray();
+
             initializeGrid(grid2);
             initializeGrid(grid2ShotBoard);
             fourDecked = 1;
@@ -746,7 +676,7 @@ auto grid2 = new char* [12];
             twoDecked = 3;
             oneDecked = 4;
             while (fourDecked != 0 && threeDeckeed != 0 && twoDecked != 0 && oneDecked != 0) {
-                placeShipsAI(grid2, fourDecked, threeDeckeed, twoDecked, oneDecked,iCoordArray,jCoordArray);
+                placeShipsAI(grid2);
             }
             if (placeShipsAI) {
                 displayGrid(grid2);
@@ -757,37 +687,85 @@ auto grid2 = new char* [12];
             cout << "Game is starting!" << endl;
 
             while (!end) {
-                end = logicAI(end, player1Turn, grid2ShotBoard, player2Score,player1Score, grid1, grid2);
-                if (end) break;
+                if (player1Turn) {
 
+                    cout << "Player 1 Turn!" << endl;
+
+                    shoot(grid2ShotBoard, grid2, player1Score);
+                    Sleep(3000);
+                    end = checkEndofGame(player1Score);
+                    if (end) break;
+                    
+
+                    player1Turn = false;
+                }
+
+
+                else {
+                    cout << "Computer Turn!" << endl;
+
+                    shootComputer(grid1, player2Score);
+
+                    end = checkEndofGame(player2Score);
+                    if (end) break;
+                    
+                    player1Turn = true;
+                }
             }
         case 2:
             cout << "Set Yoor Ships! Player 1 Turn!" << endl;
             Sleep(3000);
 
-                initializeGrid(grid1);
-                initializeGrid(grid1ShotBoard);
+            initializeGrid(grid1);
+            initializeGrid(grid1ShotBoard);
 
-                displayGrid(grid1);
-                placeShips(grid1, player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
+            displayGrid(grid1);
+            placeShips(grid1, player1Ships);
 
-                cout << "Player 2 Turn!" << endl;
-                Sleep(3000);
+            cout << "Player 2 Turn!" << endl;
+            Sleep(3000);
 
-                player1Ships = false;
-                initializeGrid(grid2);
-                initializeGrid(grid2ShotBoard);
-                displayGrid(grid2);
-                placeShips(grid2,player1Ships, fourDecked, threeDeckeed, twoDecked, oneDecked);
+            player1Ships = false;
+            initializeGrid(grid2);
+            initializeGrid(grid2ShotBoard);
+            displayGrid(grid2);
+            placeShips(grid2, player1Ships);
 
             cout << "Game is starting!" << endl;
             Sleep(3000);
 
 
             while (!end) {
+                if (player1Turn) {
 
-                end = logic(end,player1Turn,grid2ShotBoard,grid1ShotBoard,player1Score,player2Score,grid1, grid2);
-                if (end) break;
+                    cout << "Player 1 Turn!" << endl;
+                    Sleep(3000);
+
+
+                    displayGrid(grid2ShotBoard);
+                    shoot(grid2ShotBoard, grid2, player1Score);
+                    end = checkEndofGame(player1Score);
+                    if (end) break;
+                    
+
+                    player1Turn = false;
+                }
+
+
+                else {
+
+                    cout << "Player 2 Turn!" << endl;
+                    Sleep(3000);
+
+
+                    displayGrid(grid1ShotBoard);
+                    shoot(grid1ShotBoard, grid1, player2Score);
+                    end = checkEndofGame(player2Score);
+                    if (end) break;
+                    
+                    player1Turn = true;
+                }
+
             }
 
 
@@ -802,4 +780,3 @@ auto grid2 = new char* [12];
 
     return 0;
 }
-
