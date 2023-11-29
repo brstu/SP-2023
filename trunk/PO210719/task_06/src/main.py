@@ -3,7 +3,7 @@ import os
 lines = '=========================='
 enter = 'Enter your choice: '
 invalid = "Invalid choice. Please try again."
-exit = "0. Exit"
+my_exit_option = "0. Выход"
 
 def console_menu():
     print("===== Menu ====")
@@ -11,7 +11,7 @@ def console_menu():
     print("2. Print Dirs")
     print("3. Create")
     print("4. Remove File/Folder")
-    print(exit)
+    print(my_exit_option)
     print(lines)
     choice = input(enter)
     return choice
@@ -52,7 +52,7 @@ def create():
         print("1. Create Folder")
         print("2. Create Folder Tree")
         print("3. Create File")
-        print(exit)
+        print(my_exit_option)
         print(lines)
         choice = input(enter)
         return choice
@@ -124,4 +124,7 @@ def main():
             print(invalid)
 
 if __name__ == '__main__':
+    
     main()
+
+
