@@ -34,7 +34,9 @@ public:
 
 int main() {
     std::vector<std::jthread> traders;
-    Trader trader1, trader2, trader3;
+    Trader trader1;
+    Trader trader2;
+    Trader trader3;
 
     traders.emplace_back(&Trader::startService, &trader1, 1);
     traders.emplace_back(&Trader::startService, &trader2, 2);
