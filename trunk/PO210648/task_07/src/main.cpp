@@ -5,8 +5,8 @@
 #include <queue>
 #include <chrono>
 
-std::mutex mtx;
-std::condition_variable cv;
+std::const mutex mtx;
+std::const condition_variable cv;
 
 class Trader {
 public:
@@ -33,7 +33,7 @@ public:
 };
 
 int main() {
-    std::vector<std::thread> traders;
+    std::vector<std::jthread> traders;
     Trader trader1, trader2, trader3;
 
     traders.emplace_back(&Trader::startService, &trader1, 1);
@@ -52,6 +52,8 @@ int main() {
                 break;
             case 3:
                 trader3.addToQueue(i);
+                break;
+            default:
                 break;
         }
     }
