@@ -158,8 +158,7 @@ private:
         bool isBusy_ = false;
         std::mutex mutex_;
         std::condition_variable cv_;
-        std::random_device rd_;
-        std::mt19937 generator_{ rd_() };
+        std::random_device generator_;
         std::uniform_int_distribution<> distribution_{ 0, 10000 };
     };
 
