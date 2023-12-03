@@ -13,19 +13,21 @@ public:
         CreateNamesFile();
 
         std::ifstream namesFile("names.txt");
+        std::string waiterName;
+        std::string chefName;
 
         if (namesFile.is_open()) {
-            if (std::getline(namesFile, waiter1Name_)) {
-                waiter1_.SetName(waiter1Name_);
+            if (std::getline(namesFile, waiterName)) {
+                waiter1_.SetName(waiterName);
             }
-            if (std::getline(namesFile, waiter2Name_)) {
-                waiter2_.SetName(waiter2Name_);
+            if (std::getline(namesFile, waiterName)) {
+                waiter2_.SetName(waiterName);
             }
-            if (std::getline(namesFile, waiter3Name_)) {
-                waiter3_.SetName(waiter3Name_);
+            if (std::getline(namesFile, waiterName)) {
+                waiter3_.SetName(waiterName);
             }
-            if (std::getline(namesFile, chefName_)) {
-                chef_.SetName(chefName_);
+            if (std::getline(namesFile, chefName)) {
+                chef_.SetName(chefName);
             }
 
             namesFile.close();
@@ -71,7 +73,7 @@ public:
             waiter3_.AcceptOrder(i_ + 5);
         }
 
-        std::cout << "All Orders are done. Good job!" << std::endl;
+        std::cout << "All orders are done!" << std::endl;
 
         waiterThread1.join();
         waiterThread2.join();
@@ -82,7 +84,7 @@ public:
 private:
     int i_ = 1;
 
-    void CreateNamesFile() {
+    void CreateNamesFile() const {
         std::ofstream namesFile("names.txt");
         if (namesFile.is_open()) {
             namesFile << "Vasya\n";
@@ -158,8 +160,7 @@ private:
         bool isBusy_ = false;
         std::mutex mutex_;
         std::condition_variable cv_;
-        std::random_device rd_;
-        std::mt19937 generator_{ rd_() };
+        std::random_device generator_;
         std::uniform_int_distribution<> distribution_{ 0, 10000 };
     };
 
@@ -167,11 +168,6 @@ private:
     Waiter waiter2_;
     Waiter waiter3_;
     Chef chef_;
-
-    std::string waiter1Name_;
-    std::string waiter2Name_;
-    std::string waiter3Name_;
-    std::string chefName_;
 };
 
 int main() {
