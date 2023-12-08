@@ -5,6 +5,8 @@
 #include <queue>
 #include <Windows.h>
 #include <mutex>
+#include <algorithm>
+#include <random>
 
 int recieveTime(std::ifstream& in, std::string temp);
 
@@ -15,7 +17,8 @@ void recieveDiseases(std::ifstream& in, std::string temp, patient& p);
 void hospitalWork(doctor* d, std::deque<patient>& patients, std::mutex& Mutex, std::deque<patient>& healthyPatients, std::mutex& healthyPatientMutex);
 
 int main() {
-	srand(0);
+	std::random_device rd;
+	std::mt19937 gen(rd());
 	setlocale(LC_ALL, "rus");
 	system("color f0");
 	std::ifstream in("data.txt", std::ios::in);

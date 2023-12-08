@@ -10,7 +10,7 @@ public:
 	std::string name;
 	std::vector<int> diseases;
 	patient();
-	patient(std::string _name);
+	explicit patient(const std::string& _name);
 	void printInfo();
 };
 

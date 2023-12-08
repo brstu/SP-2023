@@ -1,11 +1,10 @@
 #include "patient.h"
 
-patient::patient()
+patient::patient() : name("")
 {
-	name = "";
 }
 
-patient::patient(std::string _name) : name(_name){
+patient::patient(const std::string& _name) : name(_name){
 }
 
 void patient::printInfo()
