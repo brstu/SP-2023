@@ -6,12 +6,12 @@
 #include <iostream>
 #include <vector>
 
-int const  MAX_LOADSTRING = 100;
+int const  MAX_LOADSTRING210639 = 100;
 
 
-HINSTANCE hInst;
-WCHAR szTitle[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING];
+HINSTANCE hinstance210639;
+WCHAR sztitle210639[MAX_LOADSTRING210639];
+WCHAR szWindowClass210639[MAX_LOADSTRING210639];
 
 void printInfoToFile();
 
@@ -19,10 +19,10 @@ void readFromFile();
 
 std::vector<HWND> hwnds;
 
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+ATOM                MyRegisterClass210639(HINSTANCE hInstance);
+BOOL                InitInstance210639(HINSTANCE, int);
+LRESULT CALLBACK    WndProc210639(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    About210639(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -32,11 +32,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_WINAPI, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+    LoadStringW(hInstance, IDS_APP_TITLE, sztitle210639, MAX_LOADSTRING210639);
+    LoadStringW(hInstance, IDC_WINAPI, szWindowClass210639, MAX_LOADSTRING210639);
+    MyRegisterClass210639(hInstance);
 
-    if (!InitInstance(hInstance, nCmdShow))
+    if (!InitInstance210639(hInstance, nCmdShow))
     {
         return FALSE;
     }
@@ -58,49 +58,49 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 }
 
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM MyRegisterClass210639(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEXW wcex210639;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex210639.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WndProc;
-    wcex.cbClsExtra = 0;
-    wcex.cbWndExtra = 0;
-    wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPI));
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW);
-    wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINAPI);
-    wcex.lpszClassName = szWindowClass;
-    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex210639.style = CS_HREDRAW | CS_VREDRAW;
+    wcex210639.lpfnWndProc = WndProc210639;
+    wcex210639.cbClsExtra = 0;
+    wcex210639.cbWndExtra = 0;
+    wcex210639.hInstance = hInstance;
+    wcex210639.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPI));
+    wcex210639.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex210639.hbrBackground = (HBRUSH)(COLOR_WINDOW);
+    wcex210639.lpszMenuName = MAKEINTRESOURCEW(IDC_WINAPI);
+    wcex210639.lpszClassName = szWindowClass210639;
+    wcex210639.hIconSm = LoadIcon(wcex210639.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+    return RegisterClassExW(&wcex210639);
 }
 
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance210639(HINSTANCE hInstance, int nCmdShow)
 {
-    hInst = hInstance;
+    hinstance210639 = hInstance;
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, 460, 480, nullptr, nullptr, hInst, nullptr);
+    HWND hWnd210639 = CreateWindowW(szWindowClass210639, sztitle210639, WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, 0, 460, 480, nullptr, nullptr, hinstance210639, nullptr);
 
     
-    if (!hWnd)
+    if (!hWnd210639)
     {
         int Error = GetLastError();
-        MessageBox(hWnd, nullptr, std::to_string(Error).c_str(), MB_OK);
+        MessageBox(hWnd210639, nullptr, std::to_string(Error).c_str(), MB_OK);
         return FALSE;
     }
 
-    ShowWindow(hWnd, nCmdShow);
-    UpdateWindow(hWnd);
+    ShowWindow(hWnd210639, nCmdShow);
+    UpdateWindow(hWnd210639);
 
     return TRUE;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc210639(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -281,7 +281,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wmId)
         {
         case IDM_ABOUT:
-            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            DialogBox(hinstance210639, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About210639);
             break;
         case IDM_EXIT:
             DestroyWindow(hWnd);
@@ -313,7 +313,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK About210639(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     UNREFERENCED_PARAMETER(lParam);
     switch (message)
@@ -335,10 +335,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 void printInfoToFile() {
-    std::string str="";
-    LPWSTR temp = (LPWSTR)str.c_str();
-
-
+    auto temp = (LPWSTR)std::string("").c_str();
 
     for (int i = 0; i < hwnds.size(); i++) {
         GetWindowTextW(hwnds[i], temp, 100);
