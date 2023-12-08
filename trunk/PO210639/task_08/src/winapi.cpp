@@ -336,7 +336,7 @@ INT_PTR CALLBACK About210639(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 void printInfoToFile() {
     std::string str = "";
-    LPWSTR temp = (LPWSTR)str.c_str();
+    auto temp = (LPWSTR)str.c_str();
 
     for (int i = 0; i < hwnds.size(); i++) {
         GetWindowTextW(hwnds[i], temp, 100);

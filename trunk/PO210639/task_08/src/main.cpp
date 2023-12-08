@@ -21,12 +21,12 @@ int main() {
 	setlocale(LC_ALL, "rus");
 	system("color f0");
 	std::ifstream in("data.txt", std::ios::in);
-	std::string temp;
 	neurologist neurologistDoc;
 	therapist therapistDoc;
 	psychiatrist psychiatristDoc;
 	std::deque<patient> patients;
 	if (in.is_open()) {
+		std::string temp;
 		std::cout << "получение информации" << std::endl;
 
 		neurologistDoc.treatmentTime = recieveTime(in, temp);
@@ -99,8 +99,8 @@ void recieveDiseases(std::ifstream& in, std::string temp, patient& p)
 
 	int pos = 0;
 	std::string delimiter = " ";
-	std::string tempStr;
 	while ((pos = temp.find(delimiter)) != std::string::npos) {
+		std::string tempStr;
 		tempStr = temp.substr(0, pos);
 		int index;
 		std::istringstream(tempStr) >> index;
