@@ -17,8 +17,7 @@ void recieveDiseases(std::ifstream& in, std::string temp, patient& p);
 void hospitalWork(doctor* d, std::deque<patient>& patients, std::mutex& Mutex, std::deque<patient>& healthyPatients, std::mutex& healthyPatientMutex);
 
 int main() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	std::mt19937 mt(0);
 	setlocale(LC_ALL, "rus");
 	system("color f0");
 	std::ifstream in("data.txt", std::ios::in);

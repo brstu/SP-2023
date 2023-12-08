@@ -90,7 +90,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     if (!hWnd)
     {
         int Error = GetLastError();
-        MessageBox(hWnd, NULL, std::to_string(Error).c_str(), MB_OK);
+        MessageBox(hWnd, nullptr, std::to_string(Error).c_str(), MB_OK);
         return FALSE;
     }
 
@@ -300,7 +300,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
+        BeginPaint(hWnd, &ps);
         EndPaint(hWnd, &ps);
     }
     break;
@@ -328,6 +328,8 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             return (INT_PTR)TRUE;
         }
         break;
+    default:
+        break;
     }
     return (INT_PTR)FALSE;
 }
@@ -343,7 +345,7 @@ void printInfoToFile() {
 
         std::wstring wString;
         wString.append(&temp[0]);
-        std::string* tempStr = new std::string(wString.begin(), wString.end());
+        std::string tempStr(wString.begin(), wString.end());
 
         std::ofstream out;
         if (i == 0) {
@@ -353,7 +355,7 @@ void printInfoToFile() {
             out.open("data.txt", std::ios::app);
         }
         if (out.is_open()) {
-            out << *tempStr << std::endl;
+            out << tempStr << std::endl;
         }
         out.close();
     }
@@ -362,8 +364,8 @@ void printInfoToFile() {
 void readFromFile() {
     std::string tempStr;
     std::ifstream in("data.txt", std::ios::in);
-    for (int i = 0; i < hwnds.size(); i++) {
+    for (HWND var : hwnds) {
         getline(in, tempStr, '\n');
-        SetWindowTextA(hwnds[i], tempStr.c_str());
+        SetWindowTextA(var, tempStr.c_str());
     }
 }
