@@ -1,8 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется winapi.rc
-
-const int IDS_APP_TITLE = 103;
+﻿const int IDS_APP_TITLE = 103;
 const int IDR_MAINFRAME = 128;
 const int IDD_WINAPI_DIALOG = 102;
 const int IDD_ABOUTBOX = 103;
@@ -15,8 +11,6 @@ const int IDC_MYICON = 2;
 #ifndef IDC_STATIC
 const int IDC_STATIC = -1;
 #endif
-// Следующие стандартные значения для новых объектов
-//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 

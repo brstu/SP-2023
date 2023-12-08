@@ -1,5 +1,5 @@
-﻿#include "framework.h"
-#include "winapi.h"
+﻿#include "framework210639.h"
+#include "winapi210639.h"
 #include <string.h>
 #include <string>
 #include <fstream>
@@ -335,7 +335,8 @@ INT_PTR CALLBACK About210639(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 }
 
 void printInfoToFile() {
-    auto temp = (LPWSTR)std::string("").c_str();
+    std::string str = "";
+    LPWSTR temp = (LPWSTR)str.c_str();
 
     for (int i = 0; i < hwnds.size(); i++) {
         GetWindowTextW(hwnds[i], temp, 100);
