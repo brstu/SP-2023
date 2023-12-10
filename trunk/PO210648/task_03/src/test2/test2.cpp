@@ -1,17 +1,16 @@
 #include <iostream>
 #include <Windows.h>
-//#include "entropyCalculator.h"
 
 int main() {
     HMODULE hModule = LoadLibrary(L"test1.dll");
-    if (hModule == NULL) {
+    if (hModule == nullptr) {
         std::cerr << "Failed to load DLL" << std::endl;
         return 1;
     }
 
-    typedef double (*CalculateEntropyFunc)(const char*);
-    CalculateEntropyFunc calculateEntropy = (CalculateEntropyFunc)GetProcAddress(hModule, "calculateEntropy");
-    if (calculateEntropy == NULL) {
+    using typedef double (*CalculateEntropyFunc)(const char*);
+    auto calculateEntropy = (CalculateEntropyFunc)GetProcAddress(hModule, "calculateEntropy");
+    if (calculateEntropy == nullptr) {
         std::cerr << "Failed to find function" << std::endl;
         FreeLibrary(hModule);
         return 1;
