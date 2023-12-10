@@ -2,7 +2,7 @@
 #include <cmath>
 
 double calculateEntropy(const char* word) {
-    std::array frequencies[256] = { 0 };
+    std::array<int, 256> frequencies;
     int total = 0;
     const char* ptr = word;
 
