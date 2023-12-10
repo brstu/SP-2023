@@ -14,5 +14,5 @@
 |8 |Соколовский Никита|||||||||||||
 |9|Сорока Вадим|||||||||||||
 |10|Таразевич Никита|||||||||||||
-|11|Шлыков Андрей|[HarWeasttt](https://github.com/HarWeasttt)|[210648](./trunk/PO210648/)|:white_check_mark:||:white_check_mark:|||||||||
+|11|Шлыков Андрей|[HarWeasttt](https://github.com/HarWeasttt)|[210648](./trunk/PO210648/)|:white_check_mark:||:white_check_mark:|:white_check_mark:||||||||
 |12|Янчук Артем|||||||||||||
