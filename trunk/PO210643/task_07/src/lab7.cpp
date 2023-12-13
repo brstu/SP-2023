@@ -17,7 +17,6 @@ const string ANSI_RED = "\033[91m";
 const string ANSI_GREEN = "\033[92m";
 
 struct Client {
-    int id;
     std::string name;
     int serviceTime;
 };
