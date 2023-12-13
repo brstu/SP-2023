@@ -152,9 +152,9 @@ int main() {
     Trader trader3("Trader3");
 
 
-    std::thread thread3(&Trader::serveClients, &trader3, &trader2, &trader1);
-    std::thread thread2(&Trader::serveClients, &trader2, &trader1, &trader3);
-    std::thread thread1(&Trader::serveClients, &trader1, &trader2, &trader3);
+    std::jthread thread3(&Trader::serveClients, &trader3, &trader2, &trader1);
+    std::jthread thread2(&Trader::serveClients, &trader2, &trader1, &trader3);
+    std::jthread thread1(&Trader::serveClients, &trader1, &trader2, &trader3);
 
     ifstream file("data.txt");
     if (file.is_open()) {
