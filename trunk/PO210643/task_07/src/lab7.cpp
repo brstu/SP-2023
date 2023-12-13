@@ -27,10 +27,10 @@ struct Client {
 
 class Trader {
 public:
-    Trader(const std::string& name) : name(name) {}
+    explicit Trader(const std::string& name) : name(name) {}
     void serveClients(Trader* otherTrader1, Trader* otherTrader2);
     void addClient(const Client& client);
-    const std::string& getName() { return name; }
+    const std::string& getName() const { return name; }
 
 private:
     std::string name;
@@ -39,7 +39,7 @@ private:
     std::condition_variable queueCondition;
 };
 
-void Trader::serveClients(Trader* otherTrader1, Trader* otherTrader2) {
+void Trader::serveClients (Trader* otherTrader1, Trader* otherTrader2) {
 while (true) {
         std::unique_lock<std::mutex> lock(queueMutex);
 
@@ -162,7 +162,9 @@ int main() {
         string line;
         while (std::getline(file, line)) {
             std::istringstream iss(line);
-            string name, time, trade;
+            string name;
+            string time;
+            string trade;
 
             if (iss >> name >> time >> trade) {
                 Client client;
