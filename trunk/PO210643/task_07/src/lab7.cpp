@@ -31,20 +31,20 @@ public:
     [[noreturn]] void serveClients(Trader* otherTrader1, Trader* otherTrader2);
     void addClient(const Client& client);
     const std::string& getName() const { return name; }
-    void printServiceInfo(std::mutex& queueMutex, const std::string& name, const Client& client) {
-        std::unique_lock outputLock(queueMutex);
+    void printServiceInfo(std::mutex& passedMutex, const std::string& passedName, const Client& passedClient) {
+        std::unique_lock outputLock(passedMutex);
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-        std::cout << "\033[1m\033[33m" << name << "\033[0m"
-            << " is starting to serve " << "\033[1m\033[31m" << client.name << "\033[0m"
-            << " for " << client.serviceTime << " seconds" << std::endl;
+        std::cout << "\033[1m\033[33m" << passedName << "\033[0m"
+            << " is starting to serve " << "\033[1m\033[31m" << passedClient.name << "\033[0m"
+            << " for " << passedClient.serviceTime << " seconds" << std::endl;
     }
-    void printFinishedServiceInfo(std::mutex& queueMutex, const std::string& name, const std::string& clientName) {
-        std::unique_lock outputLock(queueMutex);
+    void printFinishedServiceInfo(std::mutex& passedMutex, const std::string& passedName, const std::string& passedClientName) {
+        std::unique_lock outputLock(passedMutex);
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-        std::cout << "\033[1m\033[32m" << name << "\033[0m"
-            << " finished serving " << "\033[1m\033[31m" << clientName << "\033[0m" << std::endl;
+        std::cout << "\033[1m\033[32m" << passedName << "\033[0m"
+            << " finished serving " << "\033[1m\033[31m" << passedClientName << "\033[0m" << std::endl;
     }
 
 
