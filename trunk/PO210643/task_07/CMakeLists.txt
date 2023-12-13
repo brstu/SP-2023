@@ -6,8 +6,7 @@ if(WIN32)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 add_executable(po8_210643_task_07
         src/lab7.cpp
