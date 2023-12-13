@@ -31,6 +31,22 @@ public:
     [[noreturn]] void serveClients(Trader* otherTrader1, Trader* otherTrader2);
     void addClient(const Client& client);
     const std::string& getName() const { return name; }
+    void printServiceInfo(std::mutex& queueMutex, const std::string& name, const Client& client) {
+        std::unique_lock outputLock(queueMutex);
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+        std::cout << "\033[1m\033[33m" << name << "\033[0m"
+            << " is starting to serve " << "\033[1m\033[31m" << client.name << "\033[0m"
+            << " for " << client.serviceTime << " seconds" << std::endl;
+    }
+    void printFinishedServiceInfo(std::mutex& queueMutex, const std::string& name, const std::string& clientName) {
+        std::unique_lock outputLock(queueMutex);
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+        std::cout << "\033[1m\033[32m" << name << "\033[0m"
+            << " finished serving " << "\033[1m\033[31m" << clientName << "\033[0m" << std::endl;
+    }
+
 
 private:
     std::string name;
@@ -38,6 +54,7 @@ private:
     std::mutex queueMutex;
     std::condition_variable queueCondition;
 };
+
 
 [[noreturn]] void Trader::serveClients (Trader* otherTrader1, Trader* otherTrader2) {
 while (true) {
@@ -47,28 +64,12 @@ while (true) {
             client = clientsQueue.front();
             clientsQueue.pop();
             lock.unlock();
-            {
-
-                std::unique_lock outputLock(queueMutex);
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-
-                cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
-                    << " is starting to serve " << ANSI_BOLD << "\033[91m" << client.name << ANSI_RESET
-                    << " for " << client.serviceTime << " seconds" << endl;
-
-
-            }
+            printServiceInfo(queueMutex, name, client)
 
             std::this_thread::sleep_for(std::chrono::seconds(client.serviceTime));
 
-            {
-                std::unique_lock outputLock(queueMutex);
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            printFinishedServiceInfo(queueMutex, name, client.name);
 
-
-                cout << ANSI_BOLD << "\033[92m" << name << ANSI_RESET
-                    << " finished serving " << ANSI_BOLD << "\033[91m" << client.name << ANSI_RESET << endl;
-            }
         }
         else
         {
@@ -81,23 +82,10 @@ while (true) {
                 otherTrader1->clientsQueue.pop();
                 otherLock1.unlock();
 
-                {
-                    std::unique_lock outputLock(queueMutex);
-                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-
-                    cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
-                        << " is starting to serve " << ANSI_BOLD << "\033[91m" << otherTrader1->getName() << ANSI_RESET
-                        << " client " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET
-                        << " for " << otherClient.serviceTime << " seconds" << endl;
-                }
+                printServiceInfo(queueMutex, name, otherClient);
                 std::this_thread::sleep_for(std::chrono::seconds(otherClient.serviceTime));
+                printFinishedServiceInfo(queueMutex, name, otherClient.name);
 
-                {
-                    std::unique_lock outputLock(queueMutex);
-
-                    cout << ANSI_BOLD << "\033[92m" << name << ANSI_RESET
-                        << " finished serving " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET << endl;
-                }
             }
             else {
                 otherLock1.unlock();
@@ -109,23 +97,11 @@ while (true) {
                 otherTrader2->clientsQueue.pop();
                 otherLock2.unlock();
 
-                {
-                    std::unique_lock outputLock(queueMutex);
-
-
-                    cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
-                        << " is starting to serve " << ANSI_BOLD << "\033[91m" << otherTrader2->getName() << ANSI_RESET
-                        << " client " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET
-                        << " for " << otherClient.serviceTime << " seconds" << endl;
-                }
+                printServiceInfo(queueMutex, name, otherClient);
                 std::this_thread::sleep_for(std::chrono::seconds(otherClient.serviceTime));
 
-                {
-                    std::unique_lock outputLock(queueMutex);
+                printFinishedServiceInfo(queueMutex, name, otherClient.name);
 
-                    cout << ANSI_BOLD << "\033[92m" << name << ANSI_RESET
-                        << " finished serving " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET << endl;
-                }
             }
             else {
                 otherLock2.unlock();
