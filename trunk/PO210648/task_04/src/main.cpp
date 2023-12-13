@@ -11,12 +11,12 @@ private:
     bool isShown = false;
 public:
     Window(int id, int height, int width, bool areAdministatorRightsGranted)
-        : id(id), height(height), width(width), memoryNeeded(memoryNeeded), areAdministatorRightsGranted(areAdministatorRightsGranted), isShown(isShown) {}
+        : id(id), height(height), width(width), memoryNeeded(), areAdministatorRightsGranted(areAdministatorRightsGranted), isShown() {}
 
     virtual void doWork() {
         memoryNeeded += 1;
     }
-    void changeActiveScreen() {
+    void const changeActiveScreen() {
         // Дополнительная логика изменения активного экрана
         std::cout << "Changing active screen" << std::endl;
     }
@@ -44,7 +44,7 @@ public:
         yPosition = newY;
     }
 
-    void launch() {
+    void const launch() {
         std::cout << "Launching shortcut: " << path << std::endl;
     }
 };
