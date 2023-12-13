@@ -6,17 +6,17 @@ private:
     int id;
     int height;
     int width;
-    int memoryNeeded;
+    int memoryNeeded = 0;
     bool areAdministatorRightsGranted;
-    bool isShown;
+    bool isShown = false;
 public:
     Window(int id, int height, int width, bool areAdministatorRightsGranted)
-        : id(id), height(height), width(width), memoryNeeded(0), areAdministatorRightsGranted(areAdministatorRightsGranted), isShown(false) {}
+        : id(id), height(height), width(width), memoryNeeded(memoryNeeded), areAdministatorRightsGranted(areAdministatorRightsGranted), isShown(isShown) {}
 
     virtual void doWork() {
         memoryNeeded += 1;
     }
-    void const changeActiveScreen() {
+    void changeActiveScreen() {
         // Дополнительная логика изменения активного экрана
         std::cout << "Changing active screen" << std::endl;
     }
@@ -44,7 +44,7 @@ public:
         yPosition = newY;
     }
 
-    void const launch() {
+    void launch() {
         std::cout << "Launching shortcut: " << path << std::endl;
     }
 };
@@ -74,7 +74,7 @@ void createNewScreen(std::vector<Window>& windows) {
     windows.push_back(newScreen);
 }
 
-void const changeActiveScreen(std::vector<Window>& windows, int index) {
+void changeActiveScreen(std::vector<Window>& windows, int index) {
     if (index >= 0 && index < windows.size()) {
        windows[index].changeActiveScreen();
     } else {
