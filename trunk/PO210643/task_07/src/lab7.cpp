@@ -126,36 +126,37 @@ int main() {
     Trader trader1("Trader1");
     Trader trader2("Trader2");
     Trader trader3("Trader3");
-
+std::map<std::string, Trader&> traderMap = {
+    {"1", trader1},
+    {"2", trader2},
+    {"3", trader3}
+};
 
     std::jthread thread3(&Trader::serveClients, &trader3, &trader2, &trader1);
     std::jthread thread2(&Trader::serveClients, &trader2, &trader1, &trader3);
     std::jthread thread1(&Trader::serveClients, &trader1, &trader2, &trader3);
 
     ifstream file("data.txt");
-    if (file.is_open()) {
-        string line;
-        while (std::getline(file, line)) {
-            std::istringstream iss(line);
-            string name;
-            string time;
-            string trade;
+   if (file.is_open()) {
+       string line;
 
-            if (iss >> name >> time >> trade) {
-                Client client;
-                client.name = name;
-                client.serviceTime = std::stoi(time);
-                if (trade == "1") {
-                    trader1.addClient(client);
-                }
-                else if (trade == "2") {
-                    trader2.addClient(client);
-                }
-                else if (trade == "3") {
-                    trader3.addClient(client);
-                }
-            }
-        }
+       while (std::getline(file, line)) {
+           std::istringstream iss(line);
+
+           string name, time, trade;
+
+           if (iss >> name >> time >> trade) {
+               Client client;
+               client.name = name;
+               client.serviceTime = std::stoi(time);
+
+               auto it = traderMap.find(trade);
+               if (it != traderMap.end()) {
+                   it->second.addClient(client);
+               }
+           }
+       }
+
         file.close();
     }
     else {
