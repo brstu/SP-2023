@@ -121,27 +121,26 @@ void Trader::addClient(const Client& client) {
     lock.unlock();
     queueCondition.notify_one();
 }
-void logic(istringstream iss, string line){
-    string name;
-            string time;
-            string trade;
+void processFile(std::istringstream& iss, Trader& trader1, Trader& trader2, Trader& trader3) {
+    std::string name;
+    std::string time;
+    std::string trade;
 
-            if (iss >> name >> time >> trade) {
-                Client client;
-                client.name = name;
-                client.serviceTime = std::stoi(time);
-                if (trade == "1") {
-                    trader1.addClient(client);
-                }
-                else if (trade == "2") {
-                    trader2.addClient(client);
-                }
-                else if (trade == "3") {
-                    trader3.addClient(client);
-                }
-            }
-     }
-
+    if (iss >> name >> time >> trade) {
+        Client client;
+        client.name = name;
+        client.serviceTime = std::stoi(time);
+        if (trade == "1") {
+            trader1.addClient(client);
+        }
+        else if (trade == "2") {
+            trader2.addClient(client);
+        }
+        else if (trade == "3") {
+            trader3.addClient(client);
+        }
+    }
+}
 
 int main() {
     Trader trader1("Trader1");
@@ -158,8 +157,7 @@ int main() {
         string line;
         while (std::getline(file, line)) {
             std::istringstream iss(line);
-            logic(iss,line)
-        }
+            processFile(iss, trader1, trader2, trader3);        }
         file.close();
     }
     else {
