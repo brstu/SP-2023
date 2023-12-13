@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-
+using namespace std::literals;
 using namespace std;
 
 const string ANSI_RESET = "\033[0m";
@@ -28,7 +28,7 @@ struct Client {
 class Trader {
 public:
     explicit Trader(const std::string& name) : name(name) {}
-    void serveClients(Trader* otherTrader1, Trader* otherTrader2);
+    [[noreturn]] void serveClients(Trader* otherTrader1, Trader* otherTrader2);
     void addClient(const Client& client);
     const std::string& getName() const { return name; }
 
@@ -39,7 +39,7 @@ private:
     std::condition_variable queueCondition;
 };
 
-void Trader::serveClients (Trader* otherTrader1, Trader* otherTrader2) {
+[[noreturn]] void Trader::serveClients (Trader* otherTrader1, Trader* otherTrader2) {
 while (true) {
         std::unique_lock<std::mutex> lock(queueMutex);
 
