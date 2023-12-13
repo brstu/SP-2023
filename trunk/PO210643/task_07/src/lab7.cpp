@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-using namespace std::literals;
+
 using namespace std;
 
 const string ANSI_RESET = "\033[0m";
@@ -41,8 +41,7 @@ private:
 
 [[noreturn]] void Trader::serveClients (Trader* otherTrader1, Trader* otherTrader2) {
 while (true) {
-        std::unique_lock<std::mutex> lock(queueMutex);
-
+        std::unique_lock lock(queueMutex);
         Client client;
         if (!clientsQueue.empty()) {
             client = clientsQueue.front();
@@ -50,7 +49,7 @@ while (true) {
             lock.unlock();
             {
 
-                std::unique_lock<std::mutex> outputLock(queueMutex);
+                std::unique_lock outputLock(queueMutex);
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
                 cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
@@ -63,7 +62,7 @@ while (true) {
             std::this_thread::sleep_for(std::chrono::seconds(client.serviceTime));
 
             {
-                std::unique_lock<std::mutex> outputLock(queueMutex);
+                std::unique_lock outputLock(queueMutex);
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
 
@@ -76,14 +75,14 @@ while (true) {
             lock.unlock();
 
 
-            std::unique_lock<std::mutex> otherLock1(otherTrader1->queueMutex);
+            std::unique_lock otherLock1(otherTrader1->queueMutex);
             if (!otherTrader1->clientsQueue.empty()) {
                 Client otherClient = otherTrader1->clientsQueue.front();
                 otherTrader1->clientsQueue.pop();
                 otherLock1.unlock();
 
                 {
-                    std::unique_lock<std::mutex> outputLock(queueMutex);
+                    std::unique_lock outputLock(queueMutex);
                     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
                     cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
@@ -94,7 +93,7 @@ while (true) {
                 std::this_thread::sleep_for(std::chrono::seconds(otherClient.serviceTime));
 
                 {
-                    std::unique_lock<std::mutex> outputLock(queueMutex);
+                    std::unique_lock outputLock(queueMutex);
 
                     cout << ANSI_BOLD << "\033[92m" << name << ANSI_RESET
                         << " finished serving " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET << endl;
@@ -104,14 +103,14 @@ while (true) {
                 otherLock1.unlock();
             }
 
-            std::unique_lock<std::mutex> otherLock2(otherTrader2->queueMutex);
+            std::unique_lock otherLock2(otherTrader2->queueMutex);
             if (!otherTrader2->clientsQueue.empty()) {
                 Client otherClient = otherTrader2->clientsQueue.front();
                 otherTrader2->clientsQueue.pop();
                 otherLock2.unlock();
 
                 {
-                    std::unique_lock<std::mutex> outputLock(queueMutex);
+                    std::unique_lock outputLock(queueMutex);
 
 
                     cout << ANSI_BOLD << "\033[93m" << name << ANSI_RESET
@@ -122,7 +121,7 @@ while (true) {
                 std::this_thread::sleep_for(std::chrono::seconds(otherClient.serviceTime));
 
                 {
-                    std::unique_lock<std::mutex> outputLock(queueMutex);
+                    std::unique_lock outputLock(queueMutex);
 
                     cout << ANSI_BOLD << "\033[92m" << name << ANSI_RESET
                         << " finished serving " << ANSI_BOLD << "\033[91m" << otherClient.name << ANSI_RESET << endl;
@@ -141,7 +140,7 @@ while (true) {
 
 
 void Trader::addClient(const Client& client) {
-    std::unique_lock<std::mutex> lock(queueMutex);
+    std::unique_lock lock(queueMutex);
     clientsQueue.push(client);
     lock.unlock();
     queueCondition.notify_one();
