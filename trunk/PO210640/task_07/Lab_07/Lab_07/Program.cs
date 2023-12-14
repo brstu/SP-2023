@@ -1,11 +1,13 @@
 ﻿namespace Lab_07;
 
-internal class Program
+internal static class Program
 {
     private static Mutex Mutex { get; set; } = new();
     private static Queue<string> Tasks { get; set; } = new();
 
     private static int Id { get; set; } = 1;
+
+    private static bool IsEnd { get; set; }
 
     static void Main()
     {
@@ -20,8 +22,14 @@ internal class Program
         }
 
         int taskId = 11;
-        while (true)
+        while (!IsEnd)
         {
+            if (taskId == 100)
+            {
+                IsEnd = true;
+                return;
+            }
+
             Thread.Sleep(Random.Shared.Next(500));
 
             Mutex.WaitOne();
@@ -36,7 +44,7 @@ internal class Program
         var id = Id++;
         Mutex.ReleaseMutex();
         string task;
-        while (true)
+        while (!IsEnd)
         {
             Mutex.WaitOne();
             while (!Tasks.TryDequeue(out task))
