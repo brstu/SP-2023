@@ -65,6 +65,9 @@ internal class Board
                 case Orientation.Bottom:
                     y++;
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Orientation));
             }
         }
     }
@@ -121,6 +124,9 @@ internal class Board
                 case Orientation.Bottom:
                     y++;
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Orientation));
             }
         }
 
@@ -177,6 +183,9 @@ internal class Board
                 case Orientation.Bottom:
                     yShip++;
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Orientation));
             }
         }
 
@@ -230,6 +239,9 @@ internal class Board
                 case Orientation.Bottom:
                     y++;
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Orientation));
             }
         }
 
@@ -270,6 +282,9 @@ internal class Board
                 case Orientation.Bottom:
                     y++;
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Orientation));
             }
         }
 
@@ -351,7 +366,7 @@ internal class Board
             isHit = true;
         }
 
-        Shoot(point);
+        _ = Shoot(point);
 
         return isHit;
     }
@@ -427,7 +442,6 @@ internal class Board
             }
         }
 
-        //Console.BackgroundColor = Constants.DefaultBackground;
         Console.ForegroundColor = Constants.DefaultForeground;
     }
 
@@ -457,7 +471,6 @@ internal class Board
             }
         }
 
-        //Console.BackgroundColor = Constants.DefaultBackground;
         Console.ForegroundColor = Constants.DefaultForeground;
     }
 
@@ -487,7 +500,6 @@ internal class Board
             }
         }
 
-        //Console.BackgroundColor = Constants.DefaultBackground;
         Console.ForegroundColor = Constants.DefaultForeground;
     }
 }

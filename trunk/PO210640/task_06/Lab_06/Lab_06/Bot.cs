@@ -49,8 +49,6 @@ internal class Bot : Player
         var count = Enum.GetValues<ShipType>().Length;
         Enum.GetValues<ShipType>().ToList().ForEach(x => shipTypes.Add(x, count + 1 - (int)x));
 
-        var start = new Point(0, 0);
-
         var random = new Random();
 
         var height = Board.Height;

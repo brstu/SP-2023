@@ -2,7 +2,7 @@
 
 namespace Lab_06;
 
-internal class Program
+internal static class Program
 {
     static void Main()
     {

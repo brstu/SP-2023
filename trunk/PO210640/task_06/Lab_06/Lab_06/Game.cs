@@ -137,8 +137,6 @@ internal class Game
 
         while (true)
         {
-            //Console.Clear();
-            
             board.Draw(left, top);
             board.DrawHolo(left, top);
 
@@ -146,41 +144,34 @@ internal class Game
             var keyinfo = Console.ReadKey(true);
             var key = keyinfo.Key;
 
-            switch (key)
-            {
-                case ConsoleKey.Enter:
-                    if (isCorrect)
-                    {
-                        board.SubmitHoloShip(currentShipRoute);
-                        board.RemoveHoloShip(currentShipRoute);
-                        return currentShipRoute;
-                    }
-                    break;
 
-                case ConsoleKey.Escape:
-                    board.RemoveHoloShip(currentShipRoute);
-                    return null;
+            if (key is ConsoleKey.Enter && isCorrect)
+            {
+                board.SubmitHoloShip(currentShipRoute);
+                board.RemoveHoloShip(currentShipRoute);
+                return currentShipRoute;
+            }
+
+            if (key is ConsoleKey.Escape)
+            {
+                board.RemoveHoloShip(currentShipRoute);
+                return null;
             }
 
             int coef = keyinfo.Modifiers.HasFlag(ConsoleModifiers.Shift) ? -1 : 1;
 
-            shipTypeIndex = key switch
+            if (key is ConsoleKey.Tab)
             {
-                ConsoleKey.Tab => shipTypeIndex + coef,
-
-                _ => shipTypeIndex,
-            };
+                shipTypeIndex += coef;
+            }
 
             shipTypeIndex = (shipTypeIndex + shipTypes.Count) % shipTypes.Count;
             shipType = shipTypes[shipTypeIndex];
 
-
-            orientationIndex = key switch
+            if (key is ConsoleKey.R)
             {
-                ConsoleKey.R => orientationIndex + coef,
-
-                _ => orientationIndex,
-            };
+                orientationIndex += coef;
+            }
 
             orientationIndex = (orientationIndex + orientations.Count) % orientations.Count;
             orientation = orientations[orientationIndex];
