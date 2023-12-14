@@ -223,21 +223,18 @@ internal class Game
             var keyinfo = Console.ReadKey(true);
             var key = keyinfo.Key;
 
-            switch (key)
-            {
-                case ConsoleKey.Enter:
-                    if (isCorrect)
-                    {
-                        bool isHit = board.SubmitHoloShot(currentShot);
-                        board.RemoveHoloShot(currentShot);
-                        start = currentShot;
-                        return isHit;
-                    }
-                    break;
 
-                case ConsoleKey.Escape:
-                    board.RemoveHoloShot(currentShot);
-                    return null;
+            if (key is ConsoleKey.Enter && isCorrect)
+            {
+                bool isHit = board.SubmitHoloShot(currentShot);
+                board.RemoveHoloShot(currentShot);
+                start = currentShot;
+                return isHit;
+            }
+
+            if (key is ConsoleKey.Escape)
+            {
+                board.RemoveHoloShot(currentShot);
             }
 
             prevShot = currentShot;
