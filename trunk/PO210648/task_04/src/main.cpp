@@ -16,7 +16,7 @@ public:
     virtual void doWork() {
         memoryNeeded += 1;
     }
-    void const changeActiveScreen() {
+    void changeActiveScreen() const {
         // Дополнительная логика изменения активного экрана
         std::cout << "Changing active screen" << std::endl;
     }
@@ -44,7 +44,7 @@ public:
         yPosition = newY;
     }
 
-    void const launch() {
+    void launch() const {
         std::cout << "Launching shortcut: " << path << std::endl;
     }
 };
