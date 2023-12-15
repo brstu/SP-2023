@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-add_executable(po8_210643_task_08_winapi
+add_executable(po8_210643_task_08_winapi WIN32
         src/WindowsProject1.cpp
         src/WindowsProject1.rc
    )

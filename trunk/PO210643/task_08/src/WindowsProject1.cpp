@@ -95,11 +95,11 @@ void CreateControls(HWND hwnd) {
             10, 280, 200, 30,
             hwnd, nullptr, hInst, nullptr
         );
-        CreateWindow(L"BUTTON", L"Cavity", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+        CreateWindow("BUTTON", "Cavity", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
             10, 320, 200, 30, hwnd, (HMENU)4, nullptr, nullptr);
-        CreateWindow(L"BUTTON", L"Heart Disease", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+        CreateWindow("BUTTON", "Heart Disease", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
             10, 360, 200, 30, hwnd, (HMENU)5, nullptr, nullptr);
-        CreateWindow(L"BUTTON", L"Ear Pains", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+        CreateWindow("BUTTON", "Ear Pains", WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
             10, 400, 200, 30, hwnd, (HMENU)6, nullptr, nullptr);
 
 
@@ -131,7 +131,7 @@ const string Map[3] = {
 };
 
 void AddPatient() {
-    wchar_t symptoms[256], psurname[256];
+    char symptoms[256], psurname[256];
     int tmp = -1;
 
     GetWindowText(hwndPatientSymptoms, symptoms, 256);
@@ -142,27 +142,27 @@ void AddPatient() {
     BOOL earPainsChecked = SendMessage(GetDlgItem(hwndMain, 6), BM_GETCHECK, 0, 0) == BST_CHECKED;
 
 
-    std::wstring selectedSymptoms;
-    if (cavityChecked) selectedSymptoms += L" 1 ";
-    if (heartDiseaseChecked) selectedSymptoms += L" 2 ";
-    if (earPainsChecked) selectedSymptoms += L" 3";
+    std::string selectedSymptoms;
+    if (cavityChecked) selectedSymptoms += " 1 ";
+    if (heartDiseaseChecked) selectedSymptoms += " 2 ";
+    if (earPainsChecked) selectedSymptoms += " 3";
 
     for (int i = 0; i < 3; i++) {
-        if (wcscmp(symptoms, Planets[i]) == 0) {
+        if (strcmp(symptoms, Planets[i]) == 0) {
             selectedSymptoms += i;
             break;
         }
     }
 
-    if (wcslen(selectedSymptoms.c_str()) > 0 && wcslen(psurname) > 0) {
-        std::wstring patientData = psurname;
-        patientData += L"\r ";
+    if (strlen(selectedSymptoms.c_str()) > 0 && strlen(psurname) > 0) {
+        std::string patientData = psurname;
+        patientData += "\r ";
         patientData += selectedSymptoms;
 
         patientInfo.emplace_back(patientData.begin(), patientData.end());
 
-        SetWindowText(hwndPatientSymptoms, L"");
-        SetWindowText(hwndPatientSurname, L"");
+        SetWindowText(hwndPatientSymptoms, "");
+        SetWindowText(hwndPatientSurname, "");
         SendMessage(GetDlgItem(hwndMain, 4), BM_SETCHECK, BST_UNCHECKED, 0);
         SendMessage(GetDlgItem(hwndMain, 5), BM_SETCHECK, BST_UNCHECKED, 0);
         SendMessage(GetDlgItem(hwndMain, 6), BM_SETCHECK, BST_UNCHECKED, 0);
@@ -179,12 +179,12 @@ void SaveToFile() {
     GetWindowText(hwndDentMaxTime, dent, 20);
     GetWindowText(hwndLorMaxTime, lor, 20);
 
-    if (wcslen(card) > 0 && wcslen(dent) > 0 && wcslen(lor) > 0) {
-        std::wstring doctorData = card;
-        doctorData += L"\r ";
+    if (strlen(card) > 0 && strlen(dent) > 0 && strlen(lor) > 0) {
+        std::string doctorData = card;
+        doctorData += "\r ";
 
         doctorData += dent;
-        doctorData += L"\r ";
+        doctorData += "\r ";
 
         doctorData += lor;
 
