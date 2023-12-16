@@ -1,7 +1,7 @@
 import threading
 import time
 import queue
-import secrets  
+import secrets
 
 class Waiter(threading.Thread):
     def __init__(self, name, orders_queue, orders_list, flag):
@@ -17,7 +17,7 @@ class Waiter(threading.Thread):
                 order = self.orders_list.pop(0)
                 print(f'{self.name} принял заказ на {order}')
                 self.orders_queue.put(order)
-                time.sleep(secrets.randbelow(3) + 1)  
+                time.sleep(secrets.randbelow(3) + 1)
             else:
                 self.flag.set()
                 print(f'{self.name} закончил принимать заказы')
@@ -34,7 +34,7 @@ class Chef(threading.Thread):
             if not self.orders_queue.empty():
                 order = self.orders_queue.get()
                 print(f'{self.name} начал готовить {order}')
-                time.sleep(secrets.randbelow(4) + 2)  
+                time.sleep(secrets.randbelow(4) + 2)
                 print(f'{self.name} закончил готовить {order}')
             else:
                 if not self.flag.is_set():
@@ -43,7 +43,7 @@ class Chef(threading.Thread):
 
 if __name__ == "__main__":
     orders_queue = queue.Queue()
-    orders_list = ['Pizza', 'Burger', 'Salad'] 
+    orders_list = ['Pizza', 'Burger', 'Salad']
     flag = threading.Event()
 
     waiter1 = Waiter('Официант 1', orders_queue, orders_list, flag)
