@@ -40,6 +40,7 @@ def cooker():
             if not flag.is_set():
                 print('Повар ждет заказов')
                 break
+              
 
 waiter_thread = threading.Thread(target=waiters)
 cooker_thread = threading.Thread(target=cooker)
