@@ -1,3 +1,12 @@
-[submodule "googletest"]
-	path = googletest
+[submodule "trunk/PO210641/task_03/googletest"]
+	path = trunk/PO210641/task_03/googletest
 	url = git@github.com:google/googletest.git
+[submodule "trunk/PO210642/task_03/googletest"]
+	path = trunk/PO210642/task_03/googletest
+	url = git@github.com:google/googletest.git
+[submodule "trunk/PO210643/task_03/googletest"]
+	path = trunk/PO210643/task_03/googletest
+  url = git@github.com:google/googletest.git
+[submodule "trunk/PO210639/task_03/googletest"]
+	path = trunk/PO210639/task_03/googletest
+  url = git@github.com:google/googletest.git
